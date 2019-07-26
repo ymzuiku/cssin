@@ -1,6 +1,6 @@
 # css-in JS
 
-Only 0.5k, Ease use
+Only 0.5 kb, Ease use
 
 ```js
 import cssin from 'cssin';
