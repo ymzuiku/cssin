@@ -14,24 +14,16 @@ cssin(`
 `);
 ```
 
-## Use className
+## Use Random className
 
 ```js
 import cssin from 'cssin';
 
-const className1 = cssin(`
-  .dog {
+const className = cssin(`
+  ## {
     margin: 0px
   }
 `);
 
-console.log(className1); // dog
-
-const className2 = cssin(`
-  .dog## {
-    margin: 0px
-  }
-`);
-
-console.log(className2); // dogfjkdajf291321
+console.log(className); // fjkdajf291321a
 ```
