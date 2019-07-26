@@ -13,9 +13,9 @@ const getRandomString = (prefix = '', length = 12) => {
 
 export const cssin = (value: string, replace='##') => {
   let name = '';
-  if (value.indexOf(replace) === 0) {
+  if (value.indexOf(replace) > -1) {
     name = getRandomString('r');
-    value = `${value.replace(replace, `.${name}`)}`;
+    value = `${value.replace(replace, `${name}`)}`;
   }
 
   const style = document.createElement('style');
