@@ -1,6 +1,6 @@
 # css-in JS
 
-Only 0.5 kb, Ease use
+Only 170b, Ease use
 
 ## Use
 
@@ -12,18 +12,4 @@ cssin(`
     margin: 0px
   }
 `);
-```
-
-## Use Random className
-
-```js
-import cssin from 'cssin';
-
-const className = cssin(`
-  ## {
-    margin: 0px
-  }
-`);
-
-console.log(className); // fjkdajf291321a
 ```
