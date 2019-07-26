@@ -11,7 +11,7 @@ const getRandomString = (prefix = '', length = 12) => {
   return result;
 };
 
-export const cssInJs = (value: string, replace='##') => {
+export const cssin = (value: string, replace='##') => {
   let name = '';
   if (value.indexOf(replace) === 0) {
     name = getRandomString('r');
@@ -25,4 +25,4 @@ export const cssInJs = (value: string, replace='##') => {
   return name;
 };
 
-export default cssInJs;
+export default cssin;
