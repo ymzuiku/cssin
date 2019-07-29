@@ -35,6 +35,12 @@ cssin 不仅仅是一个 CSS-IN-JS 框架，它还是一个创建设计系统的
 - 每条
 - 可以在任何框架中使用，如你喜欢的 React、Vue、Stencil
 
+### 安装
+
+```sh
+$ npm i cssin --save
+```
+
 # 先看看展现形式
 
 ```js
