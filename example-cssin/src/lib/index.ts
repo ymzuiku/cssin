@@ -35,6 +35,11 @@ export const cssin = mem(
       if (v === '') {
         return;
       }
+      if (v[0] === '.') {
+        style += v.replace('.', '');
+
+        return;
+      }
       const prelist = v.split(':');
       let pre = '';
 
@@ -47,9 +52,10 @@ export const cssin = mem(
       // 将特殊字符转为 number code
       const name = v.replace(/[^-0-0a-zA-Z]/g, (reg: string) => `_${reg.charCodeAt(0).toString(16)}_`);
       if (value) {
-        // 包含等号的token 如 bg=#f00
         const fn = allParasers[`${key}=`];
+
         if (fn) {
+          // 包含等号的token 如 bg=#f00
           const cssString = `.${name}${pre} ${fn(value)}`;
           style += appendCss(cssString);
         } else {

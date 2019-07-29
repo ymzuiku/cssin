@@ -13,7 +13,7 @@
 
 ### 旨在定制
 
-如果可以自定义，`cssin` 允许您自定义它。这包括颜色，边框大小，字体粗细，间距实用程序，断点，阴影和任何 css 样式。
+`cssin` 所有样式都是通过定制而得，`cssin` 允许您自定义它。这包括颜色，边框大小，字体粗细，间距实用程序，断点，阴影和任何 css 样式。
 
 `cssin` 采用纯 Typescript 编写，并且无需对项目框架进行配置，这意味着您可以轻松获得真正编程语言的全部功能。
 
@@ -78,18 +78,18 @@ export default () => {
 
 # 订制组件
 
-我们希望把刚刚的代码简写成更精巧的组件，组件其实就是一个没有值的样式集
+我们希望把刚刚的代码简写成更精巧的组件，组件其实是一组样式集
+
+设置自定义组件, 我们推荐约定组件使用 `!` 作为名称结尾
 
 ```js
 import React from 'react';
 import cssin, { addParsers } from 'cssin';
 
-// 设置自定义组件, 我们推荐约定组件使用 `!` 作为名称结尾
-
 addParsers({
-  // 自定义样式的值是一个函数, 函数内的返回值是一组正常的 css 属性
+  // 自定义样式：值是一个函数, 函数内的返回值是一组正常的 css 属性
   'bgc=': (value) => `{ background-color: ${v}; }`,
-  // 自定义组件的值是一个字符串，它遵循 cssin 语法，会调用其他自定义样式
+  // 自定义组件：值是一个字符串，它遵循 cssin 语法，会调用其他自定义样式
   'button!': 'background-color=#f66 padding=1.2rem color=--button-color',
 });
 
@@ -118,7 +118,7 @@ import 'cssin/commonValues'; // 引入 css-value 集合
 
 ## 编写 CSS 在 js 中
 
-有时候，我们会需要编写全局样式，我们约定组件使用 `@` 作为片段开头, 此时传入的字符串只会被当成单纯的 css 样式进行注入
+有时候，我们会需要编写单纯的 css 片段，我们约定组件使用 `@` 作为片段开头, 此时传入的字符串只会被当成单纯的 css 样式进行注入
 
 ```js
 import cssin from 'cssin';
@@ -128,7 +128,21 @@ cssin`@
     margin: 0px;
     background-color: #f5f5f5;
   }
+
+  @media (min-width: 640px) {
+    .box {
+      background: #f00;
+    }
+  }
 `;
+
+import React from 'react';
+import cssin, { addParsers } from 'cssin';
+
+// 使用 .box 引用 css 样式
+export default () => {
+  return <div className={cssin`.box`}>Button</div>;
+};
 ```
 
 ### 现在开始使用它：

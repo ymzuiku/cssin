@@ -62,7 +62,7 @@ export const commonParser = {
   // anime
   'ease-out=': (v: any) => `{ transition: ${v} ease-out; }`,
   'ease-in=': (v: any) => `{ transition: ${v} ease-in; }`,
-  'ease-in-out=': (v: any) => `{ transtion: ${v} ease-in-out; }`,
+  'ease-in-out=': (v: any) => `{ transition: ${v} ease-in-out; }`,
   'scale=': (v: any) => `{ transform: scale(${v}, ${v})}; }`,
   'center!': 'display=flex flex-direction=column justify-content=center align-items=center',
   'row!': 'display=flex flex-direction=row',
