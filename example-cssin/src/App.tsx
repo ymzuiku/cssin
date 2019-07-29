@@ -39,7 +39,7 @@ const d2 = `
 export const App: React.FC = () => {
   return (
     <div className={cssin`.box`}>
-      <header className={cssin`.box`}>cssin 文档</header>
+      <header className={cssin`font=2rem font-weight=600 p=2rem bg=--blue-400 color=--white`}>cssin 文档</header>
       <div className={cssin`row! m=5rem items=center`}>
         <button className={cssin`background=--gray-300 padding=1.2rem marge=0.5rem border-radius=0.3rem`}>
           我是一个按钮
@@ -65,7 +65,7 @@ export const App: React.FC = () => {
         </div>
       </div>
       <div className={cssin`row! m=5rem items=center`}>
-        <button className={cssin`button-anime!`}>将button!和动画打包成新的组件</button>
+        <button className={cssin`button-anime!`}>将旧组件和动画打包成新的组件</button>
         <div>
           <code className={cssin`code! color=#333 m=1rem`}>创建一个组合组件：button-anime!</code>
           <code className={cssin`code! ml=1rem`}>{d1}</code>

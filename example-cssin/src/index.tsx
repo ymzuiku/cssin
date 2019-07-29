@@ -3,8 +3,8 @@ import * as ReactDOM from 'react-dom';
 
 import { App } from './App';
 import { cssin } from './lib';
-import './lib/commonHybird';
 import './lib/commonParser';
+import './lib/commonValues';
 import * as serviceWorker from './serviceWorker';
 
 cssin(`@
