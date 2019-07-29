@@ -1,4 +1,4 @@
-import { appendCss } from '../cssin';
+import { cssin } from '../cssin';
 
 const ua = navigator.userAgent;
 export const isAndroid = /(?:Android)/.test(ua);
@@ -63,7 +63,7 @@ document.addEventListener('gesturestart', (event) => {
   event.preventDefault();
 });
 
-appendCss(`
+cssin(`@
 body {
   padding: 0px;
   margin: 0px;

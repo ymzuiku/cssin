@@ -1,11 +1,15 @@
 import mem from 'mem';
 
-export const appendCss = mem((str: string) => {
+const appendCss = mem((str: string, isNotRegex = false) => {
   const ele = document.createElement('style');
   ele.innerHTML = str;
   // tslint:disable-next-line
   ele.type = 'text/css';
   document.head.appendChild(ele);
+
+  if (isNotRegex) {
+    return '';
+  }
 
   // 暂时只匹配一个class
   const regex = /\.[^{^:]*/;
@@ -14,13 +18,6 @@ export const appendCss = mem((str: string) => {
 
   return `${classname} `;
 });
-
-export const setValues = (obj: any) => {
-  const keys = Object.keys(obj);
-  keys.forEach((k) => {
-    document.body.style.setProperty(k, obj[k]);
-  });
-};
 
 let allParasers: any = {};
 
@@ -50,6 +47,9 @@ export const setParsers = (objs: any) => {
 export const cssin = mem(
   (...args: any[]): string => {
     const param = args.join(' ');
+    if (param[0] === '@') {
+      return appendCss(param.replace('@', ''));
+    }
 
     let style = '';
     const tokens = param.split(' ');
@@ -99,3 +99,6 @@ export const cssin = mem(
     return style;
   },
 );
+
+// tslint:disable-next-line
+export default cssin;

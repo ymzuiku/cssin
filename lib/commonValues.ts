@@ -162,3 +162,12 @@ export const commonValues = {
   '--pink-800': '#97266d',
   '--pink-900': '#702459',
 };
+
+const setValues = (obj: any) => {
+  const keys = Object.keys(obj);
+  keys.forEach((k) => {
+    document.body.style.setProperty(k, obj[k]);
+  });
+};
+
+setValues(commonValues);
