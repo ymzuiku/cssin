@@ -114,7 +114,7 @@ export default () => {
 下面这句完整的语法描述：
 
 ```js
-// 当媒体查询大于 760px 时、鼠标移入时、圆角等于 2rem：
+// 当媒体查询大于 760px 时、鼠标移入时、描边等于 #f00;
 cssin`@md:hover:border:1px solid #f00;`;
 ```
 
