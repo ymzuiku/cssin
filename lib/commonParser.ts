@@ -1,8 +1,4 @@
-import { CSSProperties } from 'react';
-
-const b: CSSProperties = {
-  // fontWeight
-};
+import { setParsers } from './index';
 
 const flexCode = {
   start: 'flex-start',
@@ -92,3 +88,5 @@ export const commonParser = [
   { 'col-reverse!': (v: any) => `{ display: flex; flex-direction: column-reverse; }` },
   { 'col-reverse!': (v: any) => `{ display: flex; flex-direction: column-reverse; }` },
 ];
+
+setParsers(commonParser);

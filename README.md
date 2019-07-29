@@ -101,15 +101,14 @@ export default () => {
 
 ```js
 import cssin, { setParsers } from 'cssin';
-import commonParser from 'cssin/commonParser'; // parser集合
-import 'cssin/commonValues'; // css-value 集合
-
-setParsers(commonParser);
+import 'cssin/commonParser'; // 引入 parser集合
+import 'cssin/commonValues'; // 引入 css-value 集合
 ```
 
 我们可以查看默认组件的内容:
 
 [commonParser.ts](./lib/commonParser)
+
 [commonValues.ts](./lib/commonValues)
 
 ## 编写 CSS 在 js 中
