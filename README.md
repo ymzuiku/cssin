@@ -17,6 +17,8 @@
 
 `cssin` 采用纯 Typescript 编写，并且无需对项目框架进行配置，这意味着您可以轻松获得真正编程语言的全部功能。
 
+`cssin` 相当于在内敛样式上扩展了伪类和媒体查询，并且支持自定义属性名和设定组件。
+
 `cssin` 不仅仅是一个 CSS-IN-JS 框架，它还是一个创建设计系统的引擎。
 
 ### 轻巧
@@ -64,10 +66,13 @@ cssin`media-1000px^hover:border='1px solid #f00'`;
 
 当看 cssin 有自己的语法规则之后，很多人会怀疑是否值得这么做、这么做是否正确。
 
-其实 cssin 的语法只是非常剪短的正则: `fdls;kfldsakfldsf`, 我们在使用 cssin 之前做了非常多的尝试，css\less\scss, tailwindCSS, styled-components 和其他 css-in-js 方案。其中 tailwindCSS 是最符合生产需要的，但是 tailwindCSS 配合 Purgecss 进行过滤处理 css 的步骤对工程化的开销较大，并且总会有较多的需要去不断配置 tailwind.config.js; 在 tailwindCSS 的基础上我们学到了一些东西：
+我们在使用 cssin 之前做了非常多的尝试，css\less\scss, tailwindCSS, styled-components 和其他 css-in-js 方案。其中 tailwindCSS 是最符合生产需要的，我们从中学到许多东西和理念，但是单纯的 className 描述并不能概括所有的生产行为，我们需要反复的去配置 tailwind.config.js。
 
-1. 如果可能，不离开你的 html 或 js，你会更高效；
-2. 所有的属性都可以配置
+介于此，我们需要一个更简短有力，并且可以更加颗粒度配合的 className 描述语句，这就是 cssin。
+
+### 为什么不直接编写 style 样式文件
+
+style 样式无法完全描述 css 的功能，如媒体查询、伪类等等。
 
 # 订制自定义样式
 
