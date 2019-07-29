@@ -1,11 +1,11 @@
 {
   "name": "cssin",
-  "version": "1.0.9",
+  "version": "1.0.11",
   "main": "index.js",
   "types": "index.d.ts",
   "license": "MIT",
   "scripts": {
-    "lib": "tscu lib --outDir es --copy 'package.json, README.md, .npmignore'"
+    "lib": "tscu example-cssin/src/lib --outDir es --outLib lib --copy 'package.json, README.md, .npmignore'"
   },
   "devDependencies": {
     "@types/jest": "24.0.13",

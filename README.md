@@ -57,14 +57,14 @@ cssin 语法非常简单，每个属性之间用空格分割：
 
 和众多 css 框架一样，`cssin` 允许你自定义样式集，这样可以用更简短的声明来描述样式
 
-`cssin` 有一个 setParsers 属性用来描述每个样式
+`cssin` 有一个 addParsers 属性用来描述每个样式
 
 ```js
 import React from 'react';
-import cssin, { setParsers } from 'cssin';
+import cssin, { addParsers } from 'cssin';
 
 // 设置自定义样式集
-setParsers({
+addParsers({
   'bgc=': (value) => `{ background-color: ${v}; }`,
   'p=': (value) => `{ padding: ${v}; }`,
   'c=': (value) => `{ color: ${v}; }`,
@@ -82,11 +82,15 @@ export default () => {
 
 ```js
 import React from 'react';
-import cssin, { setParsers } from 'cssin';
+import cssin, { addParsers } from 'cssin';
 
-// 设置自定义组件, 我们约定组件使用 `!` 作为名称结尾
-setParsers({
-  'button!': () => `{ background-color: #f66; padding: 1.2rem; color=var(--button-color); }`,
+// 设置自定义组件, 我们推荐约定组件使用 `!` 作为名称结尾
+
+addParsers({
+  // 自定义样式的值是一个函数, 函数内的返回值是一组正常的 css 属性
+  'bgc=': (value) => `{ background-color: ${v}; }`,
+  // 自定义组件的值是一个字符串，它遵循 cssin 语法，会调用其他自定义样式
+  'button!': 'background-color=#f66 padding=1.2rem color=--button-color',
 });
 
 // 最终只需要一个单词的声明
@@ -102,7 +106,6 @@ export default () => {
 默认情况下 `cssin` 并未配置它，如果我们需要可以如下配置：
 
 ```js
-import cssin, { setParsers } from 'cssin';
 import 'cssin/commonParser'; // 引入 parser集合
 import 'cssin/commonValues'; // 引入 css-value 集合
 ```

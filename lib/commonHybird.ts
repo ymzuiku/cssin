@@ -1,4 +1,4 @@
-import { cssin } from '../cssin';
+import { cssin } from './index';
 
 const ua = navigator.userAgent;
 export const isAndroid = /(?:Android)/.test(ua);

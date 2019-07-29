@@ -15,7 +15,6 @@ const appendCss = mem((str: string, isNotRegex = false) => {
   const regex = /\.[^{^:]*/;
   const names = str.match(regex);
   const classname = names ? names.map((v) => v.replace(/(\.| )/g, '')).join(' ') : '';
-  console.log(str, classname);
 
   return `${classname} `;
 });
