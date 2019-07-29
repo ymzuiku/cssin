@@ -200,7 +200,7 @@ import React from 'react';
 import cssin, { addSheets } from 'cssin';
 
 addSheets({
-  // 区别于自定义样式，值是一个字符串，它遵循 cssin 语法，可以调用其他组件和自定义样式
+  // 区别于自定义样式，组件的值是一个字符串，它遵循 cssin 语法，可以调用其他组件和自定义样式
   button: 'bgc:#f66; hover:bgc:#f22; padding:1.2rem; color:--button-color;',
 });
 
