@@ -107,6 +107,11 @@ import 'cssin/commonValues'; // css-value 集合
 setParsers(commonParser);
 ```
 
+我们可以查看默认组件的内容:
+
+[commonParser.ts](./lib/commonParser)
+[commonValues.ts](./lib/commonValues)
+
 ## 编写 CSS 在 js 中
 
 有时候，我们会需要编写全局样式，我们约定组件使用 `@` 作为片段开头, 此时传入的字符串只会被当成单纯的 css 样式进行注入
