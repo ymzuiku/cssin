@@ -107,9 +107,9 @@ import 'cssin/commonValues'; // 引入 css-value 集合
 
 我们可以查看默认组件的内容:
 
-[commonParser.ts](./lib/commonParser)
+[commonParser.ts](https://github.com/ymzuiku/cssin/blob/master/lib/commonParser.ts)
 
-[commonValues.ts](./lib/commonValues)
+[commonValues.ts](https://github.com/ymzuiku/cssin/blob/master/lib/commonValues.ts)
 
 ## 编写 CSS 在 js 中
 
