@@ -1,8 +1,123 @@
 import { cssin } from './index';
-export const commonValues = `@
+
+const ua = navigator.userAgent;
+export const isAndroid = /(?:Android)/.test(ua);
+// const isAndroid = true;
+export const isFireFox = /(?:Firefox)/.test(ua);
+export const isChrome = /(?:Chrome|CriOS)/.test(ua);
+export const isTablet =
+  /(?:iPad|PlayBook)/.test(ua) || (isAndroid && !/(?:Mobile)/.test(ua)) || (isFireFox && /(?:Tablet)/.test(ua));
+export const isPhone = /(?:iPhone)/.test(ua) && !isTablet;
+export const isWechat = /MicroMessenger/.test(ua);
+export const isPc = !isPhone && !isAndroid;
+export const isLow = false;
+
+// iPhone X、iPhone XS
+export const isIPhoneX =
+  /iphone/gi.test(window.navigator.userAgent) &&
+  window.devicePixelRatio &&
+  window.devicePixelRatio === 3 &&
+  window.screen.width === 375 &&
+  window.screen.height === 812;
+
+// iPhone XS Max
+export const isIPhoneXSMax =
+  /iphone/gi.test(window.navigator.userAgent) &&
+  window.devicePixelRatio &&
+  window.devicePixelRatio === 3 &&
+  window.screen.width === 414 &&
+  window.screen.height === 896;
+
+// iPhone XR
+export const isIPhoneXR =
+  /iphone/gi.test(window.navigator.userAgent) &&
+  window.devicePixelRatio &&
+  window.devicePixelRatio === 2 &&
+  window.screen.width === 414 &&
+  window.screen.height === 896;
+
+export const onePx = window.devicePixelRatio ? 1 / window.devicePixelRatio + 0.01 : 1;
+
+export const isNeedIPhoneSafe = isIPhoneX || isIPhoneXSMax || isIPhoneXR;
+
+// 获取是否是 ios 或 android
+export const isNative = !isWechat && !isPc && window.innerHeight > 722;
+
+export const topSafe = isNative ? (isNeedIPhoneSafe ? 43 : 20) : 0;
+
+export const bottomSafe = isNative ? (isNeedIPhoneSafe ? 25 : 0) : 0;
+
+// 阻止双指放大
+document.addEventListener('gesturestart', (event) => {
+  event.preventDefault();
+});
+
+cssin(`
+html{line-height:1.15;-webkit-text-size-adjust:100%}body{margin:0}main{display:block}h1{font-size:2em;margin:.67em 0}hr{box-sizing:content-box;height:0;overflow:visible}pre{font-family:monospace,monospace;font-size:1em}a{background-color:transparent}abbr[title]{border-bottom:none;text-decoration:underline;text-decoration:underline dotted}b,strong{font-weight:bolder}code,kbd,samp{font-family:monospace,monospace;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}img{border-style:none}button,input,optgroup,select,textarea{font-family:inherit;font-size:100%;line-height:1.15;margin:0}button,input{overflow:visible}button,select{text-transform:none}[type=button],[type=reset],[type=submit],button{-webkit-appearance:button}[type=button]::-moz-focus-inner,[type=reset]::-moz-focus-inner,[type=submit]::-moz-focus-inner,button::-moz-focus-inner{border-style:none;padding:0}[type=button]:-moz-focusring,[type=reset]:-moz-focusring,[type=submit]:-moz-focusring,button:-moz-focusring{outline:1px dotted ButtonText}fieldset{padding:.35em .75em .625em}legend{box-sizing:border-box;color:inherit;display:table;max-width:100%;padding:0;white-space:normal}progress{vertical-align:baseline}textarea{overflow:auto}[type=checkbox],[type=radio]{box-sizing:border-box;padding:0}[type=number]::-webkit-inner-spin-button,[type=number]::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}[type=search]::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}details{display:block}summary{display:list-item}template{display:none}[hidden]{display:none}
+
+#root {
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  padding: 0px;
+  margin: 0px;
+  position: relative;
+  -webkit-tap-highlight-color: transparent;
+  font-size: 16px;
+  height: 100%;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+}
+
+input {
+  background-color: #f3f3f3;
+  outline: none;
+  border: none;
+  padding: 0px;
+  margin: 0px;
+  -webkit-appearance: none;
+}
+
+div, button, {
+  user-select: none;
+}
+
+button {
+  -webkit-appearance: none;
+  outline: none;
+  border: none;
+  user-select: none;
+}
+
+@media (min-width: 640px) {
+  .container {
+    max-width: 640px;
+  }
+}
+
+@media (min-width: 768px) {
+  .container {
+    max-width: 768px;
+  }
+}
+@media (min-width: 1024px) {
+  .container {
+    max-width: 1024px;
+  }
+}
+@media (min-width: 1280px) {
+  .container {
+    max-width: 1280px;
+  }
+}
+
 :root {
-  --px1: 1px;
-  --pt1: 0.5px;
+  --top-safe: ${topSafe}px;
+  --bottom-safe: ${bottomSafe}px;
+  --px1: ${onePx}px;
   --family-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   --family-serif: Georgia, Cambria, "Times New Roman", Times, serif;
   --family-mono: Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
@@ -164,6 +279,4 @@ export const commonValues = `@
   --pink-800: #97266d;
   --pink-900: #702459;
 }
-`;
-
-cssin(commonValues);
+`);
