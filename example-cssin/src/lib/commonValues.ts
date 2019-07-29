@@ -47,16 +47,6 @@ export const topSafe = isNative ? (isNeedIPhoneSafe ? 43 : 20) : 0;
 
 export const bottomSafe = isNative ? (isNeedIPhoneSafe ? 25 : 0) : 0;
 
-// document.body.style.setProperty('--top-safe', `${topSafe}px`);
-// document.body.style.setProperty('--bottom-safe', `${bottomSafe}px`);
-
-// 给root-div添加默认样式
-// const rootEle = document.getElementById('root');
-// if (rootEle) {
-//   rootEle.style.width = '100%';
-//   rootEle.style.height = '100%';
-// }
-
 // 阻止双指放大
 document.addEventListener('gesturestart', (event) => {
   event.preventDefault();
