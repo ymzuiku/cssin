@@ -35,7 +35,8 @@ document.body.style.setProperty('--button-color', '#fff');
 
 export default () => {
   return (
-    <div className={cssin`background-color=#f66 padding=1.2rem hover:background-color=#f33 color=--button-color`}>
+    <div
+      className={cssin`background-color=#f66 padding=1.2rem hover:background-color=#f33 color=--button-color border=2px_solid_#f33 border-radius=0.5rem`}>
       Button
     </div>
   );
@@ -45,7 +46,8 @@ export default () => {
 上述代码有点像内联样式，但是又有一些不同，因为它可以实现伪类及更好的自定义，我们逐步分析:
 
 - 更直观的编写了 css 样式, 如: `background-color=#f66 padding=1.2rem`
-- 直接使用伪类, 如: `hover:background-color=#f33`
+- 分割使用空格，如果值包含空格，请使用`_`代替空格: `border=2px_solid_#f33`
+- 直接使用伪类, 伪类在属性名之前，使用`:`分割如: `hover:background-color=#f33`
 - 使用 css 变量，这意味着我们可以更简单的定制主题，和实时修改它: `color=--button-color`
 
 cssin 语法非常简单，每个属性之间用空格分割：
