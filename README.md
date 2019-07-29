@@ -68,7 +68,7 @@ setParsers({
   'c=': (value) => `{ color: ${v}; }`,
 });
 
-// 在全局范围内使用 自定义的样式
+// 在使用自定义的样式
 export default () => {
   return <div className={cssin`bgc=#f66 p=1.2rem hover:bgc=#f33 c=--button-color`}>Button</div>;
 };
