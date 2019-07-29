@@ -60,11 +60,7 @@ export default () => {
 
 ```js
 export default () => {
-  return (
-    <div className={cssin`bg:#f66; hover:bg:#f33; p: 1.2rem; c:--button-color; b:2px solid #f33; @md:r:2rem;`}>
-      Button
-    </div>
-  );
+  return <div className={cssin`btn:#f33, 1.2rem; hover:bg:#f33; @md:radius:2rem;`}>Button</div>;
 };
 ```
 
@@ -100,7 +96,7 @@ export default () => {
 
 其他规则：
 
-- 如果只有属性名，那么它将是一个 widget, 如 `button;`
+- 如果只有属性名，那么它将是一个组件, 如 `button;`
 - 如果只有属性名，并且以 `.` 开头, 那么就是对原生 css 样式的引用, 如 `.button;`
 - 如果包含 `{}`, 表示这是一个纯 css, 它会被插入至全局样式中, 如 `body { margin:0px; }`
 
@@ -133,20 +129,33 @@ cssin 最后生成的还是 css 样式，所以不会有以上的问题
 
 cssin 有一个 addSheets 属性用来添加样式映射表
 
+我们现在达成刚刚的约定，将：
+
+`background-color:#f66; hover:background-color:#f33; padding:1.2rem; color:--button-color; border:2px solid #f33; @md:border-radius:2rem;`
+
+变成：
+
+`btn:#f33, 1.2rem; hover:bg:#f33; @md:radius:2rem;`
+
 ```js
 import React from 'react';
 import cssin, { addSheets } from 'cssin';
 
-// 设置自定义样式集
+// 添加自定义样式集
 addSheets({
-  bgc: (value) => `{ background-color: ${v}; }`,
-  p: (value) => `{ padding: ${v}; }`,
-  c: (value) => `{ color: ${v}; }`,
+  bg: (v) => `{ background-color: ${v}; }`,
+  radius: (v) => `{ border-radius: ${v}; }`,
+  btn: (v) => {
+    const values = v.split(';');
+    return {
+      `{ background-color: ${values[0]}; padding:${values[1]}; color:var(--button-color); }`
+    }
+  },
 });
 
 // 使用自定义的样式
 export default () => {
-  return <div className={cssin`bgc:#f66; p:1.2rem; hover:bgc:#f33; c:--button-color;`}>Button</div>;
+  return <div className={cssin`btn:#f33, 1.2rem; hover:bg:#f33; @md:radius:2rem;`}>Button</div>;
 };
 ```
 
@@ -159,24 +168,24 @@ cssin 默认配置了 4 个级别的媒体查询，我们可以覆盖它或者�
 ```js
 // 默认的媒体查询
 addSheets({
-  '@sm': (v: string) => `@media (min-width: 640px) {${v}}`,
-  '@md': (v: string) => `@media (min-width: 768px) {${v}}`,
-  '@lg': (v: string) => `@media (min-width: 1024px) {${v}}`,
-  '@xl': (v: string) => `@media (min-width: 1280px) {${v}}`,
+  '@sm': (v) => `@media (min-width: 640px) {${v}}`,
+  '@md': (v) => `@media (min-width: 768px) {${v}}`,
+  '@lg': (v) => `@media (min-width: 1024px) {${v}}`,
+  '@xl': (v) => `@media (min-width: 1280px) {${v}}`,
 });
 
 // 我们覆盖 @sm 以及创建一个 @xxl
 addSheets({
-  '@md': (v: string) => `@media (min-width: 800px) {${v}}`,
-  '@xxl': (v: string) => `@media (min-width: 1920px) {${v}}`,
+  '@md': (v) => `@media (min-width: 800px) {${v}}`,
+  '@xxl': (v) => `@media (min-width: 1920px) {${v}}`,
 });
 ```
 
-# 订制 Widget
+# 订制组件
 
-我们希望把刚刚的代码简写成更精巧的 Widget，Widget 其实是一组样式集
+我们希望把刚刚的代码简写成更精巧的组件, 组件其实是一组样式集
 
-设置自定义 Widget, 因为 sheets 是一个简单的对象表，请注意不要和其他自定义样式重名导致覆盖
+设置自定义组件, 因为 sheets 是一个简单的对象表，请注意不要和其他自定义样式重名导致覆盖
 
 它和自定义样式或媒体查询的区别是它的值是一个单纯的字符串：
 
@@ -195,7 +204,7 @@ export default () => {
 };
 ```
 
-注意，Widget 不可以和伪类或者媒体查询进行组合，因为它内部就已经包含了伪类或媒体查询
+注意，组件不可以和伪类或者媒体查询进行组合，因为组件内部就已经包含了伪类或媒体查询
 
 # 使用 css 原生功能在 javascript 中
 
@@ -226,7 +235,7 @@ cssin`
 
 其他地方定义的原生的 css 可以和 cssin 混合使用，只需要在属性名前面增加 `.`:
 
-````js
+```js
 import React from 'react';
 import cssin from 'cssin';
 
@@ -234,8 +243,9 @@ import cssin from 'cssin';
 export default () => {
   return <div className={cssin`margin:2rem .box`}>Button</div>;
 };
+```
 
-# 使用默认组件和 css 变量集合
+# 使用默认自定义样式、组件、 css-values
 
 cssin 提供了一整套自定义样式集合及 css-value 集合，它精心设计、开箱即用，亦可以作为一个自定义样式集合的参照标本
 
@@ -246,15 +256,14 @@ import 'cssin/commonSheets'; // 引入 sheets集合
 import 'cssin/commonValues'; // 引入 css-value 集合
 ```
 
-我们可以查看这两个文件，就是对 cssin API 简单的运用，也欢迎有朋友提供更好的自定义样式及 Widget：
+我们可以查看这两个文件，就是对 cssin API 简单的运用，也欢迎有朋友提供更好的自定义样式及组件：
 
 [commonSheets.ts](https://github.com/ymzuiku/cssin/blob/master/lib/commonSheets.ts)
 
 [commonValues.ts](https://github.com/ymzuiku/cssin/blob/master/lib/commonValues.ts)
 
-
 ### 现在开始使用它：
 
 ```sh
 $ npm i cssin --save
-````
+```
