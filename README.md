@@ -31,7 +31,8 @@ cssin 不仅仅是一个 CSS-IN-JS 框架，它还是一个创建设计系统的
 
 ### 轻巧
 
-- 核心代码仅有 1kb (gzip)，依赖于 mem 进行缓存以提高 css 注入性能
+- 核心代码仅有 1kb (gzip)，依赖于 mem 进行缓存, 以拦截不必要的 css 注入
+- 每条
 - 可以在任何框架中使用，如你喜欢的 React、Vue、Stencil
 
 # 先看看展现形式
@@ -149,21 +150,43 @@ export default () => {
 };
 ```
 
-# 订制组件
+# 定制媒体查询
 
-我们希望把刚刚的代码简写成更精巧的组件，组件其实是一组样式集
+cssin 默认配置了 4 个级别的媒体查询，我们可以覆盖它或者创建新的规则
 
-设置自定义组件, 我们推荐约定组件使用 `!` 作为名称结尾
+注意，我们约定，只有以 `@` 开头的才是媒体查询对象
+
+```js
+// 默认的媒体查询
+addSheets({
+  '@sm': (v: string) => `@media (min-width: 640px) {${v}}`,
+  '@md': (v: string) => `@media (min-width: 768px) {${v}}`,
+  '@lg': (v: string) => `@media (min-width: 1024px) {${v}}`,
+  '@xl': (v: string) => `@media (min-width: 1280px) {${v}}`,
+});
+
+// 我们覆盖 @sm 以及创建一个 @xxl
+addSheets({
+  '@md': (v: string) => `@media (min-width: 800px) {${v}}`,
+  '@xxl': (v: string) => `@media (min-width: 1920px) {${v}}`,
+});
+```
+
+# 订制 Widget
+
+我们希望把刚刚的代码简写成更精巧的 Widget，Widget 其实是一组样式集
+
+设置自定义 Widget, 因为 sheets 是一个简单的对象表，请注意不要和其他自定义样式重名导致覆盖
+
+它和自定义样式或媒体查询的区别是它的值是一个单纯的字符串：
 
 ```js
 import React from 'react';
-import cssin, { addParsers } from 'cssin';
+import cssin, { addSheets } from 'cssin';
 
-addParsers({
-  // 自定义样式：值是一个函数, 函数内的返回值是一组正常的 css 属性
-  bgc: (value) => `{ background-color: ${v}; }`,
-  // 自定义组件：值是一个字符串，它遵循 cssin 语法，可以调用其他组件和自定义样式
-  button: 'bgc:#f66; padding:1.2rem; color:--button-color;',
+addSheets({
+  // 区别于自定义样式，值是一个字符串，它遵循 cssin 语法，可以调用其他组件和自定义样式
+  button: 'bgc:#f66; hover:bgc:#f22; padding:1.2rem; color:--button-color;',
 });
 
 // 最终只需要一个单词的声明
@@ -172,24 +195,9 @@ export default () => {
 };
 ```
 
-# 使用默认组件和 css 变量集合
+注意，Widget 不可以和伪类或者媒体查询进行组合，因为它内部就已经包含了伪类或媒体查询
 
-cssin 提供了一整套默认样式集合及 css-value 集合，它精心设计、开箱即用，亦可以作为一个自定义样式集合的参照标本
-
-默认情况下 cssin 并未配置它，如果我们需要可以如下配置：
-
-```js
-import 'cssin/commonSheets'; // 引入 sheets集合
-import 'cssin/commonValues'; // 引入 css-value 集合
-```
-
-我们可以查看默认组件的内容:
-
-[commonSheets.ts](https://github.com/ymzuiku/cssin/blob/master/lib/commonSheets.ts)
-
-[commonValues.ts](https://github.com/ymzuiku/cssin/blob/master/lib/commonValues.ts)
-
-## 其他特殊语法
+# 使用 css 原生功能在 javascript 中
 
 ### 使用 `{}` 编写单纯的 css 片段
 
@@ -226,6 +234,24 @@ import cssin from 'cssin';
 export default () => {
   return <div className={cssin`margin:2rem .box`}>Button</div>;
 };
+
+# 使用默认组件和 css 变量集合
+
+cssin 提供了一整套自定义样式集合及 css-value 集合，它精心设计、开箱即用，亦可以作为一个自定义样式集合的参照标本
+
+默认情况下 cssin 并未配置它，如果我们需要可以如下配置：
+
+```js
+import 'cssin/commonSheets'; // 引入 sheets集合
+import 'cssin/commonValues'; // 引入 css-value 集合
+```
+
+我们可以查看这两个文件，就是对 cssin API 简单的运用，也欢迎有朋友提供更好的自定义样式及 Widget：
+
+[commonSheets.ts](https://github.com/ymzuiku/cssin/blob/master/lib/commonSheets.ts)
+
+[commonValues.ts](https://github.com/ymzuiku/cssin/blob/master/lib/commonValues.ts)
+
 
 ### 现在开始使用它：
 
