@@ -21,7 +21,7 @@
 
 ### 轻巧
 
-- 核心代码 仅有 0.9kb，依赖于 mem 进行缓存以提高 css 注入性能
+- 核心代码仅有 1kb (gzip)，依赖于 mem 进行缓存以提高 css 注入性能
 - 可以在任何框架中使用，如你喜欢的 React、Vue、Stencil
 
 # 使用 `cssin` 直接编写样式
@@ -36,7 +36,7 @@ document.body.style.setProperty('--button-color', '#fff');
 export default () => {
   return (
     <div
-      className={cssin`background-color=#f66 padding=1.2rem hover:background-color=#f33 color=--button-color border=2px_solid_#f33 border-radius=0.5rem`}>
+      className={cssin`background-color=#f66 padding=1.2rem hover:background-color=#f33 color=--button-color border=2px_solid_#f33 border='2px solid #f33' media-1000^border-radius=2rem`}>
       Button
     </div>
   );
@@ -46,12 +46,28 @@ export default () => {
 上述代码有点像内联样式，但是又有一些不同，因为它可以实现伪类及更好的自定义，我们逐步分析:
 
 - 更直观的编写了 css 样式, 如: `background-color=#f66 padding=1.2rem`
-- 分割使用空格，如果值包含空格，请使用`_`代替空格: `border=2px_solid_#f33`
+- 属性分割使用空格，如果值包含空格，请使用`'`包裹值: `border='2px solid #f33'`
 - 直接使用伪类, 伪类在属性名之前，使用`:`分割如: `hover:background-color=#f33`
-- 使用 css 变量，这意味着我们可以更简单的定制主题，和实时修改它: `color=--button-color`
+- 可以使用 css 变量，这意味着我们可以更简单的定制主题，和实时修改它: `color=--button-color`
+- 可以包裹代码块, 以实现媒体查询等功能, 使用`^`分割如: `media-1000^border-radius=2rem`
 
-cssin 语法非常简单，每个属性之间用空格分割：
-[伪类名]:[属性名]=[属性值]
+cssin 是由一条条属性组合而成，每个属性之间用空格分割，下面是完整属性的语法：
+[代码块名]^[伪类名]:[属性名]='[属性值]'
+
+下面这句完整的语法描述： 当媒体查询大于 100px 时、鼠标移入时、圆角等于 2rem：
+
+```js
+cssin`media-1000px^hover:border='1px solid #f00'`;
+```
+
+### 是否重新发明 css?
+
+当看 cssin 有自己的语法规则之后，很多人会怀疑是否值得这么做、这么做是否正确。
+
+其实 cssin 的语法只是非常剪短的正则: `fdls;kfldsakfldsf`, 我们在使用 cssin 之前做了非常多的尝试，css\less\scss, tailwindCSS, styled-components 和其他 css-in-js 方案。其中 tailwindCSS 是最符合生产需要的，但是 tailwindCSS 配合 Purgecss 进行过滤处理 css 的步骤对工程化的开销较大，并且总会有较多的需要去不断配置 tailwind.config.js; 在 tailwindCSS 的基础上我们学到了一些东西：
+
+1. 如果可能，不离开你的 html 或 js，你会更高效；
+2. 所有的属性都可以配置
 
 # 订制自定义样式
 
@@ -116,7 +132,9 @@ import 'cssin/commonValues'; // 引入 css-value 集合
 
 [commonValues.ts](https://github.com/ymzuiku/cssin/blob/master/lib/commonValues.ts)
 
-## 编写 CSS 在 js 中
+## 其他特殊语法
+
+### 使用 `@` 编写单纯的 css 片段
 
 有时候，我们会需要编写单纯的 css 片段，我们约定组件使用 `@` 作为片段开头, 此时传入的字符串只会被当成单纯的 css 样式进行注入
 
@@ -135,18 +153,21 @@ cssin`@
     }
   }
 `;
+```
 
+### 使用 `.` 引用单纯的 className
+
+````js
 import React from 'react';
-import cssin, { addParsers } from 'cssin';
+import cssin from 'cssin';
 
 // 使用 .box 引用 css 样式
 export default () => {
-  return <div className={cssin`.box`}>Button</div>;
+  return <div className={cssin`margin=2rem .box`}>Button</div>;
 };
-```
 
 ### 现在开始使用它：
 
 ```sh
 $ npm i cssin --save
-```
+````
