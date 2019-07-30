@@ -271,7 +271,7 @@ export const App = () => {
 };
 ```
 
-className 可以和 inlint 一起使用，前提是 className 必须在 inlist 之前声明
+inlint 可以和 className 一起使用，前提是 className 必须在 inlist 之前声明
 
 ```js
 import React from 'react';
@@ -350,7 +350,7 @@ import 'cssin/commonValues'; // 引入 css-value 集合
 
 cssin 虽然是运行时创建css样式，但是它有着极低的性能开销。
 
-我们可以看到，创建重复执行500次，每次大约创建20条样式，只消耗了 `1.6ms`, 这是因为如果有一个属性或者子属性一致，那么我们会使用缓存：
+我们可以看到，创建重复执行500次，每次大约创建20条样式，只消耗了 `1.6ms`, 这是因为cssin会对整体属性做缓存，还会对子属性创建css样式做缓存：
 
 ```js
 console.time(t);
