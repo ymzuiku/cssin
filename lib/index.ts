@@ -1,5 +1,24 @@
 const sheets = new Map();
 
+export const coverAttribute = (attribute='inlist')=>{
+  // tslint:disable
+  const docCreate = document.createElement;
+  document.createElement = function(name:any, option:any) {
+    const ele = docCreate.call(document, name, option);
+    const setAttribute = ele.setAttribute;
+
+    ele.setAttribute = (name:any, value:any)=>{
+      if(name === attribute) {
+        setAttribute.call(ele, 'class', cssin(value));
+      } else {
+        setAttribute.call(ele, name, value);
+      }
+    }
+    return ele;
+  }
+  // tslint:enable
+}
+
 export const addSheets = (objs: { [key: string]: any }) => {
   Object.keys(objs).forEach((key) => {
     sheets.set(key, objs[key]);

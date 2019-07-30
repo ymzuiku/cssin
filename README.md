@@ -67,20 +67,39 @@ export default () => {
 好的，我们最后会通过简单的配置的让样式描述变成这样：
 
 ```js
+import React from 'react';
+import cssin from 'cssin';
+
 export default () => {
   return <div className={cssin`btn:#f33, 1.2rem; hover:bg:#f33; @md:radius:2rem;`}>Button</div>;
 };
 ```
 
-或者极限短：
+或者极限简洁：
 
 ```js
+import React from 'react';
+import cssin from 'cssin';
+
 export default () => {
-  return <div className={cssin`button;`}>Button</div>;
+  return <div className={cssin`button`}>Button</div>;
 };
 ```
 
-# 或许一段话就可以描述清楚
+
+更加极限极限简洁, 连 cssin 的包裹都省略掉：
+
+```js
+import cssin from 'cssin';
+
+export default () => {
+  return <div inlist="button">Button</div>;
+};
+```
+
+我们会一步步来达到最后的步骤。
+
+# 或许一段话就可以描述清楚 cssin
 
 我们先回顾刚开始的代码块：
 
@@ -206,13 +225,47 @@ addSheets({
   button: 'bgc:#f66; hover:bgc:#f22; padding:1.2rem; color:--button-color;',
 });
 
-// 最终只需要一个单词的声明
+// 最终只需要包裹一个单词的声明
 export default () => {
   return <div className={cssin`button;`}>Button</div>;
 };
 ```
 
 注意，组件不可以和伪类或者媒体查询进行组合，因为组件内部就已经包含了伪类或媒体查询
+
+# 覆盖 setAttribute
+
+这里涉及一些魔法，请辩证的使用。
+
+作者在编写代码的时候不希望每次都引用 cssin，这对作者来说太过繁琐了，如果你也有这种感觉，可以使用 `coverAttribute`
+
+index.js
+
+```js
+import React from 'react';
+import { coverAttribute } from 'cssin';
+
+// 这里我们覆盖inlist对象，它会模拟 className={cssin`...`}
+coverAttribute('inlist');
+
+// 请确保 coverAttribute 在 ReactDOM.render 之前执行
+ReactDOM.render(<App />, document.getElementById('root'));
+```
+
+App.js
+
+```js
+import React from 'react';
+
+// 最终只需要一个单词的声明，就像原生声明一样
+export const App = () => {
+  return <div inlist="button">Button</div>;
+};
+```
+
+我们需要注意，覆盖 setAttribute 并不是非常正确的做法，因为它带来了其他开发人员的不友好，其他人员并不知道我们做了这些黑魔法的前提下，会非常困惑。
+
+另外，请不要覆盖 className 等常用属性，这样会让其他组件库失效
 
 # 使用 css 原生功能在 javascript 中
 
