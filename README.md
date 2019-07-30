@@ -16,7 +16,7 @@ cssin 生成的每个相同的样式值可以被重复引用，而不是重新�
 ```js
 import React from 'react';
 
-<button inlist="bg:#f00; @md:display:none; padding:1.2rem; hover:radius:0.5rem radius:0.3rem">
+export default () => <button inlist="bg:#f00; @md:display:none; padding:1.2rem; hover:radius:0.5rem radius:0.3rem">
   我是一个按钮
 </button>
 ```
