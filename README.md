@@ -186,6 +186,10 @@ export default () => {
 };
 ```
 
+由于使用 cssin , 我们不会需要有css代码，所以可以降低项目首屏的资源请求。
+
+自定义样式除了可以简化开发，还可以减少js代码量，从而最终达到相对更少的打包资源。
+
 # 定制媒体查询
 
 cssin 默认配置了 4 个级别的媒体查询，我们可以覆盖它或者创建新的规则
@@ -341,6 +345,24 @@ import 'cssin/commonValues'; // 引入 css-value 集合
 [commonSheets.ts](https://github.com/ymzuiku/cssin/blob/master/lib/commonSheets.ts)
 
 [commonValues.ts](https://github.com/ymzuiku/cssin/blob/master/lib/commonValues.ts)
+
+# 性能开销
+
+cssin 虽然是运行时创建css样式，但是它有着极低的性能开销。
+
+我们可以看到，创建重复执行500次，每次大约创建20条样式，只消耗了 `1.6ms`, 这是因为如果有一个属性或者子属性一致，那么我们会使用缓存：
+
+```js
+console.time(t);
+for(let i = 0; i<500;i++) {
+  cssin(`transition:all 0.1s ease-in; box-shadow:--shadow-1lg; hover:box-shadow:--shadow-1md; active:box-shadow:--shadow-sm1;`)
+  cssin(`transition:all 0.2s ease-in; box-shadow:--shadow-2lg; hover:box-shadow:--shadow-2md; active:box-shadow:--shadow-sm2;`)
+  cssin(`transition:all 0.3s ease-in; box-shadow:--shadow-3lg; hover:box-shadow:--shadow-3md; active:box-shadow:--shadow-sm3;`)
+  cssin(`transition:all 0.4s ease-in; box-shadow:--shadow-4lg; hover:box-shadow:--shadow-4md; active:box-shadow:--shadow-sm4;`)
+}
+console.timeEnd(t); // 1.60009765625ms
+```
+
 
 ### 现在开始使用它：
 
