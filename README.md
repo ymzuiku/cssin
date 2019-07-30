@@ -259,7 +259,26 @@ import React from 'react';
 
 // 最终只需要一个单词的声明，就像原生声明一样
 export const App = () => {
-  return <div inlist="button">Button</div>;
+  return (
+    <div>
+      <div inlist="button">Button</div>
+    </div>
+  );
+};
+```
+
+className 可以和 inlint 一起使用，前提是 className 必须在 inlist 之前声明
+
+```js
+import React from 'react';
+
+// 最终只需要一个单词的声明，就像原生声明一样
+export const App = () => {
+  return (
+    <div>
+      <div className="" inlist="button">Button</div>
+    </div>
+  );
 };
 ```
 

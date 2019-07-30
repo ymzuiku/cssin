@@ -16,7 +16,13 @@ export const coverAttribute = (attribute='inlist')=>{
 
     ele.setAttribute = (name:any, value:any)=>{
       if(name === attribute) {
-        setAttribute.call(ele, 'class', cssin(value));
+        if ((ele as any).__temp_class__ ) {
+          setAttribute.call(ele, 'class', `${cssin(value)} ${(ele as any).__temp_class__}`);
+        } else {
+          setAttribute.call(ele, 'class', cssin(value));
+        }
+      } else if (name ==='class') {
+        (ele as any).__temp_class__ = value;
       } else {
         setAttribute.call(ele, name, value);
       }

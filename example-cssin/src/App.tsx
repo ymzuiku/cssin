@@ -1,7 +1,7 @@
 import * as React from 'react';
 
 import * as doc from './doc';
-import { addSheets } from './lib';
+import { addSheets, cssin } from './lib';
 
 addSheets({
   code: 'dis:block; font-size:14px; color:--teal-700; word-wrap:break-word; word-break:break-all;',
@@ -12,6 +12,9 @@ addSheets({
     'button; transition:all 0.2s ease-in; box-shadow:--shadow-lg; hover:box-shadow:--shadow-md; active:box-shadow:--shadow-sm;',
 });
 
+cssin`.test {font-size:50px;}`;
+
+
 
 export const App: React.FC = () => {
   return (
@@ -21,7 +24,7 @@ export const App: React.FC = () => {
         'color:--white;',
       ]}>cssin 文档</header>
       <div inlist="row; m:5rem; items:center;">
-        <button inlist="background:--gray-300; padding:1.2rem; marge:0.5rem; border-radius:0.3rem">
+        <button className="test" inlist="background:--gray-300; padding:1.2rem; marge:0.5rem; border-radius:0.3rem">
           我是一个按钮
         </button>
         <code inlist="code; ml:1rem;">{doc.a}</code>
