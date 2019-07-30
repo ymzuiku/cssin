@@ -31,8 +31,8 @@ cssin 不仅仅是一个 CSS-IN-JS 框架，它还是一个创建设计系统的
 
 ### 轻巧
 
-- 仅有 2kb (gzip)，依赖于 mem 进行缓存, 以拦截不必要的 css 注入
-- 每条
+- 仅有 2kb (gzip)
+- 每条样式会被缓存, 以更高的性能进行样式处理
 - 可以在任何框架中使用，如你喜欢的 React、Vue、Stencil
 
 ### 安装
@@ -42,6 +42,8 @@ $ npm i cssin --save
 ```
 
 # 先看看展现形式
+
+example: [cssin.workos.top](http://cssin.workos.top)
 
 ```js
 import React from 'react';

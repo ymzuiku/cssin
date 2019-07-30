@@ -1,31 +1,41 @@
-import mem from 'mem';
+const sheets = new Map();
 
-let sheets: any = {
-  '@sm': (v: string) => `@media (min-width: 640px) {${v}}`,
-  '@md': (v: string) => `@media (min-width: 768px) {${v}}`,
-  '@lg': (v: string) => `@media (min-width: 1024px) {${v}}`,
-  '@xl': (v: string) => `@media (min-width: 1280px) {${v}}`,
-};
-
-export const addSheets = (newSheets: { [key: string]: any }) => {
-  sheets = {
-    ...sheets,
-    ...newSheets,
-  };
+export const addSheets = (objs: { [key: string]: any }) => {
+  Object.keys(objs).forEach((key) => {
+    sheets.set(key, objs[key]);
+  });
 
   return sheets;
 };
 
-const appendCss = mem((css: string) => {
+addSheets({
+  '@sm': (v: string) => `@media (min-width: 640px) {${v}}`,
+  '@md': (v: string) => `@media (min-width: 768px) {${v}}`,
+  '@lg': (v: string) => `@media (min-width: 1024px) {${v}}`,
+  '@xl': (v: string) => `@media (min-width: 1280px) {${v}}`,
+});
+
+const appendCssCache = new Set();
+
+const appendCss = (css: string) => {
+  if (appendCssCache.has(css)) {
+    return;
+  }
+  appendCssCache.add(css);
   const ele = document.createElement('style');
   ele.innerHTML = css;
   // tslint:disable-next-line
   ele.type = 'text/css';
   document.head.appendChild(ele);
-});
+};
 
-export const cssin = mem((...args: any[]) => {
+const cssinCache = new Map();
+
+export const cssin = (...args: any[]) => {
   const param = args.join(' ');
+  if (cssinCache.has(param)) {
+    return cssinCache.get(param);
+  }
 
   if (param.indexOf('{') > 0) {
     appendCss(param);
@@ -50,7 +60,7 @@ export const cssin = mem((...args: any[]) => {
 
         return;
       }
-      const component = sheets[str];
+      const component = sheets.get(str);
 
       if (typeof component === 'string') {
         classname += `${cssin(component)} `;
@@ -76,10 +86,11 @@ export const cssin = mem((...args: any[]) => {
     /** 计算并插入css */
     let css = '';
     let block = '';
-    const mediaSheet = media[0] === '@' ? sheets[media] : '';
-    const cssSheet = sheets[sheet];
+    const mediaSheet = media[0] === '@' ? sheets.get(media) : '';
+    const cssSheet = sheets.get(sheet);
 
-    block = typeof cssSheet === 'function' ? sheets[sheet](value) : `{${sheet}:${value};}`;
+    block = typeof cssSheet === 'function' ? cssSheet(value) : `{${sheet}:${value};}`;
+
     css = `.${name}${hover ? ':' : ''}${hover} ${block}`;
 
     if (typeof mediaSheet === 'function') {
@@ -91,5 +102,7 @@ export const cssin = mem((...args: any[]) => {
     classname += `${name} `;
   });
 
+  cssinCache.set(param, classname);
+
   return classname;
-});
+};
