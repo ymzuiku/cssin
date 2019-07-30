@@ -1,8 +1,13 @@
 
 
 const sheets = new Map();
+const coverCache = new Set();
 
 export const coverAttribute = (attribute='inlist')=>{
+  if (coverCache.has(attribute)) {
+    return;
+  }
+  coverCache.add(attribute);
   // tslint:disable
   const docCreate = document.createElement;
   document.createElement = function(name:any, option:any) {
