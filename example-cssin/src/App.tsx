@@ -12,10 +12,14 @@ addSheets({
     'button; transition:all 0.2s ease-in; box-shadow:--shadow-lg; hover:box-shadow:--shadow-md; active:box-shadow:--shadow-sm;',
 });
 
+
 export const App: React.FC = () => {
   return (
     <div inlist=".box;">
-      <header inlist="font:2rem; font-weight:600; p:2rem; bg:--blue-400; color:--white;">cssin 文档</header>
+      <header inlist={[
+        'font:2rem; font-weight:600; p:2rem; bg:--blue-400; color:--white;',
+        'color:--white;',
+      ]}>cssin 文档</header>
       <div inlist="row; m:5rem; items:center;">
         <button inlist="background:--gray-300; padding:1.2rem; marge:0.5rem; border-radius:0.3rem">
           我是一个按钮

@@ -1,3 +1,5 @@
+
+
 const sheets = new Map();
 
 export const coverAttribute = (attribute='inlist')=>{
@@ -50,8 +52,9 @@ const appendCss = (css: string) => {
 
 const cssinCache = new Map();
 
-export const cssin = (...args: any[]) => {
-  const param = args.join(' ');
+export const cssin = (inlist:any) => {
+  const param = typeof inlist === 'string' ? inlist : inlist.join('');
+
   if (cssinCache.has(param)) {
     return cssinCache.get(param);
   }
