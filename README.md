@@ -90,7 +90,7 @@ export default () => {
 更加极限极限简洁, 连 cssin 的包裹都省略掉：
 
 ```js
-import cssin from 'cssin';
+import React from 'react';
 
 export default () => {
   return <div inlist="button">Button</div>;
