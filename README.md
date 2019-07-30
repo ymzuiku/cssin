@@ -11,6 +11,18 @@ cssin 提供了低级实用程序类，而不是固定的预先设计的组件�
 
 cssin 生成的每个相同的样式值可以被重复引用，而不是重新创建。
 
+我们先看看使用了 cssin 之后, 最终我们可以如何描述代码:
+
+```js
+import React from 'react';
+
+<button inlist="bg:#f00; @md:display:none; padding:1.2rem; hover:radius:0.5rem radius:0.3rem">
+  我是一个按钮
+</button>
+```
+
+在这个文件中，我们 "似乎没有引入任何库"，就好像写内联样式一样，把样式描述、媒体查询、伪类都实现了。
+
 ### 理念
 
 我们在使用 cssin 之前做了非常多的尝试，css\less\scss, tailwindCSS, styled-components 和其他 css-in-js 方案。其中 tailwindCSS 是最符合生产需要的，我们从中学到许多东西和理念；可是这些样式方案对于作者来说并没能真正解决问题：
@@ -45,6 +57,8 @@ $ npm i cssin --save
 
 example: [cssin.workos.top](http://cssin.workos.top)
 
+在没有进行任何配置之前，cssin 的语法和内敛样式是一致的
+
 ```js
 import React from 'react';
 import cssin from 'cssin';
@@ -55,7 +69,7 @@ document.body.style.setProperty('--button-color', '#fff');
 export default () => {
   return (
     <div
-      className={cssin`background-color:#f66; hover:background-color:#f33; padding:1.2rem; color:--button-color; border:2px solid #f33; @md:border-radius:2rem;`}>
+      className={cssin`background-color:#f66; hover:background-color:#f33; padding:1.2rem; color:#000; border:2px solid #f33; @md:border-radius:2rem;`}>
       Button
     </div>
   );
