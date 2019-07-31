@@ -38,12 +38,12 @@ export const commonSheets = {
   "h-max": (v: any) => `{ maxHeight: ${v}; }`,
   "h-min-max": (v: any) =>
     `{ height: ${v}; min-height: ${v}; max-width: ${v}; }`,
-  b: (v: any) => `{ border: ${v}; border-style: solid; }`,
-  bl: (v: any) => `{ border-left: ${v}; border-style: solid; }`,
-  bt: (v: any) => `{ border-top: ${v}; border-style: solid; }`,
-  br: (v: any) => `{ border-right: ${v}; border-style: solid; }`,
-  bb: (v: any) => `{ border-bottom: ${v}; border-style: solid; }`,
-  bc: (v: any) => `{ border-color: ${v} !important; }`,
+  b: (v: any) => `{ border: ${v} solid; }`,
+  bl: (v: any) => `{ border-left: ${v} solid;}`,
+  bt: (v: any) => `{ border-top: ${v} solid; }`,
+  br: (v: any) => `{ border-right: ${v} solid;}`,
+  bb: (v: any) => `{ border-bottom: ${v} solid;}`,
+  bc: (v: any) => `{ border-color: ${v}; }`,
   radius: (v: any) => `{ border-radius: ${v}; }`,
   font: (v: any) => `{ font-size: ${v}; }`,
   // theme
