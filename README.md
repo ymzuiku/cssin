@@ -431,6 +431,85 @@ import "cssin/commonSheets"; // 引入 sheets集合
 import "cssin/commonCSSValues"; // 引入 css-value 集合
 ```
 
+commonSheets 中的内容:
+
+| 自定义样式   | 映射                                       | 使用               |
+| ------------ | ------------------------------------------ | ------------------ |
+| dis          | display                                    | dis: flex;         |
+| items        | align-items                                | m: 20px;           |
+| justify      | justify-content                            | justify: start;    |
+| self         | align-self                                 | self: center;      |
+| content      | align-content                              | content: end;      |
+| z            | z-index                                    | z: 10;             |
+| p            | padding                                    | p: 5rem;           |
+| px           | pading-left, padding-right                 | px: 5rem;          |
+| py           | padding-top, padding-bottom                | py: 5rem;          |
+| pl           | padding-left                               | pl: 5rem;          |
+| pt           | padding-top                                | pt: 5rem;          |
+| pr           | padding-right                              | pr: 5rem;          |
+| pb           | padding-bottom                             | pb: 5rem;          |
+| m            | margin                                     | m: 5rem;           |
+| mx           | margin-left, margin-right                  | mx: 5rem;          |
+| my           | margin-top, margin-bottom                  | my: 5rem;          |
+| ml           | margin-left                                | ml: 5rem;          |
+| mt           | margin-top                                 | mt: 5rem;          |
+| mr           | margin-right                               | mr: 5rem;          |
+| mb           | margin-bottom                              | mb: 5rem;          |
+| w            | width                                      | w: 5rem;           |
+| w-min        | min-width                                  | w-min: 5rem;       |
+| w-max        | max-width                                  | w-max: 5rem;       |
+| w-min-max    | min-width, max-width                       | w-min-max: 5rem;   |
+| h            | height                                     | h: 5rem;           |
+| h-min        | min-height                                 | h-min: 5rem;       |
+| h-max        | max-height                                 | h-max: 5rem;       |
+| h-min-max    | min-height, max-height                     | h-min-max: 5rem;   |
+| b            | border: \${v}; border-style: solid;        | b: 5rem;           |
+| bl           | border-left: \${v}; border-style: solid;   | bl: 5rem;          |
+| bt           | border-top: \${v}; border-style: solid;    | bt: 5rem;          |
+| br           | border-right: \${v}; border-style: solid;  | br: 5rem;          |
+| bb           | border-bottom: \${v}; border-style: solid; | bb: 5rem;          |
+| bc           | border-color                               | bc: #f00;          |
+| radius       | border-radius                              | radius: 2rem;      |
+| font         | font-size                                  | font: 1.25rem;     |
+| bg           | background                                 | background: #f00;  |
+| bgc          | background-color                           | bgc: #f00;         |
+| ease-in      | transition: all \${v} ease-in;             | ease-in: 0.3s;     |
+| ease-out     | transition: all \${v} ease-out;            | ease-out: 0.3s;    |
+| ease-in-out  | transition: all \${v} ease-in-out;         | ease-in-out: 0.3s; |
+| 以下均为组件 | ----                                       | 组件不需要设置值   |
+| col          | dis:flex; flex-direction:column;           | col;               |
+| row          | dis:flex; flex-direction:row;              | row;               |
+| center       | col; justify:center; items:center;         | center;            |
+| fixed        | position:fixed;                            | fixed;             |
+| static       | position:static;                           | static;            |
+| absolute     | position:absolute;                         | absolute;          |
+| relative     | position:relative;                         | relative;          |
+| sticky       | position:sticky;                           | sticky;            |
+| left         | left:0px;                                  | left;              |
+| top          | top:0px;                                   | top;               |
+| right        | right:0px;                                 | right;             |
+| bottom       | bottom:0px;                                | bottom;            |
+| bold         | font-weight: bold;                         | bold;              |
+
+commonCSSValues 设置了一些 css-value, 其中的颜色、尺寸分类、投影均取自于 tailwindCSS 的配置：
+
+!()[https://github.com/ymzuiku/cssin/blob/master/imgs/1.png]
+!()[https://github.com/ymzuiku/cssin/blob/master/imgs/2.png]
+!()[https://github.com/ymzuiku/cssin/blob/master/imgs/3.png]
+!()[https://github.com/ymzuiku/cssin/blob/master/imgs/4.png]
+
+使用示例子：
+
+```js
+import React from "react";
+import cssin from "cssin";
+
+// 使用 .box 引用 css 样式
+export default () => {
+  return <div className={cssin`bg:--gray-200`}>Button</div>;
+};
+```
+
 我们可以查看这两个文件，它们只是使用 cssin API 的简单配置，也欢迎有朋友提供更好的自定义样式及组件：
 
 [commonSheets.ts](https://github.com/ymzuiku/cssin/blob/master/lib/commonSheets.ts)
