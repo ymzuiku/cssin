@@ -1,11 +1,13 @@
 我们先看看我们最终的目标, 我们可以如何描述代码:
 
 ```js
-import React from 'react';
+import React from "react";
 
-export default () => <button inlist="bg:#f00; @md:display:none; padding:8px; hover:radius:8px; radius:4px">
-  我是一个按钮
-</button>
+export default () => (
+  <button inlist="bg:#f00; @md:display:none; padding:8px; hover:radius:8px; radius:4px">
+    我是一个按钮
+  </button>
+);
 ```
 
 在这个文件中，我们 "似乎没有引入任何库"，就好像写内联样式一样，把样式描述、媒体查询、伪类都实现了, 并且可自定义样式名，如 bg、radius。
@@ -60,16 +62,17 @@ example: [navar.workos.top](http://navar.workos.top)
 在没有进行任何配置之前，cssin 的语法和内敛样式是一致的
 
 ```js
-import React from 'react';
-import cssin from 'cssin';
+import React from "react";
+import cssin from "cssin";
 
 // 设置一个全局的 css-value
-document.body.style.setProperty('--button-color', '#fff');
+document.body.style.setProperty("--button-color", "#fff");
 
 export default () => {
   return (
     <div
-      className={cssin`background-color:#f66; hover:background-color:#f33; padding:8px; color:#000; border:2px solid #f33; @md:border-radius:4px;`}>
+      className={cssin`background-color:#f66; hover:background-color:#f33; padding:8px; color:#000; border:2px solid #f33; @md:border-radius:4px;`}
+    >
       Button
     </div>
   );
@@ -81,30 +84,33 @@ export default () => {
 好的，我们最后会通过简单的配置的让样式描述变成这样：
 
 ```js
-import React from 'react';
-import cssin from 'cssin';
+import React from "react";
+import cssin from "cssin";
 
 export default () => {
-  return <div className={cssin`btn:#f33, 8px; hover:bg:#f33; @md:radius:4px;`}>Button</div>;
+  return (
+    <div className={cssin`btn:#f33, 8px; hover:bg:#f33; @md:radius:4px;`}>
+      Button
+    </div>
+  );
 };
 ```
 
 或者极限简洁：
 
 ```js
-import React from 'react';
-import cssin from 'cssin';
+import React from "react";
+import cssin from "cssin";
 
 export default () => {
   return <div className={cssin`button`}>Button</div>;
 };
 ```
 
-
 更加极限极限简洁, 连 cssin 的包裹都省略掉：
 
 ```js
-import React from 'react';
+import React from "react";
 
 export default () => {
   return <div inlist="button">Button</div>;
@@ -121,7 +127,8 @@ export default () => {
 export default () => {
   return (
     <div
-      className={cssin`background-color:#f66; hover:background-color:#f33; padding:8px; color:--button-color; border:2px solid #f33; @md:border-radius:4px;`}>
+      className={cssin`background-color:#f66; hover:background-color:#f33; padding:8px; color:--button-color; border:2px solid #f33; @md:border-radius:4px;`}
+    >
       Button
     </div>
   );
@@ -200,9 +207,9 @@ export default () => {
 };
 ```
 
-由于使用 cssin , 我们不会需要有css代码，所以可以降低项目首屏的资源请求。
+由于使用 cssin , 我们不会需要有 css 代码，所以可以降低项目首屏的资源请求。
 
-自定义样式除了可以简化开发，还可以减少js代码量，从而最终达到相对更少的打包资源。
+自定义样式除了可以简化开发，还可以减少 js 代码量，从而最终达到相对更少的打包资源。
 
 # 定制媒体查询
 
@@ -213,32 +220,39 @@ cssin 默认配置了 4 个尺寸级别的媒体查询，和基于设备媒体�
 ```js
 // 默认的媒体查询
 addSheets({
-  '@sm': (v: string) => `@media (min-width: 640px) {${v}}`,
-  '@md': (v: string) => `@media (min-width: 768px) {${v}}`,
-  '@lg': (v: string) => `@media (min-width: 1024px) {${v}}`,
-  '@xl': (v: string) => `@media (min-width: 1280px) {${v}}`,
-  '@ios': (v: string) => `@media (min-width: ${device.isIos ? '0px': '9999px'}) {${v}}`,
-  '@android': (v: string) => `@media (min-width: ${device.isAndroid ? '0px': '9999px'}) {${v}}`,
-  '@native': (v: string) => `@media (min-width: ${device.isNative ? '0px': '9999px'}) {${v}}`,
-  '@pc': (v: string) => `@media (min-width: ${device.isPc ? '0px': '9999px'}) {${v}}`,
+  "@sm": (v: string) => `@media (min-width: 640px) {${v}}`,
+  "@md": (v: string) => `@media (min-width: 768px) {${v}}`,
+  "@lg": (v: string) => `@media (min-width: 1024px) {${v}}`,
+  "@xl": (v: string) => `@media (min-width: 1280px) {${v}}`,
+  "@ios": (v: string) =>
+    `@media (min-width: ${device.isIos ? "0px" : "9999px"}) {${v}}`,
+  "@android": (v: string) =>
+    `@media (min-width: ${device.isAndroid ? "0px" : "9999px"}) {${v}}`,
+  "@native": (v: string) =>
+    `@media (min-width: ${device.isNative ? "0px" : "9999px"}) {${v}}`,
+  "@pc": (v: string) =>
+    `@media (min-width: ${device.isPc ? "0px" : "9999px"}) {${v}}`
 });
 // 我们覆盖 @md 以及创建一个 @xxl
 addSheets({
-  '@md': (v) => `@media (min-width: 800px) {${v}}`,
-  '@xxl': (v) => `@media (min-width: 1920px) {${v}}`,
+  "@md": v => `@media (min-width: 800px) {${v}}`,
+  "@xxl": v => `@media (min-width: 1920px) {${v}}`
 });
 ```
 
-使用媒体查询，以下例子是屏幕宽度大于 800px，button宽度为200px，并且在 native 端隐藏
+使用媒体查询，以下例子是屏幕宽度大于 800px，button 宽度为 200px，并且在 native 端隐藏
 
 ```js
-import React from 'react';
+import React from "react";
 // 最终只需要包裹一个单词的声明
 export default () => {
-  return <div inlist="width:100px; height:50px; @md:width:200px; @native:display:none;">Button</div>;
+  return (
+    <div inlist="width:100px; height:50px; @md:width:200px; @native:display:none;">
+      Button
+    </div>
+  );
 };
 ```
-
 
 # 订制组件
 
@@ -249,12 +263,12 @@ export default () => {
 它和自定义样式或媒体查询的区别是它的值是一个单纯的字符串：
 
 ```js
-import React from 'react';
-import cssin, { addSheets } from 'cssin';
+import React from "react";
+import cssin, { addSheets } from "cssin";
 
 addSheets({
   // 区别于自定义样式，组件的值是一个字符串，它遵循 cssin 语法，可以调用其他组件和自定义样式
-  button: 'bgc:#f66; hover:bgc:#f22; padding:8px; color:--button-color;',
+  button: "bgc:#f66; hover:bgc:#f22; padding:8px; color:--button-color;"
 });
 
 // 最终只需要包裹一个单词的声明
@@ -274,20 +288,20 @@ export default () => {
 index.js
 
 ```js
-import React from 'react';
-import { coverAttribute } from 'cssin';
+import React from "react";
+import { coverAttribute } from "cssin";
 
 // 这里我们覆盖inlist对象，它会模拟 className={cssin`...`}
-coverAttribute('inlist');
+coverAttribute("inlist");
 
 // 请确保 coverAttribute 在 ReactDOM.render 之前执行
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(<App />, document.getElementById("root"));
 ```
 
 App.js
 
 ```js
-import React from 'react';
+import React from "react";
 
 // 最终只需要一个单词的声明，就像原生声明一样
 export const App = () => {
@@ -302,13 +316,15 @@ export const App = () => {
 inlint 可以和 className 一起使用，前提是 className 必须在 inlist 之前声明
 
 ```js
-import React from 'react';
+import React from "react";
 
 // 最终只需要一个单词的声明，就像原生声明一样
 export const App = () => {
   return (
     <div>
-      <div className="" inlist="button">Button</div>
+      <div className="" inlist="button">
+        Button
+      </div>
     </div>
   );
 };
@@ -327,7 +343,7 @@ export const App = () => {
 此时传入的字符串只会被当成单纯的 css 样式进行注入至 html 中
 
 ```js
-import cssin from 'cssin';
+import cssin from "cssin";
 
 cssin`
   body {
@@ -348,8 +364,8 @@ cssin`
 其他地方定义的原生的 css 可以和 cssin 混合使用，只需要在属性名前面增加 `.`:
 
 ```js
-import React from 'react';
-import cssin from 'cssin';
+import React from "react";
+import cssin from "cssin";
 
 // 使用 .box 引用 css 样式
 export default () => {
@@ -364,33 +380,40 @@ cssin 提供了一整套自定义样式集合及 css-value 集合，它精心设
 默认情况下 cssin 并未配置它，如果我们需要可以如下配置：
 
 ```js
-import 'cssin/commonSheets'; // 引入 sheets集合
-import 'cssin/commonValues'; // 引入 css-value 集合
+import "cssin/commonSheets"; // 引入 sheets集合
+import "cssin/commonCSSValues"; // 引入 css-value 集合
 ```
 
 我们可以查看这两个文件，就是对 cssin API 简单的运用，也欢迎有朋友提供更好的自定义样式及组件：
 
 [commonSheets.ts](https://github.com/ymzuiku/cssin/blob/master/lib/commonSheets.ts)
 
-[commonValues.ts](https://github.com/ymzuiku/cssin/blob/master/lib/commonValues.ts)
+[commonCSSValues.ts](https://github.com/ymzuiku/cssin/blob/master/lib/commonCSSValues.ts)
 
 # 性能开销
 
-cssin 虽然是运行时创建css样式，但是它有着极低的性能开销。
+cssin 虽然是运行时创建 css 样式，但是它有着极低的性能开销。
 
-我们可以看到，创建重复执行500次，每次大约创建20条样式，只消耗了 `1.6ms`, 这是因为cssin会对整体属性做缓存，还会对子属性创建css样式做缓存：
+我们可以看到，创建重复执行 500 次，每次大约创建 20 条样式，只消耗了 `1.6ms`, 这是因为 cssin 会对整体属性做缓存，还会对子属性创建 css 样式做缓存：
 
 ```js
 console.time(t);
-for(let i = 0; i<500;i++) {
-  cssin(`transition:all 0.1s ease-in; box-shadow:--shadow-1lg; hover:box-shadow:--shadow-1md; active:box-shadow:--shadow-sm1;`)
-  cssin(`transition:all 0.2s ease-in; box-shadow:--shadow-2lg; hover:box-shadow:--shadow-2md; active:box-shadow:--shadow-sm2;`)
-  cssin(`transition:all 0.3s ease-in; box-shadow:--shadow-3lg; hover:box-shadow:--shadow-3md; active:box-shadow:--shadow-sm3;`)
-  cssin(`transition:all 0.4s ease-in; box-shadow:--shadow-4lg; hover:box-shadow:--shadow-4md; active:box-shadow:--shadow-sm4;`)
+for (let i = 0; i < 500; i++) {
+  cssin(
+    `transition:all 0.1s ease-in; box-shadow:--shadow-1lg; hover:box-shadow:--shadow-1md; active:box-shadow:--shadow-sm1;`
+  );
+  cssin(
+    `transition:all 0.2s ease-in; box-shadow:--shadow-2lg; hover:box-shadow:--shadow-2md; active:box-shadow:--shadow-sm2;`
+  );
+  cssin(
+    `transition:all 0.3s ease-in; box-shadow:--shadow-3lg; hover:box-shadow:--shadow-3md; active:box-shadow:--shadow-sm3;`
+  );
+  cssin(
+    `transition:all 0.4s ease-in; box-shadow:--shadow-4lg; hover:box-shadow:--shadow-4md; active:box-shadow:--shadow-sm4;`
+  );
 }
 console.timeEnd(t); // 1.60009765625ms
 ```
-
 
 ### 现在开始使用它：
 

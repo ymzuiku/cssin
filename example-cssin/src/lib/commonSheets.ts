@@ -1,10 +1,10 @@
-import { addSheets } from './index';
+import { addSheets } from "./index";
 
 const flexCode = {
-  start: 'flex-start',
-  end: 'flex-end',
-  between: 'space-between',
-  around: 'space-around',
+  start: "flex-start",
+  end: "flex-end",
+  between: "space-between",
+  around: "space-around"
 };
 
 export const commonSheets = {
@@ -42,40 +42,37 @@ export const commonSheets = {
   br: (v: any) => `{ border-right: ${v}; }`,
   bb: (v: any) => `{ border-bottom: ${v}; }`,
   bl: (v: any) => `{ border-left: ${v}; }`,
-  'b-t': (v: any) => `{ border-top: ${v} solid; }`,
-  'b-r': (v: any) => `{ border-right: ${v} solid; }`,
-  'b-l': (v: any) => `{ border-left: ${v} solid; }`,
-  'b-b': (v: any) => `{ border-bottom: ${v} solid; }`,
-  'b-color': (v: any) => `{ border-color: ${v}; }`,
-  'b-style': (v: any) => `{ border-style: ${v}; }`,
+  "b-color": (v: any) => `{ border-color: ${v}; }`,
+  "b-style": (v: any) => `{ border-style: ${v}; }`,
   radius: (v: any) => `{ border-radius: ${v}; }`,
-  'radius-t-l': (v: any) => `{ border-top-left-radius: ${v}; }`,
-  'radius-t-r': (v: any) => `{ border-top-right-radius: ${v}; }`,
-  'radius-b-l': (v: any) => `{ border-bottom-left-radius: ${v}; }`,
-  'radius-b-r': (v: any) => `{ border-bottom-right-radius: ${v}; }`,
+  "radius-t-l": (v: any) => `{ border-top-left-radius: ${v}; }`,
+  "radius-t-r": (v: any) => `{ border-top-right-radius: ${v}; }`,
+  "radius-b-l": (v: any) => `{ border-bottom-left-radius: ${v}; }`,
+  "radius-b-r": (v: any) => `{ border-bottom-right-radius: ${v}; }`,
   font: (v: any) => `{ font-size: ${v}; }`,
   // theme
   bg: (v: any) => `{ background: ${v}; }`,
   bgc: (v: any) => `{ background-color: ${v}; }`,
   // anime
-  'ease-in': (v: any) => `{ transition: all ${v} ease-in; }`,
-  'ease-in-out': (v: any) => `{ transition: all ${v} ease-in-out; }`,
+  "ease-in": (v: any) => `{ transition: all ${v} ease-in; }`,
+  "ease-in-out": (v: any) => `{ transition: all ${v} ease-in-out; }`,
   scale: (v: any) => `{ transform: scale(${v}, ${v})}; }`,
-  center: 'display:flex; flex-direction:column; justify-content:center; align-items:center;',
-  full: 'width:100%; height:100%;',
-  row: 'display:flex; flex-direction:row;',
-  'row-reverse': 'display:flex; flex-direction:row-reverse;',
-  col: 'display:flex; flex-direction:column;',
-  'col-reverse': 'display:flex; flex-direction:column-reverse;',
-  fixed: 'position:fixed;',
-  static: 'position:static;',
-  absolute: 'position:absolute;',
-  relative: 'position:relative;',
-  sticky: 'position:sticky;',
-  left: 'left:0px;',
-  top: 'top:0px;',
-  right: 'right:0px;',
-  bottom: 'bottom:0px;',
+  center:
+    "display:flex; flex-direction:column; justify-content:center; align-items:center;",
+  full: "width:100%; height:100%;",
+  row: "display:flex; flex-direction:row;",
+  "row-reverse": "display:flex; flex-direction:row-reverse;",
+  col: "display:flex; flex-direction:column;",
+  "col-reverse": "display:flex; flex-direction:column-reverse;",
+  fixed: "position:fixed;",
+  static: "position:static;",
+  absolute: "position:absolute;",
+  relative: "position:relative;",
+  sticky: "position:sticky;",
+  left: "left:0px;",
+  top: "top:0px;",
+  right: "right:0px;",
+  bottom: "bottom:0px;"
 };
 
 addSheets(commonSheets);

@@ -1,7 +1,8 @@
-import { cssin, device } from './index';
+import * as device from "./device";
+import { cssin } from "./index";
 
 // 阻止双指放大
-document.addEventListener('gesturestart', (event) => {
+document.addEventListener("gesturestart", event => {
   event.preventDefault();
 });
 
