@@ -4,7 +4,7 @@
 import React from "react";
 
 export default () => (
-  <button inlist="bg:#f00; @md:display:none; padding:8px; hover:radius:8px; radius:4px">
+  <button inlist="bg:#f00; @md:display:none; hover:radius:8px; radius:4px">
     我是一个按钮
   </button>
 );
@@ -201,9 +201,7 @@ export default () => {
 由于这个模式很常见，所以在 cssin 中，它可以使用 `!` 直接表示 `!important`:
 
 ```js
-import React from "react";
-import cssin from "cssin";
-
+...
 export default () => {
   return (
     <div
@@ -216,7 +214,7 @@ export default () => {
       Button
     </div>
   );
-};
+};Z
 ```
 
 # 订制自定义样式
