@@ -1,3 +1,15 @@
+我们先看看我们最终的目标, 我们可以如何描述代码:
+
+```js
+import React from 'react';
+
+export default () => <button inlist="bg:#f00; @md:display:none; padding:8px; hover:radius:8px radius:4px">
+  我是一个按钮
+</button>
+```
+
+在这个文件中，我们 "似乎没有引入任何库"，就好像写内联样式一样，把样式描述、媒体查询、伪类都实现了, 并且可自定义样式名，如radius。
+
 # cssin
 
 cssin 是一个高度可定制的低级 CSS-In-JS 框架，它为您提供构建定制设计所需的所有构建模块，而无需任何令人讨厌的样式，你可以使用内联样式的所有语法，和其他扩展语法。
@@ -10,18 +22,6 @@ cssin 与众不同。
 cssin 提供了低级实用程序类，而不是固定的预先设计的组件，使您可以构建完全自定义的设计而无需离开 JS。
 
 cssin 生成的每个相同的样式值可以被重复引用，而不是重新创建。
-
-我们先看看使用了 cssin 之后, 最终我们可以如何描述代码:
-
-```js
-import React from 'react';
-
-export default () => <button inlist="bg:#f00; @md:display:none; padding:1.2rem; hover:radius:0.5rem radius:0.3rem">
-  我是一个按钮
-</button>
-```
-
-在这个文件中，我们 "似乎没有引入任何库"，就好像写内联样式一样，把样式描述、媒体查询、伪类都实现了。
 
 ### 理念
 
@@ -55,7 +55,7 @@ $ npm i cssin --save
 
 # 先看看展现形式
 
-example: [cssin.workos.top](http://cssin.workos.top)
+example: [navar.workos.top](http://navar.workos.top)
 
 在没有进行任何配置之前，cssin 的语法和内敛样式是一致的
 
@@ -69,7 +69,7 @@ document.body.style.setProperty('--button-color', '#fff');
 export default () => {
   return (
     <div
-      className={cssin`background-color:#f66; hover:background-color:#f33; padding:1.2rem; color:#000; border:2px solid #f33; @md:border-radius:2rem;`}>
+      className={cssin`background-color:#f66; hover:background-color:#f33; padding:8px; color:#000; border:2px solid #f33; @md:border-radius:4px;`}>
       Button
     </div>
   );
@@ -85,7 +85,7 @@ import React from 'react';
 import cssin from 'cssin';
 
 export default () => {
-  return <div className={cssin`btn:#f33, 1.2rem; hover:bg:#f33; @md:radius:2rem;`}>Button</div>;
+  return <div className={cssin`btn:#f33, 8px; hover:bg:#f33; @md:radius:4px;`}>Button</div>;
 };
 ```
 
@@ -121,7 +121,7 @@ export default () => {
 export default () => {
   return (
     <div
-      className={cssin`background-color:#f66; hover:background-color:#f33; padding:1.2rem; color:--button-color; border:2px solid #f33; @md:border-radius:2rem;`}>
+      className={cssin`background-color:#f66; hover:background-color:#f33; padding:8px; color:--button-color; border:2px solid #f33; @md:border-radius:4px;`}>
       Button
     </div>
   );
@@ -130,9 +130,9 @@ export default () => {
 
 上述代码有点像内联样式，但是又有一些不同，因为它可以实现伪类及更好的自定义，我们逐步分析:
 
-- 和编写内联样式一样的编写 css 样式, 如: `background-color: #f66; padding: 1.2rem;`
+- 和编写内联样式一样的编写 css 样式, 如: `background-color: #f66; padding: 4px;`
 - 直接使用伪类, 伪类在属性名之前，使用`:`分割如: `hover:background-color=#f33`
-- 可以直接描述媒体查询等功能, 媒体查询对象使用`@`开头, 如: `@md:border-radius=2rem`
+- 可以直接描述媒体查询等功能, 媒体查询对象使用`@`开头, 如: `@md:border-radius=4px`
 - 可以使用 css 变量，`color:--button-color` 等效于 `color:var(--button-color);`
 
 其他规则：
@@ -172,11 +172,11 @@ cssin 有一个 addSheets 属性用来添加样式映射表
 
 我们现在达成刚刚的约定，将：
 
-`background-color:#f66; hover:background-color:#f33; padding:1.2rem; color:--button-color; border:2px solid #f33; @md:border-radius:2rem;`
+`background-color:#f66; hover:background-color:#f33; padding:4px; color:--button-color; border:2px solid #f33; @md:border-radius:8px;`
 
 变成：
 
-`btn:#f33, 1.2rem; hover:bg:#f33; @md:radius:2rem;`
+`btn:#f33, 4px; hover:bg:#f33; @md:radius:8px;`
 
 ```js
 import React from 'react';
@@ -196,7 +196,7 @@ addSheets({
 
 // 使用自定义的样式
 export default () => {
-  return <div className={cssin`btn:#f33, 1.2rem; hover:bg:#f33; @md:radius:2rem;`}>Button</div>;
+  return <div className={cssin`btn:#f33, 4px; hover:bg:#f33; @md:radius:8px;`}>Button</div>;
 };
 ```
 
@@ -240,7 +240,7 @@ import cssin, { addSheets } from 'cssin';
 
 addSheets({
   // 区别于自定义样式，组件的值是一个字符串，它遵循 cssin 语法，可以调用其他组件和自定义样式
-  button: 'bgc:#f66; hover:bgc:#f22; padding:1.2rem; color:--button-color;',
+  button: 'bgc:#f66; hover:bgc:#f22; padding:8px; color:--button-color;',
 });
 
 // 最终只需要包裹一个单词的声明
@@ -339,7 +339,7 @@ import cssin from 'cssin';
 
 // 使用 .box 引用 css 样式
 export default () => {
-  return <div className={cssin`margin:2rem .box`}>Button</div>;
+  return <div inlist="margin:4px; .box">Button</div>;
 };
 ```
 
