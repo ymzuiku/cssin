@@ -330,7 +330,7 @@ export default () => {
 
 这里涉及一些魔法，请辩证的使用。
 
-作者在编写代码的时候不希望每次都引用 cssin，这对作者来说太过繁琐了，如果你也有这种感觉，可以使用 `coverAttribute`
+作者在编写代码的时候不希望每次都引用 cssin，这对作者来说太过繁琐了，如果你也有这种感觉，可以使用 cssin 的 `coverAttribute`
 
 index.js
 
