@@ -1,7 +1,10 @@
-
-
+import *  as device  from './device'
 const sheets = new Map();
 const coverCache = new Set();
+
+export {
+  device
+};
 
 export const coverAttribute = (attribute='inlist')=>{
   if (coverCache.has(attribute)) {
@@ -12,17 +15,6 @@ export const coverAttribute = (attribute='inlist')=>{
   const docCreate = document.createElement;
   document.createElement = function(name:any, option:any) {
     const ele = docCreate.call(document, name, option);
-
-    const setProperty = ele.style.setProperty;
-    ele.style.setProperty = (name:string, value:string, priority:string)=>{
-      if (name.indexOf('--:') === 0) {
-        setAttribute.call(ele, 'class', cssin(`${name.split('--:')[1]}:${value} !important;`));
-      } if (name.indexOf('--@') === 0) {
-        setAttribute.call(ele, 'class', cssin(`${name.split('--@')[1]}:${value} !important;`));
-      } else {
-        setProperty.call(ele.style, name, value, priority);
-      }
-    }
 
     const setAttribute = ele.setAttribute;
     ele.setAttribute = (name:any, value:any)=>{
@@ -56,6 +48,10 @@ addSheets({
   '@md': (v: string) => `@media (min-width: 768px) {${v}}`,
   '@lg': (v: string) => `@media (min-width: 1024px) {${v}}`,
   '@xl': (v: string) => `@media (min-width: 1280px) {${v}}`,
+  '@ios': (v: string) => `@media (min-width: ${device.isIos ? '0px': '9999px'}) {${v}}`,
+  '@android': (v: string) => `@media (min-width: ${device.isAndroid ? '0px': '9999px'}) {${v}}`,
+  '@native': (v: string) => `@media (min-width: ${device.isNative ? '0px': '9999px'}) {${v}}`,
+  '@pc': (v: string) => `@media (min-width: ${device.isPc ? '0px': '9999px'}) {${v}}`,
 });
 
 const appendCssCache = new Set();

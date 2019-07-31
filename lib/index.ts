@@ -1,7 +1,10 @@
-
-
+import *  as device  from './device'
 const sheets = new Map();
 const coverCache = new Set();
+
+export {
+  device
+};
 
 export const coverAttribute = (attribute='inlist')=>{
   if (coverCache.has(attribute)) {
@@ -12,8 +15,8 @@ export const coverAttribute = (attribute='inlist')=>{
   const docCreate = document.createElement;
   document.createElement = function(name:any, option:any) {
     const ele = docCreate.call(document, name, option);
-    const setAttribute = ele.setAttribute;
 
+    const setAttribute = ele.setAttribute;
     ele.setAttribute = (name:any, value:any)=>{
       if(name === attribute) {
         if ((ele as any).__temp_class__ ) {
@@ -45,6 +48,10 @@ addSheets({
   '@md': (v: string) => `@media (min-width: 768px) {${v}}`,
   '@lg': (v: string) => `@media (min-width: 1024px) {${v}}`,
   '@xl': (v: string) => `@media (min-width: 1280px) {${v}}`,
+  '@ios': (v: string) => `@media (min-width: ${device.isIos ? '0px': '9999px'}) {${v}}`,
+  '@android': (v: string) => `@media (min-width: ${device.isAndroid ? '0px': '9999px'}) {${v}}`,
+  '@native': (v: string) => `@media (min-width: ${device.isNative ? '0px': '9999px'}) {${v}}`,
+  '@pc': (v: string) => `@media (min-width: ${device.isPc ? '0px': '9999px'}) {${v}}`,
 });
 
 const appendCssCache = new Set();

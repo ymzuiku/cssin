@@ -27,13 +27,10 @@ export const App: React.FC = () => {
         <button className="test" inlist="background:--gray-300; padding:1.2rem; marge:0.5rem; border-radius:0.3rem">
           我是一个按钮
         </button>
-        <div style={{backgroundColor:'#f00', '--:hover:background-color': '#00f'} as any}>
-          测试-style
-        </div>
         <code inlist="code; ml:1rem;">{doc.a}</code>
       </div>
       <div inlist="row; m:5rem; items:center;">
-        <button inlist="button">将样式打包成组件</button>
+        <button inlist="button; @native:display:none;">将样式打包成组件</button>
         <div>
           <code inlist="code; color:#333; m:1rem;">创建一个组件：button</code>
           <code inlist="code; ml:1rem;">{doc.b1}</code>

@@ -206,25 +206,39 @@ export default () => {
 
 # 定制媒体查询
 
-cssin 默认配置了 4 个级别的媒体查询，我们可以覆盖它或者创建新的规则
+cssin 默认配置了 4 个尺寸级别的媒体查询，和基于设备媒体查询，我们可以覆盖它或者创建新的规则
 
 注意，我们约定，只有以 `@` 开头的才是媒体查询对象
 
 ```js
 // 默认的媒体查询
 addSheets({
-  '@sm': (v) => `@media (min-width: 640px) {${v}}`,
-  '@md': (v) => `@media (min-width: 768px) {${v}}`,
-  '@lg': (v) => `@media (min-width: 1024px) {${v}}`,
-  '@xl': (v) => `@media (min-width: 1280px) {${v}}`,
+  '@sm': (v: string) => `@media (min-width: 640px) {${v}}`,
+  '@md': (v: string) => `@media (min-width: 768px) {${v}}`,
+  '@lg': (v: string) => `@media (min-width: 1024px) {${v}}`,
+  '@xl': (v: string) => `@media (min-width: 1280px) {${v}}`,
+  '@ios': (v: string) => `@media (min-width: ${device.isIos ? '0px': '9999px'}) {${v}}`,
+  '@android': (v: string) => `@media (min-width: ${device.isAndroid ? '0px': '9999px'}) {${v}}`,
+  '@native': (v: string) => `@media (min-width: ${device.isNative ? '0px': '9999px'}) {${v}}`,
+  '@pc': (v: string) => `@media (min-width: ${device.isPc ? '0px': '9999px'}) {${v}}`,
 });
-
-// 我们覆盖 @sm 以及创建一个 @xxl
+// 我们覆盖 @md 以及创建一个 @xxl
 addSheets({
   '@md': (v) => `@media (min-width: 800px) {${v}}`,
   '@xxl': (v) => `@media (min-width: 1920px) {${v}}`,
 });
 ```
+
+使用媒体查询，以下例子是屏幕宽度大于 800px，button宽度为200px，并且在 native 端隐藏
+
+```js
+import React from 'react';
+// 最终只需要包裹一个单词的声明
+export default () => {
+  return <div inlist="width:100px; height:50px; @md:width:200px; @native:display:none;">Button</div>;
+};
+```
+
 
 # 订制组件
 
