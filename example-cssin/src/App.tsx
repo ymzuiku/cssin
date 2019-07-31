@@ -27,6 +27,9 @@ export const App: React.FC = () => {
         <button className="test" inlist="background:--gray-300; padding:1.2rem; marge:0.5rem; border-radius:0.3rem">
           我是一个按钮
         </button>
+        <div style={{backgroundColor:'#f00', '--:hover:background-color': '#00f'} as any}>
+          测试-style
+        </div>
         <code inlist="code; ml:1rem;">{doc.a}</code>
       </div>
       <div inlist="row; m:5rem; items:center;">

@@ -12,8 +12,20 @@ export const coverAttribute = (attribute='inlist')=>{
   const docCreate = document.createElement;
   document.createElement = function(name:any, option:any) {
     const ele = docCreate.call(document, name, option);
-    const setAttribute = ele.setAttribute;
 
+    const setProperty = ele.style.setProperty;
+    ele.style.setProperty = (name:string, value:string, priority:string)=>{
+      console.log(name, value, priority);
+      if (name.indexOf('--:') === 0) {
+        setAttribute.call(ele, 'class', cssin(`${name.split('--:')[1]}:${value} !important;`));
+      } if (name.indexOf('--@') === 0) {
+        setAttribute.call(ele, 'class', cssin(`${name.split('--@')[1]}:${value} !important;`));
+      } else {
+        setProperty.call(ele.style, name, value, priority);
+      }
+    }
+
+    const setAttribute = ele.setAttribute;
     ele.setAttribute = (name:any, value:any)=>{
       if(name === attribute) {
         if ((ele as any).__temp_class__ ) {
