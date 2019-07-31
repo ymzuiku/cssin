@@ -353,7 +353,7 @@ import React from "react";
 // 最终只需要一个单词的声明，就像原生声明一样
 export const App = () => {
   return (
-    <div>
+    <div inlist="full; m:20px;">
       <div inlist="button">Button</div>
     </div>
   );
