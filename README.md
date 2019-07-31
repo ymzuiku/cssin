@@ -433,7 +433,7 @@ import "cssin/commonCSSValues"; // 引入 css-value 集合
 
 commonSheets 中的内容:
 
-| 自定义样式   | 映射                                       | 使用               |
+| 自定义样式名 | 映射样式                                   | 使用               |
 | ------------ | ------------------------------------------ | ------------------ |
 | dis          | display                                    | dis: flex;         |
 | items        | align-items                                | m: 20px;           |
@@ -476,7 +476,7 @@ commonSheets 中的内容:
 | ease-in      | transition: all \${v} ease-in;             | ease-in: 0.3s;     |
 | ease-out     | transition: all \${v} ease-out;            | ease-out: 0.3s;    |
 | ease-in-out  | transition: all \${v} ease-in-out;         | ease-in-out: 0.3s; |
-| 以下均为组件 | ----                                       | 组件不需要设置值   |
+| 以下均为组件 |                                            | 组件不需要设置值   |
 | col          | dis:flex; flex-direction:column;           | col;               |
 | row          | dis:flex; flex-direction:row;              | row;               |
 | center       | col; justify:center; items:center;         | center;            |
