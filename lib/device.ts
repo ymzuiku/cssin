@@ -40,7 +40,8 @@ export const isIPhoneXR =
   iw === 414 &&
   ih === 896;
 
-export const onePx = dp ? 1 / dp + 0.01 : 1;
+export const hair = dp && dp > 1 ? 0.35 : 1;
+export const line = dp && dp > 1 ? 0.48 : 1;
 
 export const isNeedIPhoneSafe = isIPhoneX || isIPhoneXSMax || isIPhoneXR;
 
