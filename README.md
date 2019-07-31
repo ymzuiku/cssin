@@ -504,9 +504,20 @@ commonCSSValues 设置了一些 css-value, 其中的颜色、尺寸分类、投�
 import React from "react";
 import cssin from "cssin";
 
-// 使用 .box 引用 css 样式
+// 使用默认的自定义样式和 css-value 配合使用
 export default () => {
-  return <div className={cssin`bg:--gray-200`}>Button</div>;
+  return (
+    <div
+      className={cssin`
+        bg:--gray-200; 
+        p:--2; 
+        font:--font-sm; 
+        box-shadow:--shadow-xl
+      `}
+    >
+      Button
+    </div>
+  );
 };
 ```
 
