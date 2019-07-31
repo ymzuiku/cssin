@@ -468,6 +468,6 @@ console.timeEnd(t); // 1.60009765625ms
 $ npm i cssin --save
 ```
 
-仓库地址：
+欢迎使用和提出贡献，仓库地址：
 
 [github.com/ymzuiku/cssin](https://github.com/ymzuiku/cssin)
