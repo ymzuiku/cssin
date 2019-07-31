@@ -436,7 +436,7 @@ commonSheets 中的内容:
 | 自定义样式名 | 映射样式                                   | 使用               |
 | ------------ | ------------------------------------------ | ------------------ |
 | dis          | display                                    | dis: flex;         |
-| items        | align-items                                | m: 20px;           |
+| items        | align-items                                | items: 20px;       |
 | justify      | justify-content                            | justify: start;    |
 | self         | align-self                                 | self: center;      |
 | content      | align-content                              | content: end;      |
