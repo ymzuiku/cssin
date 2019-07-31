@@ -3,12 +3,12 @@
 ```js
 import React from 'react';
 
-export default () => <button inlist="bg:#f00; @md:display:none; padding:8px; hover:radius:8px radius:4px">
+export default () => <button inlist="bg:#f00; @md:display:none; padding:8px; hover:radius:8px; radius:4px">
   我是一个按钮
 </button>
 ```
 
-在这个文件中，我们 "似乎没有引入任何库"，就好像写内联样式一样，把样式描述、媒体查询、伪类都实现了, 并且可自定义样式名，如radius。
+在这个文件中，我们 "似乎没有引入任何库"，就好像写内联样式一样，把样式描述、媒体查询、伪类都实现了, 并且可自定义样式名，如 bg、radius。
 
 # cssin
 
