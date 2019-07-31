@@ -1,0 +1,16 @@
+export declare const isAndroid: boolean;
+export declare const isFireFox: boolean;
+export declare const isChrome: boolean;
+export declare const isTablet: boolean;
+export declare const isIos: boolean;
+export declare const isWechat: boolean;
+export declare const isPc: boolean;
+export declare const isLow = false;
+export declare const isIPhoneX: boolean;
+export declare const isIPhoneXSMax: boolean;
+export declare const isIPhoneXR: boolean;
+export declare const onePx: number;
+export declare const isNeedIPhoneSafe: boolean;
+export declare const isNative: boolean;
+export declare const topSafe: number;
+export declare const bottomSafe: number;
