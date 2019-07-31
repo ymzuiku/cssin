@@ -505,7 +505,7 @@ commonCSSValues 设置了一些 css-value, 其中的颜色、尺寸分类、投�
 ![](https://github.com/ymzuiku/cssin/blob/master/imgs/3.png)
 ![](https://github.com/ymzuiku/cssin/blob/master/imgs/4.png)
 
-使用预设之后的示例：
+使用预设的示例：
 
 ```js
 import React from "react";
