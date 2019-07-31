@@ -62,6 +62,7 @@ export const commonSheets = {
   'ease-in-out': (v: any) => `{ transition: all ${v} ease-in-out; }`,
   scale: (v: any) => `{ transform: scale(${v}, ${v})}; }`,
   center: 'display:flex; flex-direction:column; justify-content:center; align-items:center;',
+  full: 'width:100%; height:100%;',
   row: 'display:flex; flex-direction:row;',
   'row-reverse': 'display:flex; flex-direction:row-reverse;',
   col: 'display:flex; flex-direction:column;',
