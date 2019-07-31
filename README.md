@@ -171,6 +171,54 @@ cssin`@md:hover:border:1px solid #f00;`;
 
 cssin 最后生成的还是 css 样式，所以不会有以上的问题
 
+# 如果更喜欢编写 style 属性
+
+有的朋友更喜欢编写 style 属性，但是 style 中的一个痛点是无法实现伪类或媒体查询。
+
+cssin 足够轻量，我们也可以仅仅使用它的伪类或媒体查询特性，来配合 style 属性进行项目样式的编写.
+
+不过我们要注意，style 中编写的属性权重默认高于 className 中的样式，所以需要添加 `!important`:
+
+```js
+import React from "react";
+import cssin from "cssin";
+
+export default () => {
+  return (
+    <div
+      className={cssin`hover:background:#f00 !important;`}
+      style={{
+        background: "#00f",
+        fontSize: "20px"
+      }}
+    >
+      Button
+    </div>
+  );
+};
+```
+
+由于这个模式很常见，所以在 cssin 中，它可以使用 `!` 直接表示 `!important`:
+
+```js
+import React from "react";
+import cssin from "cssin";
+
+export default () => {
+  return (
+    <div
+      className={cssin`hover:background:#f00!;`}
+      style={{
+        background: "#00f",
+        fontSize: "20px"
+      }}
+    >
+      Button
+    </div>
+  );
+};
+```
+
 # 订制自定义样式
 
 和众多 css 框架一样，cssin 允许你自定义样式集，这样可以用更简短的声明来描述样式
@@ -322,7 +370,7 @@ import React from "react";
 export const App = () => {
   return (
     <div>
-      <div className="" inlist="button">
+      <div className="app-box" inlist="button">
         Button
       </div>
     </div>

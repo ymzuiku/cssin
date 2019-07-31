@@ -140,7 +140,7 @@ export default () => {
 - 和编写内联样式一样的编写 css 样式, 如: `background-color: #f66; padding: 4px;`
 - 直接使用伪类, 伪类在属性名之前，使用`:`分割如: `hover:background-color=#f33`
 - 可以直接描述媒体查询等功能, 媒体查询对象使用`@`开头, 如: `@md:border-radius=4px`
-- 可以使用 css 变量，`color:--button-color` 等效于 `color:var(--button-color);`
+- 如果值是一个**单一**的 css 变量， 如 `color:--button-color`； 等效于 `color:var(--button-color);`
 
 其他规则：
 
@@ -170,6 +170,54 @@ cssin`@md:hover:border:1px solid #f00;`;
 4. 并且默认优先级比 css 高，css 和 内联样式混合使用需要注意优先级；
 
 cssin 最后生成的还是 css 样式，所以不会有以上的问题
+
+# 如果更喜欢编写 style 属性
+
+有的朋友更喜欢编写 style 属性，但是 style 中的一个痛点是无法实现伪类或媒体查询。
+
+cssin 足够轻量，我们也可以仅仅使用它的伪类或媒体查询特性，来配合 style 属性进行项目样式的编写.
+
+不过我们要注意，style 中编写的属性权重默认高于 className 中的样式，所以需要添加 `!important`:
+
+```js
+import React from "react";
+import cssin from "cssin";
+
+export default () => {
+  return (
+    <div
+      className={cssin`hover:background:#f00 !important;`}
+      style={{
+        background: "#00f",
+        fontSize: "20px"
+      }}
+    >
+      Button
+    </div>
+  );
+};
+```
+
+由于这个模式很常见，所以在 cssin 中，它可以使用 `!` 直接表示 `!important`:
+
+```js
+import React from "react";
+import cssin from "cssin";
+
+export default () => {
+  return (
+    <div
+      className={cssin`hover:background:#f00!;`}
+      style={{
+        background: "#00f",
+        fontSize: "20px"
+      }}
+    >
+      Button
+    </div>
+  );
+};
+```
 
 # 订制自定义样式
 
@@ -322,7 +370,7 @@ import React from "react";
 export const App = () => {
   return (
     <div>
-      <div className="" inlist="button">
+      <div className="app-box" inlist="button">
         Button
       </div>
     </div>

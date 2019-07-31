@@ -1,10 +1,23 @@
 import * as device from "./device";
 
+/* 设备信息，用于辅助设置媒体查询 */
 export { device };
 
+/* 所有样式表 */
 const sheets = new Map();
+/* 由于某些使用 cssin 的组件库会设置 coverAttribute，防止项目和组件库重复设置，故记录缓存 */
 const coverCache = new Set();
 
+/* 添加自定义样式表，例：addSheets({ mb: (v: any) => `{ margin-bottom: ${v}; }`})  */
+export const addSheets = (objs: { [key: string]: any }) => {
+  Object.keys(objs).forEach(key => {
+    sheets.set(key, objs[key]);
+  });
+
+  return sheets;
+};
+
+/* 覆盖某个 setAttribute 属性，默认是 'inlist'  */
 export const coverAttribute = (attribute = "inlist") => {
   if (coverCache.has(attribute)) {
     return;
@@ -38,14 +51,7 @@ export const coverAttribute = (attribute = "inlist") => {
   // tslint:enable
 };
 
-export const addSheets = (objs: { [key: string]: any }) => {
-  Object.keys(objs).forEach(key => {
-    sheets.set(key, objs[key]);
-  });
-
-  return sheets;
-};
-
+/* 添加默认的媒体查询和设备查询 */
 addSheets({
   "@sm": (v: string) => `@media (min-width: 640px) {${v}}`,
   "@md": (v: string) => `@media (min-width: 768px) {${v}}`,
@@ -61,8 +67,10 @@ addSheets({
     `@media (min-width: ${device.isPc ? "0px" : "9999px"}) {${v}}`
 });
 
+/* 用于缓存 css 片段的插入 */
 const appendCssCache = new Set();
 
+/* 用于插入css片段 */
 const appendCss = (css: string) => {
   if (appendCssCache.has(css)) {
     return;
@@ -75,24 +83,33 @@ const appendCss = (css: string) => {
   document.head.appendChild(ele);
 };
 
+/* 用于缓存 cssin 的计算逻辑 */
 const cssinCache = new Map();
 
+/* cssin 的主函数，用于实现 cssin 语法，返回用于 className 的字符串 */
 export const cssin = (inlist: any) => {
+  // 实现 tagged-template
   const param = typeof inlist === "string" ? inlist : inlist.join("");
 
+  // 如果计算过，直接返回结果
   if (cssinCache.has(param)) {
     return cssinCache.get(param);
   }
 
+  // 如果内容包含 {, 表示是一个纯 css，只需要插入内容，不需要计算 className
   if (param.indexOf("{") > 0) {
     appendCss(param);
+    // 记录缓存
+    cssinCache.set(param, param);
 
     return "";
   }
 
+  // 得到属性列表
   const list = param.split(";");
   let classname = "";
 
+  // 开始计算每一个属性
   list.forEach((str: string) => {
     str = str.trim();
     if (str === "") {
@@ -129,30 +146,51 @@ export const cssin = (inlist: any) => {
     }
     let value = obj[obj.length - 1] || "";
     value = value.trim();
+
+    // 记录 important 逻辑
+    let isImportant = false;
+    if (value[value.length - 1] === "!") {
+      isImportant = true;
+      value = value.substr(0, value.length - 1);
+    }
+
+    // 实现 --value -> var(--value)
     if (value.indexOf("--") === 0) {
       value = `var(${value})`;
     }
 
-    /** 计算并插入css */
+    // 实现 ! -> !important
+    if (isImportant) {
+      value = `${value} !important`;
+    }
+
+    // 计算并插入css
     let css = "";
     let block = "";
     const mediaSheet = media[0] === "@" ? sheets.get(media) : "";
     const cssSheet = sheets.get(sheet);
 
+    // 如果是 sheet，使用 cssSheet 返回 block，
+    // 如果是 string(component)，直接使用 value, 因为 value 在其他逻辑已然计算过了
     block =
       typeof cssSheet === "function" ? cssSheet(value) : `{${sheet}:${value};}`;
 
+    // 拼装 css 内容
     css = `.${name}${hover ? ":" : ""}${hover} ${block}`;
 
+    // 实现媒体查询类的 sheet
     if (typeof mediaSheet === "function") {
       css = mediaSheet(css);
     }
 
-    /** 插入css, 返回拼接 */
+    // 插入css，内部做拦截
     appendCss(css);
+
+    // 返回拼接后的 classname
     classname += `${name} `;
   });
 
+  // 记录缓存
   cssinCache.set(param, classname);
 
   return classname;
