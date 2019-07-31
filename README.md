@@ -384,7 +384,7 @@ import "cssin/commonSheets"; // 引入 sheets集合
 import "cssin/commonCSSValues"; // 引入 css-value 集合
 ```
 
-我们可以查看这两个文件，就是对 cssin API 简单的运用，也欢迎有朋友提供更好的自定义样式及组件：
+我们可以查看这两个文件，它们只是使用 cssin API 的简单配置，也欢迎有朋友提供更好的自定义样式及组件：
 
 [commonSheets.ts](https://github.com/ymzuiku/cssin/blob/master/lib/commonSheets.ts)
 
