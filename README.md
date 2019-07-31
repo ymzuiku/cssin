@@ -140,7 +140,7 @@ export default () => {
 - 和编写内联样式一样的编写 css 样式, 如: `background-color: #f66; padding: 4px;`
 - 直接使用伪类, 伪类在属性名之前，使用`:`分割如: `hover:background-color=#f33`
 - 可以直接描述媒体查询等功能, 媒体查询对象使用`@`开头, 如: `@md:border-radius=4px`
-- 可以使用 css 变量，`color:--button-color` 等效于 `color:var(--button-color);`
+- 如果值是一个**单一**的 css 变量， 如 `color:--button-color`； 等效于 `color:var(--button-color);`
 
 其他规则：
 
