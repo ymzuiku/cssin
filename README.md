@@ -493,10 +493,10 @@ commonSheets 中的内容:
 
 commonCSSValues 设置了一些 css-value, 其中的颜色、尺寸分类、投影均取自于 tailwindCSS 的配置：
 
-!()[https://github.com/ymzuiku/cssin/blob/master/imgs/1.png]
-!()[https://github.com/ymzuiku/cssin/blob/master/imgs/2.png]
-!()[https://github.com/ymzuiku/cssin/blob/master/imgs/3.png]
-!()[https://github.com/ymzuiku/cssin/blob/master/imgs/4.png]
+![](https://github.com/ymzuiku/cssin/blob/master/imgs/1.png)
+![](https://github.com/ymzuiku/cssin/blob/master/imgs/2.png)
+![](https://github.com/ymzuiku/cssin/blob/master/imgs/3.png)
+![](https://github.com/ymzuiku/cssin/blob/master/imgs/4.png)
 
 使用示例子：
 
