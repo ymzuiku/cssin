@@ -50,13 +50,16 @@ export const commonSheets = {
   bg: (v: any) => `{ background: ${v}; }`,
   bgc: (v: any) => `{ background-color: ${v}; }`,
   // anime
+  linear: (v: any) => `{ transition: all ${v} linear; }`,
+  ease: (v: any) => `{ transition: all ${v} ease; }`,
   "ease-in": (v: any) => `{ transition: all ${v} ease-in; }`,
   "ease-out": (v: any) => `{ transition: all ${v} ease-out; }`,
   "ease-in-out": (v: any) => `{ transition: all ${v} ease-in-out; }`,
-  "move-x": (v: any) => `{ transform: translateX(${v})}; }`,
-  "move-y": (v: any) => `{ transform: translateY(${v})}; }`,
-  rotate: (v: any) => `{ transform: rotate(${v}deg)}; }`,
-  scale: (v: any) => `{ transform: scale(${v}, ${v})}; }`,
+  "move-x": (v: any) => `{ transform: translateX(${v}); }`,
+  "move-y": (v: any) => `{ transform: translateY(${v}); }`,
+  "move-z": (v: any) => `{ transform: translateZ(${v}); }`,
+  rotate: (v: any) => `{ transform: rotate(${v}deg); }`,
+  scale: (v: any) => `{ transform: scale(${v}, ${v}); }`,
   center:
     "display:flex; flex-direction:column; justify-content:center; align-items:center;",
   full: "width:100%; height:100%;",
@@ -74,7 +77,7 @@ export const commonSheets = {
   top: "top:0px;",
   right: "right:0px;",
   bottom: "bottom:0px;",
-  bold: `font-weight: bold`
+  bold: "font-weight: bold"
 };
 
 addSheets(commonSheets);

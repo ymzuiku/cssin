@@ -473,9 +473,16 @@ commonSheets 中的内容:
 | font         | font-size                                  | font: 1.25rem;     |
 | bg           | background                                 | background: #f00;  |
 | bgc          | background-color                           | bgc: #f00;         |
+| linear       | transition: all \${v} linear;              | linear: 0.3s;      |
+| ease         | transition: all \${v} ease;                | ease: 0.3s;        |
 | ease-in      | transition: all \${v} ease-in;             | ease-in: 0.3s;     |
 | ease-out     | transition: all \${v} ease-out;            | ease-out: 0.3s;    |
 | ease-in-out  | transition: all \${v} ease-in-out;         | ease-in-out: 0.3s; |
+| move-x       | transform: translateX(\${v});              | move-x: 50%;       |
+| move-y       | transform: translateY(\${v});              | move-y: 50%;       |
+| move-z       | transform: translateZ(\${v});              | move-z: 50%;       |
+| rotate       | transform: rotate(\${v}deg);               | rotate: 180;       |
+| scale        | transform: scale(\${v}, \${v});            | scale: 0.7;        |
 | 以下均为组件 |                                            | 组件不需要设置值   |
 | col          | dis:flex; flex-direction:column;           | col;               |
 | row          | dis:flex; flex-direction:row;              | row;               |
