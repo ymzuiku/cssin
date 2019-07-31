@@ -1,6 +1,4 @@
-import { cssin } from './index';
-import { topSafe, bottomSafe, onePx } from './device'
-
+import { cssin, device } from './index';
 
 // 阻止双指放大
 document.addEventListener('gesturestart', (event) => {
@@ -70,9 +68,9 @@ button {
 }
 
 :root {
-  --top-safe: ${topSafe}px;
-  --bottom-safe: ${bottomSafe}px;
-  --px1: ${onePx}px;
+  --top-safe: ${device.topSafe}px;
+  --bottom-safe: ${device.bottomSafe}px;
+  --px1: ${device.onePx}px;
   --family-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   --family-serif: Georgia, Cambria, "Times New Roman", Times, serif;
   --family-mono: Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
