@@ -161,8 +161,6 @@ export default () => {
 cssin`@md:hover:border:1px solid #f00;`;
 ```
 
-还有另外两条规则，不过我们可以先跳过它，在后文会有更详细的描述
-
 ### 为什么不直接编写 style 内联样式？
 
 1. style 样式无法完全描述 css 的功能，如媒体查询、伪类等等 style；
