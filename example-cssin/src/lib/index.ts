@@ -89,7 +89,7 @@ const cssinCache = new Map();
 /* cssin 的主函数，用于实现 cssin 语法，返回用于 className 的字符串 */
 export const cssin = (inlist: any) => {
   // 实现 tagged-template
-  const param = typeof inlist === "string" ? inlist : inlist.join("");
+  const param = typeof inlist === "string" ? inlist : (inlist ? inlist.join("") : '');
 
   // 如果计算过，直接返回结果
   if (cssinCache.has(param)) {
