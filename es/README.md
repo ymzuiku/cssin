@@ -161,8 +161,6 @@ export default () => {
 cssin`@md:hover:border:1px solid #f00;`;
 ```
 
-还有另外两条规则，不过我们可以先跳过它，在后文会有更详细的描述
-
 ### 为什么不直接编写 style 内联样式？
 
 1. style 样式无法完全描述 css 的功能，如媒体查询、伪类等等 style；
@@ -505,7 +503,7 @@ commonCSSValues 设置了一些 css-value, 其中的颜色、尺寸分类、投�
 ![](https://github.com/ymzuiku/cssin/blob/master/imgs/3.png)
 ![](https://github.com/ymzuiku/cssin/blob/master/imgs/4.png)
 
-使用示例子：
+使用预设的示例：
 
 ```js
 import React from "react";
