@@ -53,6 +53,8 @@ export const coverAttribute = (attribute = "inlist") => {
 
 /* 添加默认的媒体查询和设备查询 */
 addSheets({
+  // 用来占位置，使用运算拦截会产生 undefined;
+  undefined: "",
   "@sm": (v: string) => `@media (min-width: 640px) {${v}}`,
   "@md": (v: string) => `@media (min-width: 768px) {${v}}`,
   "@lg": (v: string) => `@media (min-width: 1024px) {${v}}`,

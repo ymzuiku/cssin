@@ -1,11 +1,11 @@
 {
   "name": "cssin",
-  "version": "1.2.10",
+  "version": "1.2.11",
   "main": "index.js",
   "types": "index.d.ts",
   "license": "MIT",
   "scripts": {
-    "copy": "cp -rf copy es",
+    "copy": "cp -rf cssinCommon es",
     "lib": "tscu example-cssin/src/lib --outDir es --outLib lib -t es5 --copy 'package.json, README.md, .npmignore' && yarn copy"
   },
   "devDependencies": {

@@ -37,7 +37,7 @@ export const commonSheets = {
   "h-min": (v: any) => `{ min-height: ${v}; }`,
   "h-max": (v: any) => `{ maxHeight: ${v}; }`,
   "h-min-max": (v: any) =>
-    `{ height: ${v}; min-height: ${v}; max-width: ${v}; }`,
+      `{ height: ${v}; min-height: ${v}; max-width: ${v}; }`,
   b: (v: any) => `{ border: ${v} solid; }`,
   bl: (v: any) => `{ border-left: ${v} solid;}`,
   bt: (v: any) => `{ border-top: ${v} solid; }`,
@@ -60,8 +60,9 @@ export const commonSheets = {
   "move-z": (v: any) => `{ transform: translateZ(${v}); }`,
   rotate: (v: any) => `{ transform: rotate(${v}deg); }`,
   scale: (v: any) => `{ transform: scale(${v}, ${v}); }`,
+  scroll: "overflow:auto; -webkit-overflow-scrolling: touch;",
   center:
-    "display:flex; flex-direction:column; justify-content:center; align-items:center;",
+      "display:flex; flex-direction:column; justify-content:center; align-items:center;",
   full: "width:100%; height:100%;",
   row: "display:flex; flex-direction:row;",
   "row-reverse": "display:flex; flex-direction:row-reverse;",

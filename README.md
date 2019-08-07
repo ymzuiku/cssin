@@ -429,6 +429,8 @@ import "cssin/commonSheets"; // 引入 sheets集合
 import "cssin/commonCSSValues"; // 引入 css-value 集合
 ```
 
+
+
 commonSheets 中的内容:
 
 | 自定义样式名 | 映射样式                           | 使用               |
@@ -482,6 +484,7 @@ commonSheets 中的内容:
 | rotate       | transform: rotate(\${v}deg);       | rotate: 180;       |
 | scale        | transform: scale(\${v}, \${v});    | scale: 0.7;        |
 | 以下均为组件 |                                    | 组件不需要设置值   |
+| scroll          | overflow:auto; -webkit-overflow-scrolling: touch;   | scroll;              |
 | col          | dis:flex; flex-direction:column;   | col;               |
 | row          | dis:flex; flex-direction:row;      | row;               |
 | center       | col; justify:center; items:center; | center;            |
@@ -531,6 +534,12 @@ export default () => {
 [commonSheets.ts](https://github.com/ymzuiku/cssin/blob/master/lib/commonSheets.ts)
 
 [commonCSSValues.ts](https://github.com/ymzuiku/cssin/blob/master/lib/commonCSSValues.ts)
+
+如果我们要对其进行修改，可以下载该资源进行修改，也可以直接拷贝一份 babel 转译前的版本：
+
+```sh
+$ cp -rf node_modules/cssin/cssinCommon ./src
+```
 
 # 性能开销
 
