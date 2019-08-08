@@ -538,7 +538,7 @@ export default () => {
 如果我们要对其进行修改，可以下载该资源进行修改，也可以直接拷贝一份 babel 转译前的版本：
 
 ```sh
-$ cp -rf node_modules/cssin/cssinCommon ./src
+$ cp -rf node_modules/cssin/cssinCommonV2 ./src
 ```
 
 # 性能开销
