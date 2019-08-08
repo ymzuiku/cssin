@@ -31,6 +31,9 @@ export const coverAttribute = (attribute = "inlist") => {
     const setAttribute = ele.setAttribute;
     ele.setAttribute = (name: any, value: any) => {
       if (name === attribute) {
+        if (!(ele as any).__useAutoCssin) {
+          (ele as any).__useAutoCssin = true;
+        }
         if ((ele as any).__temp_class__) {
           setAttribute.call(
             ele,
@@ -42,7 +45,7 @@ export const coverAttribute = (attribute = "inlist") => {
           setAttribute.call(ele, attribute, cssin(value));
         }
       } else if (name === "class") {
-        if (!ele.getAttribute(attribute)) {
+        if (!(ele as any).__useAutoCssin) {
           setAttribute.call(ele, "class", value);
         }
         (ele as any).__temp_class__ = value;
