@@ -39,8 +39,12 @@ export const coverAttribute = (attribute = "inlist") => {
           );
         } else {
           setAttribute.call(ele, "class", cssin(value));
+          setAttribute.call(ele, attribute, cssin(value));
         }
       } else if (name === "class") {
+        if (!ele.getAttribute(attribute)) {
+          setAttribute.call(ele, "class", value);
+        }
         (ele as any).__temp_class__ = value;
       } else {
         setAttribute.call(ele, name, value);
