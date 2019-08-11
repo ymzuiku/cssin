@@ -2,6 +2,28 @@
 
 import * as device from './device';
 
+// 拼接string
+const strFn = function(...args: any) {
+  if (args.length > 1) {
+    const [str, ...rest] = args;
+    let out = '';
+
+    str.forEach((v: string, i: number) => {
+      out += v;
+      if (rest[i]) {
+        out += rest[i];
+      }
+    });
+
+    return out;
+  }
+  if (typeof args[0] === 'string') {
+    return args[0];
+  }
+
+  return args[0].join('');
+};
+
 /* 设备信息，用于辅助设置媒体查询 */
 export { device };
 
@@ -57,10 +79,9 @@ const appendCss = (css: string) => {
 const cssinCache = new Map();
 
 /* cssin 的主函数，用于实现 cssin 语法，返回用于 className 的字符串 */
-export const cssin = (inlist: any) => {
+export const cssin = (...args: any) => {
   // 实现 tagged-template
-  const param =
-    typeof inlist === 'string' ? inlist : inlist ? inlist.join('') : '';
+  const param = strFn(...args);
 
   // 如果计算过，直接返回结果
   if (cssinCache.has(param)) {
@@ -168,13 +189,13 @@ export const cssin = (inlist: any) => {
 };
 
 /* 给 HTMLElement 添加 cssin 属性, 默认相当于设置 setAttribute('class', cssin``); */
-(HTMLElement as any).prototype.cssin = function(inlist: any) {
-  this.setAttribute('class', cssin(inlist));
+(HTMLElement as any).prototype.cssin = function(...args: any) {
+  this.setAttribute('class', cssin(...args));
 };
 
 /* 给 SVGSVGElement 添加 cssin 属性, 默认相当于设置 setAttribute('class', cssin``); */
-(SVGSVGElement as any).prototype.cssin = function(inlist: any) {
-  this.setAttribute('class', cssin(inlist));
+(SVGSVGElement as any).prototype.cssin = function(...args: any) {
+  this.setAttribute('class', cssin(...args));
 };
 
 /* 覆盖某个 setAttribute 属性 */
