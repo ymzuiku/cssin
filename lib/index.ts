@@ -1,5 +1,4 @@
 // tslint:disable-next-line
-/// <reference path="../../../cssin.d.ts" />
 
 import * as device from './device';
 
@@ -168,37 +167,42 @@ export const cssin = (inlist: any) => {
   return classname;
 };
 
-/* 覆盖某个 setAttribute 属性，默认是 'cssin'  */
-export const coverAttribute = (attribute = 'cssin') => {
+/* 给 HTMLElement 添加 cssin 属性, 默认相当于设置 setAttribute('class', cssin``); */
+(HTMLElement as any).prototype.cssin = function(v: string) {
+  this.setAttribute('class', cssin(v));
+};
+
+/* 覆盖某个 setAttribute 属性 */
+export const coverAttribute = (attribute: string) => {
   if (coverCache.has(attribute)) {
     return;
   }
   coverCache.add(attribute);
 
-  HTMLElement.prototype.__cssin = {};
+  (HTMLElement as any).prototype.__cssin = {};
 
   const setAttribute = (HTMLElement as any).prototype.setAttribute;
   HTMLElement.prototype.setAttribute = function(name: any, value: any) {
     if (name === attribute) {
-      if (!this.__cssin.useAutoCssin) {
-        this.__cssin.useAutoCssin = true;
+      if (!(this as any).__cssin.useAutoCssin) {
+        (this as any).__cssin.useAutoCssin = true;
       }
 
-      if (this.__cssin.tempClass) {
+      if ((this as any).__cssin.tempClass) {
         setAttribute.call(
           this,
           'class',
-          `${cssin(value)} ${this.__cssin.tempClass}`
+          `${cssin(value)} ${(this as any).__cssin.tempClass}`
         );
       } else {
         setAttribute.call(this, 'class', cssin(value));
         setAttribute.call(this, attribute, cssin(value));
       }
     } else if (name === 'class') {
-      if (!this.__cssin.useAutoCssin) {
+      if (!(this as any).__cssin.useAutoCssin) {
         setAttribute.call(this, 'class', value);
       }
-      this.__cssin.tempClass = value;
+      (this as any).__cssin.tempClass = value;
     } else {
       setAttribute.call(this, name, value);
     }
