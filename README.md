@@ -1,7 +1,7 @@
 我们先看看我们最终的目标, 我们可以如何描述代码:
 
 ```js
-import React from "react";
+import React from 'react';
 
 export default () => (
   <button inlist="bg:#f00; @md:display:none; hover:radius:8px; radius:4px">
@@ -62,11 +62,11 @@ example: [navar.workos.top](http://navar.workos.top)
 在没有进行任何配置之前，cssin 的语法和内敛样式是一致的
 
 ```js
-import React from "react";
-import cssin from "cssin";
+import React from 'react';
+import cssin from 'cssin';
 
 // 设置一个全局的 css-value
-document.body.style.setProperty("--button-color", "#fff");
+document.body.style.setProperty('--button-color', '#fff');
 
 export default () => {
   return (
@@ -84,8 +84,8 @@ export default () => {
 好的，我们最后会通过简单的配置的让样式描述变成这样：
 
 ```js
-import React from "react";
-import cssin from "cssin";
+import React from 'react';
+import cssin from 'cssin';
 
 export default () => {
   return (
@@ -99,8 +99,8 @@ export default () => {
 或者极限简洁：
 
 ```js
-import React from "react";
-import cssin from "cssin";
+import React from 'react';
+import cssin from 'cssin';
 
 export default () => {
   return <div className={cssin`button`}>Button</div>;
@@ -110,7 +110,7 @@ export default () => {
 更加极限极限简洁, 连 cssin 的包裹都省略掉：
 
 ```js
-import React from "react";
+import React from 'react';
 
 export default () => {
   return <div inlist="button">Button</div>;
@@ -179,16 +179,16 @@ cssin 足够轻量，我们也可以仅仅使用它的伪类或媒体查询特�
 不过我们要注意，style 中编写的属性权重默认高于 className 中的样式，所以需要添加 `!important`:
 
 ```js
-import React from "react";
-import cssin from "cssin";
+import React from 'react';
+import cssin from 'cssin';
 
 export default () => {
   return (
     <div
       className={cssin`hover:background:#f00 !important;`}
       style={{
-        background: "#00f",
-        fontSize: "20px"
+        background: '#00f',
+        fontSize: '20px',
       }}
     >
       Button
@@ -265,30 +265,30 @@ cssin 默认配置了 4 个尺寸级别的媒体查询，和基于设备媒体�
 ```js
 // 默认的媒体查询
 addSheets({
-  "@sm": (v: string) => `@media (min-width: 640px) {${v}}`,
-  "@md": (v: string) => `@media (min-width: 768px) {${v}}`,
-  "@lg": (v: string) => `@media (min-width: 1024px) {${v}}`,
-  "@xl": (v: string) => `@media (min-width: 1280px) {${v}}`,
-  "@ios": (v: string) =>
-    `@media (min-width: ${device.isIos ? "0px" : "9999px"}) {${v}}`,
-  "@android": (v: string) =>
-    `@media (min-width: ${device.isAndroid ? "0px" : "9999px"}) {${v}}`,
-  "@native": (v: string) =>
-    `@media (min-width: ${device.isNative ? "0px" : "9999px"}) {${v}}`,
-  "@pc": (v: string) =>
-    `@media (min-width: ${device.isPc ? "0px" : "9999px"}) {${v}}`
+  '@sm': (v: string) => `@media (min-width: 640px) {${v}}`,
+  '@md': (v: string) => `@media (min-width: 768px) {${v}}`,
+  '@lg': (v: string) => `@media (min-width: 1024px) {${v}}`,
+  '@xl': (v: string) => `@media (min-width: 1280px) {${v}}`,
+  '@ios': (v: string) =>
+    `@media (min-width: ${device.isIos ? '0px' : '9999px'}) {${v}}`,
+  '@android': (v: string) =>
+    `@media (min-width: ${device.isAndroid ? '0px' : '9999px'}) {${v}}`,
+  '@native': (v: string) =>
+    `@media (min-width: ${device.isNative ? '0px' : '9999px'}) {${v}}`,
+  '@pc': (v: string) =>
+    `@media (min-width: ${device.isPc ? '0px' : '9999px'}) {${v}}`,
 });
 // 我们覆盖 @md 以及创建一个 @xxl
 addSheets({
-  "@md": v => `@media (min-width: 800px) {${v}}`,
-  "@xxl": v => `@media (min-width: 1920px) {${v}}`
+  '@md': v => `@media (min-width: 800px) {${v}}`,
+  '@xxl': v => `@media (min-width: 1920px) {${v}}`,
 });
 ```
 
 使用媒体查询，以下例子是屏幕宽度大于 800px，button 宽度为 200px，并且在 native 端隐藏
 
 ```js
-import React from "react";
+import React from 'react';
 // 最终只需要包裹一个单词的声明
 export default () => {
   return (
@@ -308,12 +308,12 @@ export default () => {
 它和自定义样式或媒体查询的区别是它的值是一个单纯的字符串：
 
 ```js
-import React from "react";
-import cssin, { addSheets } from "cssin";
+import React from 'react';
+import cssin, { addSheets } from 'cssin';
 
 addSheets({
   // 区别于自定义样式，组件的值是一个字符串，它遵循 cssin 语法，可以调用其他组件和自定义样式
-  button: "bgc:#f66; hover:bgc:#f22; padding:8px; color:--button-color;"
+  button: 'bgc:#f66; hover:bgc:#f22; padding:8px; color:--button-color;',
 });
 
 // 最终只需要包裹一个单词的声明
@@ -333,20 +333,20 @@ export default () => {
 index.js
 
 ```js
-import React from "react";
-import { coverAttribute } from "cssin";
+import React from 'react';
+import { coverAttribute } from 'cssin';
 
 // 这里我们覆盖inlist对象，它会模拟 className={cssin`...`}
-coverAttribute("inlist");
+coverAttribute('inlist');
 
 // 请确保 coverAttribute 在 ReactDOM.render 之前执行
-ReactDOM.render(<App />, document.getElementById("root"));
+ReactDOM.render(<App />, document.getElementById('root'));
 ```
 
 App.js
 
 ```js
-import React from "react";
+import React from 'react';
 
 // 最终只需要一个单词的声明，就像原生声明一样
 export const App = () => {
@@ -361,7 +361,7 @@ export const App = () => {
 inlint 可以和 className 一起使用，前提是 className 必须在 inlist 之前声明
 
 ```js
-import React from "react";
+import React from 'react';
 
 // 最终只需要一个单词的声明，就像原生声明一样
 export const App = () => {
@@ -388,7 +388,7 @@ export const App = () => {
 此时传入的字符串只会被当成单纯的 css 样式进行注入至 html 中
 
 ```js
-import cssin from "cssin";
+import cssin from 'cssin';
 
 cssin`
   body {
@@ -409,8 +409,8 @@ cssin`
 其他地方定义的原生的 css 可以和 cssin 混合使用，只需要在属性名前面增加 `.`:
 
 ```js
-import React from "react";
-import cssin from "cssin";
+import React from 'react';
+import cssin from 'cssin';
 
 // 使用 .box 引用 css 样式
 export default () => {
@@ -425,79 +425,77 @@ cssin 提供了一整套预设的自定义样式集合及 css-value 集合，它
 默认情况下 cssin 并未配置它，如果我们需要可以如下配置：
 
 ```js
-import "cssin/commonSheets"; // 引入 sheets集合
-import "cssin/commonCSSValues"; // 引入 css-value 集合
+import 'cssin/commonSheets'; // 引入 sheets集合
+import 'cssin/commonCSSValues'; // 引入 css-value 集合
 ```
-
-
 
 commonSheets 中的内容:
 
-| 自定义样式名 | 映射样式                           | 使用               |
-| ------------ | ---------------------------------- | ------------------ |
-| dis          | display                            | dis: flex;         |
-| items        | align-items                        | items: 20px;       |
-| justify      | justify-content                    | justify: start;    |
-| self         | align-self                         | self: center;      |
-| content      | align-content                      | content: end;      |
-| z            | z-index                            | z: 10;             |
-| p            | padding                            | p: 5rem;           |
-| px           | pading-left, padding-right         | px: 5rem;          |
-| py           | padding-top, padding-bottom        | py: 5rem;          |
-| pl           | padding-left                       | pl: 5rem;          |
-| pt           | padding-top                        | pt: 5rem;          |
-| pr           | padding-right                      | pr: 5rem;          |
-| pb           | padding-bottom                     | pb: 5rem;          |
-| m            | margin                             | m: 5rem;           |
-| mx           | margin-left, margin-right          | mx: 5rem;          |
-| my           | margin-top, margin-bottom          | my: 5rem;          |
-| ml           | margin-left                        | ml: 5rem;          |
-| mt           | margin-top                         | mt: 5rem;          |
-| mr           | margin-right                       | mr: 5rem;          |
-| mb           | margin-bottom                      | mb: 5rem;          |
-| w            | width                              | w: 5rem;           |
-| w-min        | min-width                          | w-min: 5rem;       |
-| w-max        | max-width                          | w-max: 5rem;       |
-| w-min-max    | min-width, max-width               | w-min-max: 5rem;   |
-| h            | height                             | h: 5rem;           |
-| h-min        | min-height                         | h-min: 5rem;       |
-| h-max        | max-height                         | h-max: 5rem;       |
-| h-min-max    | min-height, max-height             | h-min-max: 5rem;   |
-| b            | border: \${v} solid;               | b: 5rem;           |
-| bl           | border-left: \${v} solid;          | bl: 5rem;          |
-| bt           | border-top: \${v} solid;           | bt: 5rem;          |
-| br           | border-right: \${v} solid;         | br: 5rem;          |
-| bb           | border-bottom: \${v} solid;        | bb: 5rem;          |
-| bc           | border-color                       | bc: #f00;          |
-| radius       | border-radius                      | radius: 2rem;      |
-| font         | font-size                          | font: 1.25rem;     |
-| bg           | background                         | background: #f00;  |
-| bgc          | background-color                   | bgc: #f00;         |
-| linear       | transition: all \${v} linear;      | linear: 0.3s;      |
-| ease         | transition: all \${v} ease;        | ease: 0.3s;        |
-| ease-in      | transition: all \${v} ease-in;     | ease-in: 0.3s;     |
-| ease-out     | transition: all \${v} ease-out;    | ease-out: 0.3s;    |
-| ease-in-out  | transition: all \${v} ease-in-out; | ease-in-out: 0.3s; |
-| move-x       | transform: translateX(\${v});      | move-x: 50%;       |
-| move-y       | transform: translateY(\${v});      | move-y: 50%;       |
-| move-z       | transform: translateZ(\${v});      | move-z: 50%;       |
-| rotate       | transform: rotate(\${v}deg);       | rotate: 180;       |
-| scale        | transform: scale(\${v}, \${v});    | scale: 0.7;        |
-| 以下均为组件 |                                    | 组件不需要设置值   |
-| scroll          | overflow:auto; -webkit-overflow-scrolling: touch;   | scroll;              |
-| col          | dis:flex; flex-direction:column;   | col;               |
-| row          | dis:flex; flex-direction:row;      | row;               |
-| center       | col; justify:center; items:center; | center;            |
-| fixed        | position:fixed;                    | fixed;             |
-| static       | position:static;                   | static;            |
-| absolute     | position:absolute;                 | absolute;          |
-| relative     | position:relative;                 | relative;          |
-| sticky       | position:sticky;                   | sticky;            |
-| left         | left:0px;                          | left;              |
-| top          | top:0px;                           | top;               |
-| right        | right:0px;                         | right;             |
-| bottom       | bottom:0px;                        | bottom;            |
-| bold         | font-weight: bold;                 | bold;              |
+| 自定义样式名 | 映射样式                                          | 使用               |
+| ------------ | ------------------------------------------------- | ------------------ |
+| dis          | display                                           | dis: flex;         |
+| items        | align-items                                       | items: 20px;       |
+| justify      | justify-content                                   | justify: start;    |
+| self         | align-self                                        | self: center;      |
+| content      | align-content                                     | content: end;      |
+| z            | z-index                                           | z: 10;             |
+| p            | padding                                           | p: 5rem;           |
+| px           | pading-left, padding-right                        | px: 5rem;          |
+| py           | padding-top, padding-bottom                       | py: 5rem;          |
+| pl           | padding-left                                      | pl: 5rem;          |
+| pt           | padding-top                                       | pt: 5rem;          |
+| pr           | padding-right                                     | pr: 5rem;          |
+| pb           | padding-bottom                                    | pb: 5rem;          |
+| m            | margin                                            | m: 5rem;           |
+| mx           | margin-left, margin-right                         | mx: 5rem;          |
+| my           | margin-top, margin-bottom                         | my: 5rem;          |
+| ml           | margin-left                                       | ml: 5rem;          |
+| mt           | margin-top                                        | mt: 5rem;          |
+| mr           | margin-right                                      | mr: 5rem;          |
+| mb           | margin-bottom                                     | mb: 5rem;          |
+| w            | width                                             | w: 5rem;           |
+| w-min        | min-width                                         | w-min: 5rem;       |
+| w-max        | max-width                                         | w-max: 5rem;       |
+| w-min-max    | min-width, max-width                              | w-min-max: 5rem;   |
+| h            | height                                            | h: 5rem;           |
+| h-min        | min-height                                        | h-min: 5rem;       |
+| h-max        | max-height                                        | h-max: 5rem;       |
+| h-min-max    | min-height, max-height                            | h-min-max: 5rem;   |
+| b            | border: \${v} solid;                              | b: 5rem;           |
+| bl           | border-left: \${v} solid;                         | bl: 5rem;          |
+| bt           | border-top: \${v} solid;                          | bt: 5rem;          |
+| br           | border-right: \${v} solid;                        | br: 5rem;          |
+| bb           | border-bottom: \${v} solid;                       | bb: 5rem;          |
+| bc           | border-color                                      | bc: #f00;          |
+| radius       | border-radius                                     | radius: 2rem;      |
+| font         | font-size                                         | font: 1.25rem;     |
+| bg           | background                                        | background: #f00;  |
+| bgc          | background-color                                  | bgc: #f00;         |
+| linear       | transition: all \${v} linear;                     | linear: 0.3s;      |
+| ease         | transition: all \${v} ease;                       | ease: 0.3s;        |
+| ease-in      | transition: all \${v} ease-in;                    | ease-in: 0.3s;     |
+| ease-out     | transition: all \${v} ease-out;                   | ease-out: 0.3s;    |
+| ease-in-out  | transition: all \${v} ease-in-out;                | ease-in-out: 0.3s; |
+| move-x       | transform: translateX(\${v});                     | move-x: 50%;       |
+| move-y       | transform: translateY(\${v});                     | move-y: 50%;       |
+| move-z       | transform: translateZ(\${v});                     | move-z: 50%;       |
+| rotate       | transform: rotate(\${v}deg);                      | rotate: 180;       |
+| scale        | transform: scale(\${v}, \${v});                   | scale: 0.7;        |
+| 以下均为组件 |                                                   | 组件不需要设置值   |
+| scroll       | overflow:auto; -webkit-overflow-scrolling: touch; | scroll;            |
+| col          | dis:flex; flex-direction:column;                  | col;               |
+| row          | dis:flex; flex-direction:row;                     | row;               |
+| center       | col; justify:center; items:center;                | center;            |
+| fixed        | position:fixed;                                   | fixed;             |
+| static       | position:static;                                  | static;            |
+| absolute     | position:absolute;                                | absolute;          |
+| relative     | position:relative;                                | relative;          |
+| sticky       | position:sticky;                                  | sticky;            |
+| left         | left:0px;                                         | left;              |
+| top          | top:0px;                                          | top;               |
+| right        | right:0px;                                        | right;             |
+| bottom       | bottom:0px;                                       | bottom;            |
+| bold         | font-weight: bold;                                | bold;              |
 
 commonCSSValues 设置了一些 css-value, 其中的颜色、尺寸分类、投影均取自于 tailwindCSS 的配置：
 
@@ -509,8 +507,8 @@ commonCSSValues 设置了一些 css-value, 其中的颜色、尺寸分类、投�
 使用预设的示例：
 
 ```js
-import React from "react";
-import cssin from "cssin";
+import React from 'react';
+import cssin from 'cssin';
 
 // 使用预设的自定义样式和 css-value 配合使用
 export default () => {
@@ -538,7 +536,7 @@ export default () => {
 如果我们要对其进行修改，可以下载该资源进行修改，也可以直接拷贝一份 babel 转译前的版本：
 
 ```sh
-$ cp -rf node_modules/cssin/cssinCommonV2 ./src
+$ cp -rf node_modules/cssin/cssinCommonV1 ./src
 ```
 
 # 性能开销
