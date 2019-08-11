@@ -187,6 +187,10 @@ export const coverAttribute = (attribute: string) => {
   const bindAttribute = (Target: HTMLElement | SVGSVGElement) => {
     const setAttribute = (Target as any).prototype.setAttribute;
     (Target as any).prototype.setAttribute = function(name: any, value: any) {
+      if (!this.__cssin) {
+        this.__cssin = {};
+      }
+
       if (name === attribute) {
         if (!this.__cssin.useAutoCssin) {
           this.__cssin.useAutoCssin = true;
@@ -213,8 +217,6 @@ export const coverAttribute = (attribute: string) => {
     };
   };
 
-  (HTMLElement as any).prototype.__cssin = {};
-  (SVGSVGElement as any).prototype.__cssin = {};
   bindAttribute(HTMLElement as any);
   bindAttribute(SVGSVGElement as any);
 };
