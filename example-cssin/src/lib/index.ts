@@ -91,7 +91,7 @@ export const cssin = (inlist: any) => {
 
     if (obj.length === 1) {
       if (str[0] === '.') {
-        classname += `${str} `;
+        classname += `${str.replace('.', '')} `;
 
         return;
       }
