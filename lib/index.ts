@@ -184,32 +184,37 @@ export const coverAttribute = (attribute: string) => {
   }
   coverCache.add(attribute);
 
-  (HTMLElement as any).prototype.__cssin = {};
+  const bindAttribute = (Target: HTMLElement | SVGSVGElement) => {
+    const setAttribute = (Target as any).prototype.setAttribute;
+    (Target as any).prototype.setAttribute = function(name: any, value: any) {
+      if (name === attribute) {
+        if (!this.__cssin.useAutoCssin) {
+          this.__cssin.useAutoCssin = true;
+        }
 
-  const setAttribute = (HTMLElement as any).prototype.setAttribute;
-  HTMLElement.prototype.setAttribute = function(name: any, value: any) {
-    if (name === attribute) {
-      if (!(this as any).__cssin.useAutoCssin) {
-        (this as any).__cssin.useAutoCssin = true;
-      }
-
-      if ((this as any).__cssin.tempClass) {
-        setAttribute.call(
-          this,
-          'class',
-          `${cssin(value)} ${(this as any).__cssin.tempClass}`
-        );
+        if (this.__cssin.tempClass) {
+          setAttribute.call(
+            this,
+            'class',
+            `${cssin(value)} ${this.__cssin.tempClass}`
+          );
+        } else {
+          setAttribute.call(this, 'class', cssin(value));
+          setAttribute.call(this, attribute, cssin(value));
+        }
+      } else if (name === 'class') {
+        if (!this.__cssin.useAutoCssin) {
+          setAttribute.call(this, 'class', value);
+        }
+        this.__cssin.tempClass = value;
       } else {
-        setAttribute.call(this, 'class', cssin(value));
-        setAttribute.call(this, attribute, cssin(value));
+        setAttribute.call(this, name, value);
       }
-    } else if (name === 'class') {
-      if (!(this as any).__cssin.useAutoCssin) {
-        setAttribute.call(this, 'class', value);
-      }
-      (this as any).__cssin.tempClass = value;
-    } else {
-      setAttribute.call(this, name, value);
-    }
+    };
   };
+
+  (HTMLElement as any).prototype.__cssin = {};
+  (SVGSVGElement as any).prototype.__cssin = {};
+  bindAttribute(HTMLElement as any);
+  bindAttribute(SVGSVGElement as any);
 };
