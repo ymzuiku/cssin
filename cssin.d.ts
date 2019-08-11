@@ -3,7 +3,7 @@ interface HTMLElement {
     tempClass?: string;
     useAutoCssin?: boolean;
   };
-  cssin(inlist: any): void;
+  cssin(...args: any): void;
 }
 
 interface SVGSVGElement {
@@ -11,5 +11,5 @@ interface SVGSVGElement {
     tempClass?: string;
     useAutoCssin?: boolean;
   };
-  cssin(inlist: any): void;
+  cssin(...args: any): void;
 }
