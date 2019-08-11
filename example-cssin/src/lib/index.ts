@@ -3,7 +3,7 @@
 import * as device from './device';
 
 // 拼接string
-const strFn = function(...args: any) {
+const strFn = function(...args: any): string {
   if (args.length > 1) {
     const [str, ...rest] = args;
     let out = '';
