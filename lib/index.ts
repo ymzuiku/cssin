@@ -3,7 +3,7 @@
 import * as device from './device';
 
 // 拼接string
-const strFn = function(...args: any) {
+const strFn = function(...args: any): string {
   if (args.length > 1) {
     const [str, ...rest] = args;
     let out = '';
@@ -191,11 +191,15 @@ export const cssin = (...args: any) => {
 /* 给 HTMLElement 添加 cssin 属性, 默认相当于设置 setAttribute('class', cssin``); */
 (HTMLElement as any).prototype.cssin = function(...args: any) {
   this.setAttribute('class', cssin(...args));
+
+  return this;
 };
 
 /* 给 SVGSVGElement 添加 cssin 属性, 默认相当于设置 setAttribute('class', cssin``); */
 (SVGSVGElement as any).prototype.cssin = function(...args: any) {
   this.setAttribute('class', cssin(...args));
+
+  return this;
 };
 
 /* 覆盖某个 setAttribute 属性 */
