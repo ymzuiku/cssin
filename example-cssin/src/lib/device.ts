@@ -46,8 +46,9 @@ export const line = dp && dp > 1 ? 0.48 : 1;
 export const isNeedIPhoneSafe = isIPhoneX || isIPhoneXSMax || isIPhoneXR;
 
 // 获取是否是 ios 或 android
-export const isNative = !isWechat && !isPc && window.innerHeight > 722;
+export const isNative = !isPc && (window as any).cordova;
 
 export const topSafe = isNative ? (isNeedIPhoneSafe ? 43 : 20) : 0;
 
-export const bottomSafe = isNative ? (isNeedIPhoneSafe ? 25 : 0) : 0;
+export const bottomSafe =
+  isNative || isWechat ? (isNeedIPhoneSafe ? 25 : 0) : 0;
