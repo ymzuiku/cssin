@@ -15,5 +15,5 @@
     "noEmit": true,
     "jsx": "preserve"
   },
-  "include": ["src", "cssin.d.ts", "../cssin.d.ts"]
+  "include": ["src", "cssin.d.ts", "../index.d.ts"]
 }
