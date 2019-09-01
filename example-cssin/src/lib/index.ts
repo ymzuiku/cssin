@@ -21,7 +21,11 @@ const strFn = function(...args: any): string {
     return args[0];
   }
 
-  return args[0].join('');
+  if (args[0]) {
+    return args[0].join('');
+  }
+
+  return '';
 };
 
 /* 设备信息，用于辅助设置媒体查询 */
@@ -127,7 +131,7 @@ export const cssin = (...args: any) => {
     // tslint:disable-next-line
     const name = `c-${str.replace(
       /[^-0-0a-zA-Z]/g,
-      (reg: string) => `_${reg.charCodeAt(0).toString(16)}_`
+      (reg: string) => `_${reg.charCodeAt(0).toString(16)}_`,
     )}`;
     let media = obj[obj.length - 4] || '';
     let hover = obj[obj.length - 3] || '';
@@ -188,19 +192,19 @@ export const cssin = (...args: any) => {
   return classname;
 };
 
-/* 给 HTMLElement 添加 cssin 属性, 默认相当于设置 setAttribute('class', cssin``); */
-(HTMLElement as any).prototype.$cssin = function(...args: any) {
-  this.setAttribute('class', cssin(...args));
+// /* 给 HTMLElement 添加 cssin 属性, 默认相当于设置 setAttribute('class', cssin``); */
+// (HTMLElement as any).prototype.cssin = function(...args: any) {
+//   this.setAttribute('class', cssin(...args));
 
-  return this;
-};
+//   return this;
+// };
 
-/* 给 SVGSVGElement 添加 cssin 属性, 默认相当于设置 setAttribute('class', cssin``); */
-(SVGSVGElement as any).prototype.$cssin = function(...args: any) {
-  this.setAttribute('class', cssin(...args));
+// /* 给 SVGSVGElement 添加 cssin 属性, 默认相当于设置 setAttribute('class', cssin``); */
+// (SVGSVGElement as any).prototype.cssin = function(...args: any) {
+//   this.setAttribute('class', cssin(...args));
 
-  return this;
-};
+//   return this;
+// };
 
 /* 覆盖某个 setAttribute 属性 */
 export const coverAttribute = (attribute: string) => {
@@ -225,7 +229,7 @@ export const coverAttribute = (attribute: string) => {
           setAttribute.call(
             this,
             'class',
-            `${cssin(value)} ${this.__cssin.tempClass}`
+            `${cssin(value)} ${this.__cssin.tempClass}`,
           );
         } else {
           setAttribute.call(this, 'class', cssin(value));

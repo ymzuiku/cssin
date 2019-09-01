@@ -1,5 +1,5 @@
 const ua = navigator.userAgent;
-const dp = window.devicePixelRatio;
+const dp = window.devicePixelRatio || 1;
 const iw = window.screen.width;
 const ih = window.screen.height;
 
@@ -40,13 +40,17 @@ export const isIPhoneXR =
   iw === 414 &&
   ih === 896;
 
-export const hair = dp && dp > 1 ? 0.35 : 1;
-export const line = dp && dp > 1 ? 0.48 : 1;
+export const hair = dp > 2 ? 0.35 : dp === 2 ? 0.5 : 1;
+export const line = dp > 2 ? 0.48 : dp === 2 ? 0.5 : 1;
 
 export const isNeedIPhoneSafe = isIPhoneX || isIPhoneXSMax || isIPhoneXR;
 
 // 获取是否是 ios 或 android
-export const isNative = !isPc && (window as any).cordova;
+export const isNativeIOS = window.location.href.indexOf('_os_ios_') >= 0;
+export const isNativeAndroid =
+  window.location.href.indexOf('_os_android_') >= 0;
+export const isNative =
+  isNativeIOS || isNativeAndroid || (window as any).cordova || false;
 
 export const topSafe = isNative ? (isNeedIPhoneSafe ? 43 : 20) : 0;
 
