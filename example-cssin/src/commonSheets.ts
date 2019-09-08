@@ -1,4 +1,4 @@
-import { addSheets } from './index';
+import { addSheets } from './lib/index';
 
 const flexCode = {
   start: 'flex-start',

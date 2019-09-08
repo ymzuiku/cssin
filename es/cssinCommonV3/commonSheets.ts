@@ -1,4 +1,4 @@
-import { addSheets } from './index';
+import { addSheets } from 'cssin';
 
 const flexCode = {
   start: 'flex-start',
@@ -8,11 +8,16 @@ const flexCode = {
 };
 
 const shadowList = {
-  sm: (rgb: any) => `{box-shadow: 0 1px 3px 0 rgba(${rgb}, 0.11), 0 1px 2px 0 rgba(${rgb}, 0.07);}`,
-  md: (rgb: any) => `{box-shadow: 0 4px 6px -1px rgba(${rgb}, 0.11), 0 2px 4px -1px rgba(${rgb}, 0.07);}`,
-  lg: (rgb: any) => `{box-shadow: 0 10px 15px -3px rgba(${rgb}, 0.11), 0 4px 6px -2px rgba(${rgb}, 0.07);}`,
-  xl: (rgb: any) => `{box-shadow: 0 20px 25px -5px rgba(${rgb}, 0.13), 0 10px 10px -5px rgba(${rgb}, 0.07);}`,
-  xxl: (rgb: any) => `{box-shadow: 0 25px 30px -5px rgba(${rgb}, 0.13), 0 10px 10px -5px rgba(${rgb}, 0.07);}`,
+  sm: (rgb: any) =>
+    `{box-shadow: 0 1px 3px 0 rgba(${rgb}, 0.11), 0 1px 2px 0 rgba(${rgb}, 0.07);}`,
+  md: (rgb: any) =>
+    `{box-shadow: 0 4px 6px -1px rgba(${rgb}, 0.11), 0 2px 4px -1px rgba(${rgb}, 0.07);}`,
+  lg: (rgb: any) =>
+    `{box-shadow: 0 10px 15px -3px rgba(${rgb}, 0.11), 0 4px 6px -2px rgba(${rgb}, 0.07);}`,
+  xl: (rgb: any) =>
+    `{box-shadow: 0 20px 25px -5px rgba(${rgb}, 0.13), 0 10px 10px -5px rgba(${rgb}, 0.07);}`,
+  xxl: (rgb: any) =>
+    `{box-shadow: 0 25px 30px -5px rgba(${rgb}, 0.13), 0 10px 10px -5px rgba(${rgb}, 0.07);}`,
 };
 
 export const commonSheets = {
@@ -48,7 +53,8 @@ export const commonSheets = {
   h: (v: any) => `{ height: ${v}; }`,
   'h-min': (v: any) => `{ min-height: ${v}; }`,
   'h-max': (v: any) => `{ maxHeight: ${v}; }`,
-  'h-min-max': (v: any) => `{ height: ${v}; min-height: ${v}; max-width: ${v}; }`,
+  'h-min-max': (v: any) =>
+    `{ height: ${v}; min-height: ${v}; max-width: ${v}; }`,
   wh: (v: any) => `{ width: ${v}; height:${v}; }`,
   'wh-min': (v: any) => `{ min-width: ${v}; min-height:${v}; }`,
   'wh-max': (v: any) => `{ max-width: ${v}; max-height:${v}; }`,
@@ -91,7 +97,8 @@ export const commonSheets = {
   // component
   grid: `display:grid;`,
   scroll: 'overflow:auto; -webkit-overflow-scrolling: touch;',
-  center: 'display:flex; flex-direction:row; justify-content:center; align-items:center;',
+  center:
+    'display:flex; flex-direction:row; justify-content:center; align-items:center;',
   full: 'width:100%; height:100%;',
   row: 'display:flex; flex-direction:row;',
   'row-reverse': 'display:flex; flex-direction:row-reverse;',

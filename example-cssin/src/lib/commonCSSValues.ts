@@ -1,18 +1,7 @@
-import * as device from "./device";
-import { cssin } from "./index";
-
-// 阻止双指放大
-document.addEventListener("gesturestart", event => {
-  event.preventDefault();
-});
+import { cssin, device } from './index';
 
 cssin(`
 html{line-height:1.15;-webkit-text-size-adjust:100%}body{margin:0}main{display:block}h1{font-size:2em;margin:.67em 0}hr{box-sizing:content-box;height:0;overflow:visible}pre{font-family:monospace,monospace;font-size:1em}a{background-color:transparent}abbr[title]{border-bottom:none;text-decoration:underline;text-decoration:underline dotted}b,strong{font-weight:bolder}code,kbd,samp{font-family:monospace,monospace;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}img{border-style:none}button,input,optgroup,select,textarea{font-family:inherit;font-size:100%;line-height:1.15;margin:0}button,input{overflow:visible}button,select{text-transform:none}[type=button],[type=reset],[type=submit],button{-webkit-appearance:button}[type=button]::-moz-focus-inner,[type=reset]::-moz-focus-inner,[type=submit]::-moz-focus-inner,button::-moz-focus-inner{border-style:none;padding:0}[type=button]:-moz-focusring,[type=reset]:-moz-focusring,[type=submit]:-moz-focusring,button:-moz-focusring{outline:1px dotted ButtonText}fieldset{padding:.35em .75em .625em}legend{box-sizing:border-box;color:inherit;display:table;max-width:100%;padding:0;white-space:normal}progress{vertical-align:baseline}textarea{overflow:auto}[type=checkbox],[type=radio]{box-sizing:border-box;padding:0}[type=number]::-webkit-inner-spin-button,[type=number]::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}[type=search]::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}details{display:block}summary{display:list-item}template{display:none}[hidden]{display:none}
-
-#root {
-  width: 100%;
-  height: 100%;
-}
 
 body {
   padding: 0px;
@@ -20,7 +9,7 @@ body {
   position: relative;
   -webkit-tap-highlight-color: transparent;
   font-size: 16px;
-  height: 100%;
+  height: ${window.innerHeight}px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
@@ -35,8 +24,9 @@ input {
   -webkit-appearance: none;
 }
 
-div, button, {
-  user-select: none;
+div,p {
+  margin: 0px;
+  padding: 0pxl
 }
 
 button {
@@ -69,37 +59,37 @@ button {
 }
 
 :root {
-  --top-safe: ${device.topSafe}px;
-  --bottom-safe: ${device.bottomSafe}px;
+  --safe-top: ${device.topSafe}px;
+  --safe-bottom: ${device.bottomSafe}px;
   --hair: ${device.hair}px;
   --line: ${device.line}px;
   --family-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   --family-serif: Georgia, Cambria, "Times New Roman", Times, serif;
   --family-mono: Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  --radius-sm: 0.125rem;
-  --radius-def: 0.25rem;
-  --radius-lg: 0.5rem;
-  --radius-xl: 1rem;
-  --radius-2xl: 2rem;
-  --radius-full: 9999px;
-  --shadow-def: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.06);
-  --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.12), 0 10px 10px -5px rgba(0, 0, 0, 0.06);
-  --shadow-2xl: 0 25px 30px -5px rgba(0, 0, 0, 0.12), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
   --shadow-inner: inset 0 2px 4px 0 rgba(0, 0, 0, 0.06);
   --shadow-outline: 0 0 0 3px rgba(66, 153, 225, 0.5);
+  --bar-xxs: 0.5rem;
+  --bar-xs: 1rem;
+  --bar-sm: 2rem;
+  --bar-md: 3rem;
+  --bar-lg: 3.5rem;
+  --bar-xl: 4rem;
+  --bar-xxl: 5rem;
+  --radius-xxs: 0.125rem;
+  --radius-xs: 0.25rem;
+  --radius-sm: 0.4rem;
+  --radius-md: 0.6rem;
+  --radius-lg: 0.8rem;
+  --radius-xl: 1rem;
+  --radius-xxl: 2rem;
+  --radius-full: 9999px;
   --font-xxs: 0.64rem;
   --font-xs: 0.75rem;
   --font-sm: 0.875rem;
-  --font-base: 1rem;
+  --font-md: 1rem;
   --font-lg: 1.125rem;
   --font-xl: 1.25rem;
-  --font-2xl: 1.5rem;
-  --font-3xl: 1.875rem;
-  --font-4xl: 2.25rem;
-  --font-5xl: 3rem;
-  --font-6xl: 4rem;
+  --font-xxl: 1.75rem;
   --letter-tighter: -0.05em;
   --letter-tight: -0.025em;
   --letter-normal: 0;
@@ -131,27 +121,31 @@ button {
   --22: 5.5rem;
   --23: 5.75rem;
   --24: 6rem;
-  --ts: transparent;
-  --black: #000;
+  --alpha: transparent;
   --white: #fff;
-  --neutral-100: #FCFCFC;
-  --neutral-200: #F7F7F7;
-  --neutral-300: #F0F0F0;
-  --neutral-400: #E0E0E0;
-  --neutral-500: #C0C0C0;
-  --neutral-600: #969696;
-  --neutral-700: #686868;
-  --neutral-800: #484848;
-  --neutral-900: #2C2C2C;
+  --black: #000;
+  --black-100: #FCFCFC;
+  --black-200: #F7F7F7;
+  --black-300: #F0F0F0;
+  --black-400: #E0E0E0;
+  --black-500: #C0C0C0;
+  --black-600: #969696;
+  --black-700: #686868;
+  --black-800: #484848;
+  --black-900: #2C2C2C;
   --gray-100: #f7fafc;
   --gray-200: #edf2f7;
   --gray-300: #e2e8f0;
   --gray-400: #cbd5e0;
   --gray-500: #a0aec0;
   --gray-600: #718096;
+  --gray-650: #59677C;
   --gray-700: #4a5568;
+  --gray-750: #364153;
   --gray-800: #2d3748;
+  --gray-850: #232B39;
   --gray-900: #1a202c;
+  --gray-950: #121721;
   --red-100: #fff5f5;
   --red-200: #fed7d7;
   --red-300: #feb2b2;
