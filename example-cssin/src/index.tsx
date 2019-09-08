@@ -2,9 +2,9 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
 import { App } from './App';
-import './commonCSSValues';
-import './commonSheets';
 import { coverAttribute } from './lib';
+import './lib/commonCSSValues';
+import './lib/commonSheets';
 import * as serviceWorker from './serviceWorker';
 
 coverAttribute('inlist');
