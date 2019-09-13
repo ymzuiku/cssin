@@ -3,11 +3,7 @@
 ```js
 import React from 'react';
 
-export default () => (
-  <button inlist="bg:#f00; @md:display:none; hover:radius:8px; radius:4px">
-    我是一个按钮
-  </button>
-);
+export default () => <button css-in="bg:#f00; @md:display:none; hover:radius:8px; radius:4px">我是一个按钮</button>;
 ```
 
 在这个文件中，我们 "似乎没有引入任何库"，就好像写内联样式一样，把样式描述、媒体查询、伪类都实现了, 并且可自定义样式名，如 bg、radius。
@@ -69,13 +65,7 @@ import cssin from 'cssin';
 document.body.style.setProperty('--button-color', '#fff');
 
 export default () => {
-  return (
-    <div
-      className={cssin`background-color:#f66; hover:background-color:#f33; padding:8px; color:#000; border:2px solid #f33; @md:border-radius:4px;`}
-    >
-      Button
-    </div>
-  );
+  return <div className={cssin`background-color:#f66; hover:background-color:#f33; padding:8px; color:#000; border:2px solid #f33; @md:border-radius:4px;`}>Button</div>;
 };
 ```
 
@@ -88,11 +78,7 @@ import React from 'react';
 import cssin from 'cssin';
 
 export default () => {
-  return (
-    <div className={cssin`btn:#f33, 8px; hover:bg:#f33; @md:radius:4px;`}>
-      Button
-    </div>
-  );
+  return <div className={cssin`btn:#f33, 8px; hover:bg:#f33; @md:radius:4px;`}>Button</div>;
 };
 ```
 
@@ -113,7 +99,7 @@ export default () => {
 import React from 'react';
 
 export default () => {
-  return <div inlist="button">Button</div>;
+  return <div css-in="button">Button</div>;
 };
 ```
 
@@ -125,13 +111,7 @@ export default () => {
 
 ```js
 export default () => {
-  return (
-    <div
-      className={cssin`background-color:#f66; hover:background-color:#f33; padding:8px; color:--button-color; border:2px solid #f33; @md:border-radius:4px;`}
-    >
-      Button
-    </div>
-  );
+  return <div className={cssin`background-color:#f66; hover:background-color:#f33; padding:8px; color:--button-color; border:2px solid #f33; @md:border-radius:4px;`}>Button</div>;
 };
 ```
 
@@ -269,14 +249,10 @@ addSheets({
   '@md': (v: string) => `@media (min-width: 768px) {${v}}`,
   '@lg': (v: string) => `@media (min-width: 1024px) {${v}}`,
   '@xl': (v: string) => `@media (min-width: 1280px) {${v}}`,
-  '@ios': (v: string) =>
-    `@media (min-width: ${device.isIos ? '0px' : '9999px'}) {${v}}`,
-  '@android': (v: string) =>
-    `@media (min-width: ${device.isAndroid ? '0px' : '9999px'}) {${v}}`,
-  '@native': (v: string) =>
-    `@media (min-width: ${device.isNative ? '0px' : '9999px'}) {${v}}`,
-  '@pc': (v: string) =>
-    `@media (min-width: ${device.isPc ? '0px' : '9999px'}) {${v}}`,
+  '@ios': (v: string) => `@media (min-width: ${device.isIos ? '0px' : '9999px'}) {${v}}`,
+  '@android': (v: string) => `@media (min-width: ${device.isAndroid ? '0px' : '9999px'}) {${v}}`,
+  '@native': (v: string) => `@media (min-width: ${device.isNative ? '0px' : '9999px'}) {${v}}`,
+  '@pc': (v: string) => `@media (min-width: ${device.isPc ? '0px' : '9999px'}) {${v}}`,
 });
 // 我们覆盖 @md 以及创建一个 @xxl
 addSheets({
@@ -291,11 +267,7 @@ addSheets({
 import React from 'react';
 // 最终只需要包裹一个单词的声明
 export default () => {
-  return (
-    <div inlist="width:100px; height:50px; @md:width:200px; @native:display:none;">
-      Button
-    </div>
-  );
+  return <div css-in="width:100px; height:50px; @md:width:200px; @native:display:none;">Button</div>;
 };
 ```
 
@@ -336,8 +308,8 @@ index.js
 import React from 'react';
 import { coverAttribute } from 'cssin';
 
-// 这里我们覆盖inlist对象，它会模拟 className={cssin`...`}
-coverAttribute('inlist');
+// 这里我们设置css-in属性，它会模拟 className={cssin`...`}
+coverAttribute('css-in');
 
 // 请确保 coverAttribute 在 ReactDOM.render 之前执行
 ReactDOM.render(<App />, document.getElementById('root'));
@@ -351,14 +323,14 @@ import React from 'react';
 // 最终只需要一个单词的声明，就像原生声明一样
 export const App = () => {
   return (
-    <div inlist="full; m:20px;">
-      <div inlist="button">Button</div>
+    <div css-in="full; m:20px;">
+      <div css-in="button">Button</div>
     </div>
   );
 };
 ```
 
-inlint 可以和 className 一起使用，前提是 className 必须在 inlist 之前声明
+inlint 可以和 className 一起使用，前提是 className 必须在 css-in 之前声明
 
 ```js
 import React from 'react';
@@ -367,7 +339,7 @@ import React from 'react';
 export const App = () => {
   return (
     <div>
-      <div className="app-box" inlist="button">
+      <div className="app-box" css-in="button">
         Button
       </div>
     </div>
@@ -414,7 +386,7 @@ import cssin from 'cssin';
 
 // 使用 .box 引用 css 样式
 export default () => {
-  return <div inlist="margin:4px; .box">Button</div>;
+  return <div css-in="margin:4px; .box">Button</div>;
 };
 ```
 
@@ -548,18 +520,10 @@ cssin 虽然是运行时创建 css 样式，但是它有着极低的性能开销
 ```js
 console.time(t);
 for (let i = 0; i < 500; i++) {
-  cssin(
-    `transition:all 0.1s ease-in; box-shadow:--shadow-1lg; hover:box-shadow:--shadow-1md; active:box-shadow:--shadow-sm1;`
-  );
-  cssin(
-    `transition:all 0.2s ease-in; box-shadow:--shadow-2lg; hover:box-shadow:--shadow-2md; active:box-shadow:--shadow-sm2;`
-  );
-  cssin(
-    `transition:all 0.3s ease-in; box-shadow:--shadow-3lg; hover:box-shadow:--shadow-3md; active:box-shadow:--shadow-sm3;`
-  );
-  cssin(
-    `transition:all 0.4s ease-in; box-shadow:--shadow-4lg; hover:box-shadow:--shadow-4md; active:box-shadow:--shadow-sm4;`
-  );
+  cssin(`transition:all 0.1s ease-in; box-shadow:--shadow-1lg; hover:box-shadow:--shadow-1md; active:box-shadow:--shadow-sm1;`);
+  cssin(`transition:all 0.2s ease-in; box-shadow:--shadow-2lg; hover:box-shadow:--shadow-2md; active:box-shadow:--shadow-sm2;`);
+  cssin(`transition:all 0.3s ease-in; box-shadow:--shadow-3lg; hover:box-shadow:--shadow-3md; active:box-shadow:--shadow-sm3;`);
+  cssin(`transition:all 0.4s ease-in; box-shadow:--shadow-4lg; hover:box-shadow:--shadow-4md; active:box-shadow:--shadow-sm4;`);
 }
 console.timeEnd(t); // 1.60009765625ms
 ```
