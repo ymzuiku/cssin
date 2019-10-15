@@ -1,19 +1,17 @@
-import * as React from "react";
+import * as React from 'react';
 
-import * as doc from "./doc";
-import { addSheets, cssin } from "./lib";
+import * as doc from './doc';
+import { addSheets, cssin } from './lib';
 
 addSheets({
-  code:
-    "dis:block; font-size:14px; color:--teal-700; word-wrap:break-word; word-break:break-all;"
+  code: 'dis:block; font-size:14px; color:--teal-700; word-wrap:break-word; word-break:break-all;',
 });
 addSheets({
-  button:
-    "background:--gray-300; padding:1.2rem; marge:0.5rem; border-radius:0.3rem;"
+  button: 'background:--gray-300; padding:1.2rem; marge:0.5rem; border-radius:0.3rem;',
 });
 addSheets({
-  "button-anime":
-    "button; transition:all 0.2s ease-in; box-shadow:--shadow-lg; hover:box-shadow:--shadow-md; active:box-shadow:--shadow-sm;"
+  'button-anime':
+    'button; transition:all 0.2s ease-in; shadow:lg,0,0,0,0.2; hover:shadow:lg,0,0,255,0.3; active:shadow:lg,255,0,0,0.3;',
 });
 
 cssin`.test {font-size:50px;}`;
@@ -21,22 +19,17 @@ cssin`.test {font-size:50px;}`;
 export const App: React.FC = () => {
   return (
     <div inlist=".box;">
-      <header
-        inlist={[
-          "font:2rem; font-weight:600; p:2rem; bg:--blue-400; color:--white;",
-          "color:--white;"
-        ]}
-      >
+      <header inlist={['font:2rem; font-weight:600; p:2rem; bg:--blue-400; color:--white;', 'color:--white;']}>
         cssin 文档
       </header>
       <div inlist="row; m:5rem; items:center;">
         <button
           inlist="hover:background:#f00!"
           style={{
-            background: "var(--gray-300)",
-            padding: "1.2rem",
-            margin: "0.5rem",
-            borderRadius: "0.3rem"
+            background: 'var(--gray-300)',
+            padding: '1.2rem',
+            margin: '0.5rem',
+            borderRadius: '0.3rem',
           }}
         >
           我是一个使用style编写的按钮
@@ -44,10 +37,7 @@ export const App: React.FC = () => {
         <code inlist="code; ml:1rem;">{doc.a}</code>
       </div>
       <div inlist="row; m:5rem; items:center;">
-        <button
-          className="test"
-          inlist="background:--gray-300; padding:1.2rem; marge:0.5rem; border-radius:0.3rem"
-        >
+        <button className="test" inlist="background:--gray-300; padding:1.2rem; marge:0.5rem; border-radius:0.3rem">
           我是一个按钮
         </button>
         <code inlist="code; ml:1rem;">{doc.a}</code>
@@ -57,9 +47,7 @@ export const App: React.FC = () => {
         <div>
           <code inlist="code; color:#333; m:1rem;">创建一个组件：button</code>
           <code inlist="code; ml:1rem;">{doc.b1}</code>
-          <code inlist="code; color:#333; m:1rem;">
-            只需要一个单词即可调用组件样式
-          </code>
+          <code inlist="code; color:#333; m:1rem;">只需要一个单词即可调用组件样式</code>
           <code inlist="code; ml:1rem;">{doc.b2}</code>
         </div>
       </div>
@@ -74,13 +62,9 @@ export const App: React.FC = () => {
       <div inlist="row; m:5rem; items:center;">
         <button inlist="button-anime">将旧组件和动画打包成新的组件</button>
         <div>
-          <code inlist="code; color:#333; m:1rem;">
-            创建一个组合组件：button-anime
-          </code>
+          <code inlist="code; color:#333; m:1rem;">创建一个组合组件：button-anime</code>
           <code inlist="code; ml:1rem">{doc.d1}</code>
-          <code inlist="code; color:#333; m:1rem;">
-            只需要一个单词即可调用组件样式
-          </code>
+          <code inlist="code; color:#333; m:1rem;">只需要一个单词即可调用组件样式</code>
           <code inlist="code; ml:1rem;">{doc.d2}</code>
         </div>
       </div>

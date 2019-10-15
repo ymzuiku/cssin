@@ -70,6 +70,11 @@ jsonfile@^4.0.0:
   optionalDependencies:
     graceful-fs "^4.1.6"
 
+mix-color@^1.0.12:
+  version "1.0.12"
+  resolved "https://registry.yarnpkg.com/mix-color/-/mix-color-1.0.12.tgz#aecbef03d6555b6b65631508e2f4ddd0969c0619"
+  integrity sha512-zdbBbS496cGtrbdGeVXpgIBctLF4oHKEbhWmMNx0XL+JDkbpZq3NmwkwQ/5tk/BzaW9kfuP5eVBp+1KnAj9DmA==
+
 source-map@~0.6.1:
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/source-map/-/source-map-0.6.1.tgz#74722af32e9614e9c287a8d0bbde48b5e2f1a263"

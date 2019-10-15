@@ -3,7 +3,6 @@ export declare const commonSheets: {
     gtcol: (v: any) => string;
     grow: (v: any) => string;
     gcol: (v: any) => string;
-    dis: (v: any) => string;
     items: (v: any) => string;
     justify: (v: any) => string;
     self: (v: any) => string;

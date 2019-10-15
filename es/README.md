@@ -3,11 +3,7 @@
 ```js
 import React from 'react';
 
-export default () => (
-  <button inlist="bg:#f00; @md:display:none; hover:radius:8px; radius:4px">
-    我是一个按钮
-  </button>
-);
+export default () => <button css-in="bg:#f00; @md:display:none; hover:radius:8px; radius:4px">我是一个按钮</button>;
 ```
 
 在这个文件中，我们 "似乎没有引入任何库"，就好像写内联样式一样，把样式描述、媒体查询、伪类都实现了, 并且可自定义样式名，如 bg、radius。
@@ -88,11 +84,7 @@ import React from 'react';
 import cssin from 'cssin';
 
 export default () => {
-  return (
-    <div className={cssin`btn:#f33, 8px; hover:bg:#f33; @md:radius:4px;`}>
-      Button
-    </div>
-  );
+  return <div className={cssin`btn:#f33, 8px; hover:bg:#f33; @md:radius:4px;`}>Button</div>;
 };
 ```
 
@@ -113,7 +105,7 @@ export default () => {
 import React from 'react';
 
 export default () => {
-  return <div inlist="button">Button</div>;
+  return <div css-in="button">Button</div>;
 };
 ```
 
@@ -269,14 +261,10 @@ addSheets({
   '@md': (v: string) => `@media (min-width: 768px) {${v}}`,
   '@lg': (v: string) => `@media (min-width: 1024px) {${v}}`,
   '@xl': (v: string) => `@media (min-width: 1280px) {${v}}`,
-  '@ios': (v: string) =>
-    `@media (min-width: ${device.isIos ? '0px' : '9999px'}) {${v}}`,
-  '@android': (v: string) =>
-    `@media (min-width: ${device.isAndroid ? '0px' : '9999px'}) {${v}}`,
-  '@native': (v: string) =>
-    `@media (min-width: ${device.isNative ? '0px' : '9999px'}) {${v}}`,
-  '@pc': (v: string) =>
-    `@media (min-width: ${device.isPc ? '0px' : '9999px'}) {${v}}`,
+  '@ios': (v: string) => `@media (min-width: ${device.isIos ? '0px' : '9999px'}) {${v}}`,
+  '@android': (v: string) => `@media (min-width: ${device.isAndroid ? '0px' : '9999px'}) {${v}}`,
+  '@native': (v: string) => `@media (min-width: ${device.isNative ? '0px' : '9999px'}) {${v}}`,
+  '@pc': (v: string) => `@media (min-width: ${device.isPc ? '0px' : '9999px'}) {${v}}`,
 });
 // 我们覆盖 @md 以及创建一个 @xxl
 addSheets({
@@ -291,11 +279,7 @@ addSheets({
 import React from 'react';
 // 最终只需要包裹一个单词的声明
 export default () => {
-  return (
-    <div inlist="width:100px; height:50px; @md:width:200px; @native:display:none;">
-      Button
-    </div>
-  );
+  return <div css-in="width:100px; height:50px; @md:width:200px; @native:display:none;">Button</div>;
 };
 ```
 
@@ -336,8 +320,8 @@ index.js
 import React from 'react';
 import { coverAttribute } from 'cssin';
 
-// 这里我们覆盖inlist对象，它会模拟 className={cssin`...`}
-coverAttribute('inlist');
+// 这里我们设置css-in属性，它会模拟 className={cssin`...`}
+coverAttribute('css-in');
 
 // 请确保 coverAttribute 在 ReactDOM.render 之前执行
 ReactDOM.render(<App />, document.getElementById('root'));
@@ -351,14 +335,14 @@ import React from 'react';
 // 最终只需要一个单词的声明，就像原生声明一样
 export const App = () => {
   return (
-    <div inlist="full; m:20px;">
-      <div inlist="button">Button</div>
+    <div css-in="full; m:20px;">
+      <div css-in="button">Button</div>
     </div>
   );
 };
 ```
 
-inlint 可以和 className 一起使用，前提是 className 必须在 inlist 之前声明
+inlint 可以和 className 一起使用，前提是 className 必须在 css-in 之前声明
 
 ```js
 import React from 'react';
@@ -367,7 +351,7 @@ import React from 'react';
 export const App = () => {
   return (
     <div>
-      <div className="app-box" inlist="button">
+      <div className="app-box" css-in="button">
         Button
       </div>
     </div>
@@ -414,7 +398,7 @@ import cssin from 'cssin';
 
 // 使用 .box 引用 css 样式
 export default () => {
-  return <div inlist="margin:4px; .box">Button</div>;
+  return <div css-in="margin:4px; .box">Button</div>;
 };
 ```
 
@@ -431,71 +415,72 @@ import 'cssin/commonCSSValues'; // 引入 css-value 集合
 
 commonSheets 中的内容:
 
-| 自定义样式名 | 映射样式                                          | 使用               |
-| ------------ | ------------------------------------------------- | ------------------ |
-| dis          | display                                           | dis: flex;         |
-| items        | align-items                                       | items: 20px;       |
-| justify      | justify-content                                   | justify: start;    |
-| self         | align-self                                        | self: center;      |
-| content      | align-content                                     | content: end;      |
-| z            | z-index                                           | z: 10;             |
-| p            | padding                                           | p: 5rem;           |
-| px           | pading-left, padding-right                        | px: 5rem;          |
-| py           | padding-top, padding-bottom                       | py: 5rem;          |
-| pl           | padding-left                                      | pl: 5rem;          |
-| pt           | padding-top                                       | pt: 5rem;          |
-| pr           | padding-right                                     | pr: 5rem;          |
-| pb           | padding-bottom                                    | pb: 5rem;          |
-| m            | margin                                            | m: 5rem;           |
-| mx           | margin-left, margin-right                         | mx: 5rem;          |
-| my           | margin-top, margin-bottom                         | my: 5rem;          |
-| ml           | margin-left                                       | ml: 5rem;          |
-| mt           | margin-top                                        | mt: 5rem;          |
-| mr           | margin-right                                      | mr: 5rem;          |
-| mb           | margin-bottom                                     | mb: 5rem;          |
-| w            | width                                             | w: 5rem;           |
-| w-min        | min-width                                         | w-min: 5rem;       |
-| w-max        | max-width                                         | w-max: 5rem;       |
-| w-min-max    | min-width, max-width                              | w-min-max: 5rem;   |
-| h            | height                                            | h: 5rem;           |
-| h-min        | min-height                                        | h-min: 5rem;       |
-| h-max        | max-height                                        | h-max: 5rem;       |
-| h-min-max    | min-height, max-height                            | h-min-max: 5rem;   |
-| b            | border: \${v} solid;                              | b: 5rem;           |
-| bl           | border-left: \${v} solid;                         | bl: 5rem;          |
-| bt           | border-top: \${v} solid;                          | bt: 5rem;          |
-| br           | border-right: \${v} solid;                        | br: 5rem;          |
-| bb           | border-bottom: \${v} solid;                       | bb: 5rem;          |
-| bc           | border-color                                      | bc: #f00;          |
-| radius       | border-radius                                     | radius: 2rem;      |
-| font         | font-size                                         | font: 1.25rem;     |
-| bg           | background                                        | background: #f00;  |
-| bgc          | background-color                                  | bgc: #f00;         |
-| linear       | transition: all \${v} linear;                     | linear: 0.3s;      |
-| ease         | transition: all \${v} ease;                       | ease: 0.3s;        |
-| ease-in      | transition: all \${v} ease-in;                    | ease-in: 0.3s;     |
-| ease-out     | transition: all \${v} ease-out;                   | ease-out: 0.3s;    |
-| ease-in-out  | transition: all \${v} ease-in-out;                | ease-in-out: 0.3s; |
-| move-x       | transform: translateX(\${v});                     | move-x: 50%;       |
-| move-y       | transform: translateY(\${v});                     | move-y: 50%;       |
-| move-z       | transform: translateZ(\${v});                     | move-z: 50%;       |
-| rotate       | transform: rotate(\${v}deg);                      | rotate: 180;       |
-| scale        | transform: scale(\${v}, \${v});                   | scale: 0.7;        |
-| 以下均为组件 |                                                   | 组件不需要设置值   |
-| scroll       | overflow:auto; -webkit-overflow-scrolling: touch; | scroll;            |
-| col          | dis:flex; flex-direction:column;                  | col;               |
-| row          | dis:flex; flex-direction:row;                     | row;               |
-| center       | col; justify:center; items:center;                | center;            |
-| fixed        | position:fixed;                                   | fixed;             |
-| static       | position:static;                                  | static;            |
-| absolute     | position:absolute;                                | absolute;          |
-| relative     | position:relative;                                | relative;          |
-| sticky       | position:sticky;                                  | sticky;            |
-| left         | left:0px;                                         | left;              |
-| top          | top:0px;                                          | top;               |
-| right        | right:0px;                                        | right;             |
-| bottom       | bottom:0px;                                       | bottom;            |
-| bold         | font-weight: bold;                                | bold;              |
+| 自定义样式名 | 映射样式                                          | 使用                        |
+| ------------ | ------------------------------------------------- | --------------------------- |
+| dis          | display                                           | dis: flex;                  |
+| items        | align-items                                       | items: 20px;                |
+| justify      | justify-content                                   | justify: start;             |
+| self         | align-self                                        | self: center;               |
+| content      | align-content                                     | content: end;               |
+| z            | z-index                                           | z: 10;                      |
+| p            | padding                                           | p: 5rem;                    |
+| px           | pading-left, padding-right                        | px: 5rem;                   |
+| py           | padding-top, padding-bottom                       | py: 5rem;                   |
+| pl           | padding-left                                      | pl: 5rem;                   |
+| pt           | padding-top                                       | pt: 5rem;                   |
+| pr           | padding-right                                     | pr: 5rem;                   |
+| pb           | padding-bottom                                    | pb: 5rem;                   |
+| m            | margin                                            | m: 5rem;                    |
+| mx           | margin-left, margin-right                         | mx: 5rem;                   |
+| my           | margin-top, margin-bottom                         | my: 5rem;                   |
+| ml           | margin-left                                       | ml: 5rem;                   |
+| mt           | margin-top                                        | mt: 5rem;                   |
+| mr           | margin-right                                      | mr: 5rem;                   |
+| mb           | margin-bottom                                     | mb: 5rem;                   |
+| w            | width                                             | w: 5rem;                    |
+| w-min        | min-width                                         | w-min: 5rem;                |
+| w-max        | max-width                                         | w-max: 5rem;                |
+| w-min-max    | min-width, max-width                              | w-min-max: 5rem;            |
+| h            | height                                            | h: 5rem;                    |
+| h-min        | min-height                                        | h-min: 5rem;                |
+| h-max        | max-height                                        | h-max: 5rem;                |
+| h-min-max    | min-height, max-height                            | h-min-max: 5rem;            |
+| b            | border: \${v} solid;                              | b: 5rem;                    |
+| bl           | border-left: \${v} solid;                         | bl: 5rem;                   |
+| bt           | border-top: \${v} solid;                          | bt: 5rem;                   |
+| br           | border-right: \${v} solid;                        | br: 5rem;                   |
+| bb           | border-bottom: \${v} solid;                       | bb: 5rem;                   |
+| bc           | border-color                                      | bc: #f00;                   |
+| radius       | border-radius                                     | radius: 2rem;               |
+| font         | font-size                                         | font: 1.25rem;              |
+| bg           | background                                        | background: #f00;           |
+| bgc          | background-color                                  | bgc: #f00;                  |
+| linear       | transition: all \${v} linear;                     | linear: 0.3s;               |
+| ease         | transition: all \${v} ease;                       | ease: 0.3s;                 |
+| ease-in      | transition: all \${v} ease-in;                    | ease-in: 0.3s;              |
+| ease-out     | transition: all \${v} ease-out;                   | ease-out: 0.3s;             |
+| ease-in-out  | transition: all \${v} ease-in-out;                | ease-in-out: 0.3s;          |
+| move-x       | transform: translateX(\${v});                     | move-x: 50%;                |
+| move-y       | transform: translateY(\${v});                     | move-y: 50%;                |
+| move-z       | transform: translateZ(\${v});                     | move-z: 50%;                |
+| rotate       | transform: rotate(\${v}deg);                      | rotate: 180;                |
+| scale        | transform: scale(\${v}, \${v});                   | scale: 0.7;                 |
+| shadow       | shadow: shadowFN(size, r, g, b, a);               | shadow: lg, 0, 0, 255, 0.7; |
+| 以下均为组件 |                                                   | 组件不需要设置值            |
+| scroll       | overflow:auto; -webkit-overflow-scrolling: touch; | scroll;                     |
+| col          | dis:flex; flex-direction:column;                  | col;                        |
+| row          | dis:flex; flex-direction:row;                     | row;                        |
+| center       | col; justify:center; items:center;                | center;                     |
+| fixed        | position:fixed;                                   | fixed;                      |
+| static       | position:static;                                  | static;                     |
+| absolute     | position:absolute;                                | absolute;                   |
+| relative     | position:relative;                                | relative;                   |
+| sticky       | position:sticky;                                  | sticky;                     |
+| left         | left:0px;                                         | left;                       |
+| top          | top:0px;                                          | top;                        |
+| right        | right:0px;                                        | right;                      |
+| bottom       | bottom:0px;                                       | bottom;                     |
+| bold         | font-weight: bold;                                | bold;                       |
 
 commonCSSValues 设置了一些 css-value, 其中的颜色、尺寸分类、投影均取自于 tailwindCSS 的配置：
 
@@ -518,7 +503,7 @@ export default () => {
         bg:--gray-200; 
         p:--2; 
         font:--font-sm; 
-        box-shadow:--shadow-xl
+        shadow:xl,255,0,0,0.5;
       `}
     >
       Button
@@ -533,11 +518,7 @@ export default () => {
 
 [commonCSSValues.ts](https://github.com/ymzuiku/cssin/blob/master/lib/commonCSSValues.ts)
 
-如果我们要对其进行修改，可以下载该资源进行修改，也可以直接拷贝一份 babel 转译前的版本：
-
-```sh
-$ cp -rf node_modules/cssin/cssinCommonV1 ./src
-```
+如果我们要对其进行修改，可以下载该资源进行修改：
 
 # 性能开销
 

@@ -8,11 +8,16 @@ const flexCode = {
 };
 
 const shadowList = {
-  sm: (rgb: any) => `{box-shadow: 0 1px 3px 0 rgba(${rgb}, 0.11), 0 1px 2px 0 rgba(${rgb}, 0.07);}`,
-  md: (rgb: any) => `{box-shadow: 0 4px 6px -1px rgba(${rgb}, 0.11), 0 2px 4px -1px rgba(${rgb}, 0.07);}`,
-  lg: (rgb: any) => `{box-shadow: 0 10px 15px -3px rgba(${rgb}, 0.11), 0 4px 6px -2px rgba(${rgb}, 0.07);}`,
-  xl: (rgb: any) => `{box-shadow: 0 20px 25px -5px rgba(${rgb}, 0.13), 0 10px 10px -5px rgba(${rgb}, 0.07);}`,
-  xxl: (rgb: any) => `{box-shadow: 0 25px 30px -5px rgba(${rgb}, 0.13), 0 10px 10px -5px rgba(${rgb}, 0.07);}`,
+  sm: (rgb: any, a: any) =>
+    `{box-shadow: 0 1px 3px 0 rgba(${rgb}, ${a}), 0 1px 2px 0 rgba(${rgb}, ${a > 0 ? a / 2 : 0});}`,
+  md: (rgb: any, a: any) =>
+    `{box-shadow: 0 4px 6px -1px rgba(${rgb}, ${a}), 0 2px 4px -1px rgba(${rgb}, ${a > 0 ? a / 2 : 0});}`,
+  lg: (rgb: any, a: any) =>
+    `{box-shadow: 0 10px 15px -3px rgba(${rgb}, ${a}), 0 4px 6px -2px rgba(${rgb}, ${a > 0 ? a / 2 : 0});}`,
+  xl: (rgb: any, a: any) =>
+    `{box-shadow: 0 20px 25px -5px rgba(${rgb}, ${a}), 0 10px 10px -5px rgba(${rgb}, ${a > 0 ? a / 2 : 0});}`,
+  xxl: (rgb: any, a: any) =>
+    `{box-shadow: 0 25px 30px -5px rgba(${rgb}, ${a}), 0 10px 10px -5px rgba(${rgb}, ${a > 0 ? a / 2 : 0});}`,
 };
 
 export const commonSheets = {
@@ -20,7 +25,6 @@ export const commonSheets = {
   gtcol: (v: any) => `{ grid-template-columns: ${v}; }`,
   grow: (v: any) => `{ grid-row: ${v}; }`,
   gcol: (v: any) => `{ grid-column: ${v}; }`,
-  dis: (v: any) => `{ display: ${v}; }`,
   items: (v: any) => `{ align-items: ${(flexCode as any)[v] || v};}`,
   justify: (v: any) => `{ justify-content: ${(flexCode as any)[v] || v}; }`,
   self: (v: any) => `{ align-self: ${(flexCode as any)[v] || v} };`,
@@ -79,9 +83,9 @@ export const commonSheets = {
   'move-z': (v: any) => `{ transform: translateZ(${v}); }`,
   shadow: (v: any) => {
     if (typeof v === 'string') {
-      const [key, ...rgb] = v.split(',').map(s => s.trim());
+      const [key, r, g, b, a] = v.split(',').map(s => s.trim());
 
-      return (shadowList as any)[key](rgb.join(','));
+      return (shadowList as any)[key]([r, g, b].join(','), a);
     }
 
     return '';

@@ -6408,6 +6408,11 @@ mississippi@^3.0.0:
     stream-each "^1.1.0"
     through2 "^2.0.0"
 
+mix-color@^1.0.12:
+  version "1.0.12"
+  resolved "https://registry.yarnpkg.com/mix-color/-/mix-color-1.0.12.tgz#aecbef03d6555b6b65631508e2f4ddd0969c0619"
+  integrity sha512-zdbBbS496cGtrbdGeVXpgIBctLF4oHKEbhWmMNx0XL+JDkbpZq3NmwkwQ/5tk/BzaW9kfuP5eVBp+1KnAj9DmA==
+
 mixin-deep@^1.2.0:
   version "1.3.1"
   resolved "https://registry.yarnpkg.com/mixin-deep/-/mixin-deep-1.3.1.tgz#a49e7268dce1a0d9698e45326c5626df3543d0fe"

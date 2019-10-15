@@ -53,10 +53,14 @@ addSheets({
   '@md': (v: string) => `@media (min-width: 768px) {${v}}`,
   '@lg': (v: string) => `@media (min-width: 1024px) {${v}}`,
   '@xl': (v: string) => `@media (min-width: 1280px) {${v}}`,
-  '@ios': (v: string) => `@media (min-width: ${device.isIos ? '0px' : '9999px'}) {${v}}`,
-  '@android': (v: string) => `@media (min-width: ${device.isAndroid ? '0px' : '9999px'}) {${v}}`,
-  '@native': (v: string) => `@media (min-width: ${device.isNative ? '0px' : '9999px'}) {${v}}`,
-  '@pc': (v: string) => `@media (min-width: ${device.isPc ? '0px' : '9999px'}) {${v}}`,
+  '@ios': (v: string) =>
+    `@media (min-width: ${device.isIos() ? '0px' : '9999px'}) {${v}}`,
+  '@android': (v: string) =>
+    `@media (min-width: ${device.isAndroid() ? '0px' : '9999px'}) {${v}}`,
+  '@native': (v: string) =>
+    `@media (min-width: ${device.isNative() ? '0px' : '9999px'}) {${v}}`,
+  '@pc': (v: string) =>
+    `@media (min-width: ${device.isPc() ? '0px' : '9999px'}) {${v}}`,
 });
 
 /* 用于缓存 css 片段的插入 */
@@ -125,7 +129,10 @@ export const cssin = (...args: any) => {
       return;
     }
     // tslint:disable-next-line
-    const name = `c-${str.replace(/[^-0-0a-zA-Z]/g, (reg: string) => `_${reg.charCodeAt(0).toString(16)}_`)}`;
+    const name = `c-${str.replace(
+      /[^-0-0a-zA-Z]/g,
+      (reg: string) => `_${reg.charCodeAt(0).toString(16)}_`,
+    )}`;
     let media = obj[obj.length - 4] || '';
     let hover = obj[obj.length - 3] || '';
     const sheet = obj[obj.length - 2] || '';
@@ -161,7 +168,8 @@ export const cssin = (...args: any) => {
 
     // 如果是 sheet，使用 cssSheet 返回 block，
     // 如果是 string(component)，直接使用 value, 因为 value 在其他逻辑已然计算过了
-    block = typeof cssSheet === 'function' ? cssSheet(value) : `{${sheet}:${value};}`;
+    block =
+      typeof cssSheet === 'function' ? cssSheet(value) : `{${sheet}:${value};}`;
 
     // 拼装 css 内容
     css = `.${name}${hover ? ':' : ''}${hover} ${block}`;
@@ -204,7 +212,11 @@ export const coverAttribute = (attribute: string) => {
         }
 
         if (this.__cssin.tempClass) {
-          setAttribute.call(this, 'class', `${cssin(value)} ${this.__cssin.tempClass}`);
+          setAttribute.call(
+            this,
+            'class',
+            `${cssin(value)} ${this.__cssin.tempClass}`,
+          );
         } else {
           setAttribute.call(this, 'class', cssin(value));
           setAttribute.call(this, attribute, cssin(value));

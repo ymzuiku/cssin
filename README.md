@@ -65,7 +65,13 @@ import cssin from 'cssin';
 document.body.style.setProperty('--button-color', '#fff');
 
 export default () => {
-  return <div className={cssin`background-color:#f66; hover:background-color:#f33; padding:8px; color:#000; border:2px solid #f33; @md:border-radius:4px;`}>Button</div>;
+  return (
+    <div
+      className={cssin`background-color:#f66; hover:background-color:#f33; padding:8px; color:#000; border:2px solid #f33; @md:border-radius:4px;`}
+    >
+      Button
+    </div>
+  );
 };
 ```
 
@@ -111,7 +117,13 @@ export default () => {
 
 ```js
 export default () => {
-  return <div className={cssin`background-color:#f66; hover:background-color:#f33; padding:8px; color:--button-color; border:2px solid #f33; @md:border-radius:4px;`}>Button</div>;
+  return (
+    <div
+      className={cssin`background-color:#f66; hover:background-color:#f33; padding:8px; color:--button-color; border:2px solid #f33; @md:border-radius:4px;`}
+    >
+      Button
+    </div>
+  );
 };
 ```
 
@@ -403,71 +415,72 @@ import 'cssin/commonCSSValues'; // 引入 css-value 集合
 
 commonSheets 中的内容:
 
-| 自定义样式名 | 映射样式                                          | 使用               |
-| ------------ | ------------------------------------------------- | ------------------ |
-| dis          | display                                           | dis: flex;         |
-| items        | align-items                                       | items: 20px;       |
-| justify      | justify-content                                   | justify: start;    |
-| self         | align-self                                        | self: center;      |
-| content      | align-content                                     | content: end;      |
-| z            | z-index                                           | z: 10;             |
-| p            | padding                                           | p: 5rem;           |
-| px           | pading-left, padding-right                        | px: 5rem;          |
-| py           | padding-top, padding-bottom                       | py: 5rem;          |
-| pl           | padding-left                                      | pl: 5rem;          |
-| pt           | padding-top                                       | pt: 5rem;          |
-| pr           | padding-right                                     | pr: 5rem;          |
-| pb           | padding-bottom                                    | pb: 5rem;          |
-| m            | margin                                            | m: 5rem;           |
-| mx           | margin-left, margin-right                         | mx: 5rem;          |
-| my           | margin-top, margin-bottom                         | my: 5rem;          |
-| ml           | margin-left                                       | ml: 5rem;          |
-| mt           | margin-top                                        | mt: 5rem;          |
-| mr           | margin-right                                      | mr: 5rem;          |
-| mb           | margin-bottom                                     | mb: 5rem;          |
-| w            | width                                             | w: 5rem;           |
-| w-min        | min-width                                         | w-min: 5rem;       |
-| w-max        | max-width                                         | w-max: 5rem;       |
-| w-min-max    | min-width, max-width                              | w-min-max: 5rem;   |
-| h            | height                                            | h: 5rem;           |
-| h-min        | min-height                                        | h-min: 5rem;       |
-| h-max        | max-height                                        | h-max: 5rem;       |
-| h-min-max    | min-height, max-height                            | h-min-max: 5rem;   |
-| b            | border: \${v} solid;                              | b: 5rem;           |
-| bl           | border-left: \${v} solid;                         | bl: 5rem;          |
-| bt           | border-top: \${v} solid;                          | bt: 5rem;          |
-| br           | border-right: \${v} solid;                        | br: 5rem;          |
-| bb           | border-bottom: \${v} solid;                       | bb: 5rem;          |
-| bc           | border-color                                      | bc: #f00;          |
-| radius       | border-radius                                     | radius: 2rem;      |
-| font         | font-size                                         | font: 1.25rem;     |
-| bg           | background                                        | background: #f00;  |
-| bgc          | background-color                                  | bgc: #f00;         |
-| linear       | transition: all \${v} linear;                     | linear: 0.3s;      |
-| ease         | transition: all \${v} ease;                       | ease: 0.3s;        |
-| ease-in      | transition: all \${v} ease-in;                    | ease-in: 0.3s;     |
-| ease-out     | transition: all \${v} ease-out;                   | ease-out: 0.3s;    |
-| ease-in-out  | transition: all \${v} ease-in-out;                | ease-in-out: 0.3s; |
-| move-x       | transform: translateX(\${v});                     | move-x: 50%;       |
-| move-y       | transform: translateY(\${v});                     | move-y: 50%;       |
-| move-z       | transform: translateZ(\${v});                     | move-z: 50%;       |
-| rotate       | transform: rotate(\${v}deg);                      | rotate: 180;       |
-| scale        | transform: scale(\${v}, \${v});                   | scale: 0.7;        |
-| 以下均为组件 |                                                   | 组件不需要设置值   |
-| scroll       | overflow:auto; -webkit-overflow-scrolling: touch; | scroll;            |
-| col          | dis:flex; flex-direction:column;                  | col;               |
-| row          | dis:flex; flex-direction:row;                     | row;               |
-| center       | col; justify:center; items:center;                | center;            |
-| fixed        | position:fixed;                                   | fixed;             |
-| static       | position:static;                                  | static;            |
-| absolute     | position:absolute;                                | absolute;          |
-| relative     | position:relative;                                | relative;          |
-| sticky       | position:sticky;                                  | sticky;            |
-| left         | left:0px;                                         | left;              |
-| top          | top:0px;                                          | top;               |
-| right        | right:0px;                                        | right;             |
-| bottom       | bottom:0px;                                       | bottom;            |
-| bold         | font-weight: bold;                                | bold;              |
+| 自定义样式名 | 映射样式                                          | 使用                        |
+| ------------ | ------------------------------------------------- | --------------------------- |
+| dis          | display                                           | dis: flex;                  |
+| items        | align-items                                       | items: 20px;                |
+| justify      | justify-content                                   | justify: start;             |
+| self         | align-self                                        | self: center;               |
+| content      | align-content                                     | content: end;               |
+| z            | z-index                                           | z: 10;                      |
+| p            | padding                                           | p: 5rem;                    |
+| px           | pading-left, padding-right                        | px: 5rem;                   |
+| py           | padding-top, padding-bottom                       | py: 5rem;                   |
+| pl           | padding-left                                      | pl: 5rem;                   |
+| pt           | padding-top                                       | pt: 5rem;                   |
+| pr           | padding-right                                     | pr: 5rem;                   |
+| pb           | padding-bottom                                    | pb: 5rem;                   |
+| m            | margin                                            | m: 5rem;                    |
+| mx           | margin-left, margin-right                         | mx: 5rem;                   |
+| my           | margin-top, margin-bottom                         | my: 5rem;                   |
+| ml           | margin-left                                       | ml: 5rem;                   |
+| mt           | margin-top                                        | mt: 5rem;                   |
+| mr           | margin-right                                      | mr: 5rem;                   |
+| mb           | margin-bottom                                     | mb: 5rem;                   |
+| w            | width                                             | w: 5rem;                    |
+| w-min        | min-width                                         | w-min: 5rem;                |
+| w-max        | max-width                                         | w-max: 5rem;                |
+| w-min-max    | min-width, max-width                              | w-min-max: 5rem;            |
+| h            | height                                            | h: 5rem;                    |
+| h-min        | min-height                                        | h-min: 5rem;                |
+| h-max        | max-height                                        | h-max: 5rem;                |
+| h-min-max    | min-height, max-height                            | h-min-max: 5rem;            |
+| b            | border: \${v} solid;                              | b: 5rem;                    |
+| bl           | border-left: \${v} solid;                         | bl: 5rem;                   |
+| bt           | border-top: \${v} solid;                          | bt: 5rem;                   |
+| br           | border-right: \${v} solid;                        | br: 5rem;                   |
+| bb           | border-bottom: \${v} solid;                       | bb: 5rem;                   |
+| bc           | border-color                                      | bc: #f00;                   |
+| radius       | border-radius                                     | radius: 2rem;               |
+| font         | font-size                                         | font: 1.25rem;              |
+| bg           | background                                        | background: #f00;           |
+| bgc          | background-color                                  | bgc: #f00;                  |
+| linear       | transition: all \${v} linear;                     | linear: 0.3s;               |
+| ease         | transition: all \${v} ease;                       | ease: 0.3s;                 |
+| ease-in      | transition: all \${v} ease-in;                    | ease-in: 0.3s;              |
+| ease-out     | transition: all \${v} ease-out;                   | ease-out: 0.3s;             |
+| ease-in-out  | transition: all \${v} ease-in-out;                | ease-in-out: 0.3s;          |
+| move-x       | transform: translateX(\${v});                     | move-x: 50%;                |
+| move-y       | transform: translateY(\${v});                     | move-y: 50%;                |
+| move-z       | transform: translateZ(\${v});                     | move-z: 50%;                |
+| rotate       | transform: rotate(\${v}deg);                      | rotate: 180;                |
+| scale        | transform: scale(\${v}, \${v});                   | scale: 0.7;                 |
+| shadow       | shadow: shadowFN(size, r, g, b, a);               | shadow: lg, 0, 0, 255, 0.7; |
+| 以下均为组件 |                                                   | 组件不需要设置值            |
+| scroll       | overflow:auto; -webkit-overflow-scrolling: touch; | scroll;                     |
+| col          | dis:flex; flex-direction:column;                  | col;                        |
+| row          | dis:flex; flex-direction:row;                     | row;                        |
+| center       | col; justify:center; items:center;                | center;                     |
+| fixed        | position:fixed;                                   | fixed;                      |
+| static       | position:static;                                  | static;                     |
+| absolute     | position:absolute;                                | absolute;                   |
+| relative     | position:relative;                                | relative;                   |
+| sticky       | position:sticky;                                  | sticky;                     |
+| left         | left:0px;                                         | left;                       |
+| top          | top:0px;                                          | top;                        |
+| right        | right:0px;                                        | right;                      |
+| bottom       | bottom:0px;                                       | bottom;                     |
+| bold         | font-weight: bold;                                | bold;                       |
 
 commonCSSValues 设置了一些 css-value, 其中的颜色、尺寸分类、投影均取自于 tailwindCSS 的配置：
 
@@ -490,7 +503,7 @@ export default () => {
         bg:--gray-200; 
         p:--2; 
         font:--font-sm; 
-        box-shadow:--shadow-xl
+        shadow:xl,255,0,0,0.5;
       `}
     >
       Button
@@ -505,11 +518,7 @@ export default () => {
 
 [commonCSSValues.ts](https://github.com/ymzuiku/cssin/blob/master/lib/commonCSSValues.ts)
 
-如果我们要对其进行修改，可以下载该资源进行修改，也可以直接拷贝一份 babel 转译前的版本：
-
-```sh
-$ cp -rf node_modules/cssin/cssinCommonV1 ./src
-```
+如果我们要对其进行修改，可以下载该资源进行修改：
 
 # 性能开销
 
@@ -520,10 +529,18 @@ cssin 虽然是运行时创建 css 样式，但是它有着极低的性能开销
 ```js
 console.time(t);
 for (let i = 0; i < 500; i++) {
-  cssin(`transition:all 0.1s ease-in; box-shadow:--shadow-1lg; hover:box-shadow:--shadow-1md; active:box-shadow:--shadow-sm1;`);
-  cssin(`transition:all 0.2s ease-in; box-shadow:--shadow-2lg; hover:box-shadow:--shadow-2md; active:box-shadow:--shadow-sm2;`);
-  cssin(`transition:all 0.3s ease-in; box-shadow:--shadow-3lg; hover:box-shadow:--shadow-3md; active:box-shadow:--shadow-sm3;`);
-  cssin(`transition:all 0.4s ease-in; box-shadow:--shadow-4lg; hover:box-shadow:--shadow-4md; active:box-shadow:--shadow-sm4;`);
+  cssin(
+    `transition:all 0.1s ease-in; box-shadow:--shadow-1lg; hover:box-shadow:--shadow-1md; active:box-shadow:--shadow-sm1;`
+  );
+  cssin(
+    `transition:all 0.2s ease-in; box-shadow:--shadow-2lg; hover:box-shadow:--shadow-2md; active:box-shadow:--shadow-sm2;`
+  );
+  cssin(
+    `transition:all 0.3s ease-in; box-shadow:--shadow-3lg; hover:box-shadow:--shadow-3md; active:box-shadow:--shadow-sm3;`
+  );
+  cssin(
+    `transition:all 0.4s ease-in; box-shadow:--shadow-4lg; hover:box-shadow:--shadow-4md; active:box-shadow:--shadow-sm4;`
+  );
 }
 console.timeEnd(t); // 1.60009765625ms
 ```
