@@ -3,10 +3,11 @@ import * as ReactDOM from 'react-dom';
 
 import { App } from './App';
 import { coverAttribute } from './lib';
-import './lib/commonCSSValues';
+import { setGlobalCss } from './lib/commonCSSValues';
 import './lib/commonSheets';
 import * as serviceWorker from './serviceWorker';
 
+setGlobalCss();
 coverAttribute('inlist');
 
 ReactDOM.render(<App />, document.getElementById('root'));
