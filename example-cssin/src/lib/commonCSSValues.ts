@@ -29,6 +29,7 @@ function getColors(names?: string[]) {
   }
 
   let col = '';
+  col += calcPalette('white', '#FFFFFF', '#f0f0f0', '#aaaaaa');
   col += calcPalette('black', '#FCFCFC', '#969696', '#2C2C2C');
   col += calcPalette('gray', '#f7fafc', '#718096', '#121721');
   col += calcPalette('red', '#fff5f5', '#e53e3e', '#742a2a');
