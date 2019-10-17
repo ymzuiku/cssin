@@ -3,7 +3,9 @@
 ```js
 import React from 'react';
 
-export default () => <button css-in="bg:#f00; @md:display:none; hover:radius:8px; radius:4px">我是一个按钮</button>;
+export default () => (
+  <button className={cssin`bg:#f00; @md:display:none; hover:radius:8px; radius:4px`}>我是一个按钮</button>
+);
 ```
 
 在这个文件中，我们 "似乎没有引入任何库"，就好像写内联样式一样，把样式描述、媒体查询、伪类都实现了, 并且可自定义样式名，如 bg、radius。
@@ -96,16 +98,6 @@ import cssin from 'cssin';
 
 export default () => {
   return <div className={cssin`button`}>Button</div>;
-};
-```
-
-更加极限极限简洁, 连 cssin 的包裹都省略掉：
-
-```js
-import React from 'react';
-
-export default () => {
-  return <div css-in="button">Button</div>;
 };
 ```
 
@@ -279,7 +271,7 @@ addSheets({
 import React from 'react';
 // 最终只需要包裹一个单词的声明
 export default () => {
-  return <div css-in="width:100px; height:50px; @md:width:200px; @native:display:none;">Button</div>;
+  return <div className={cssin`width:100px; height:50px; @md:width:200px; @native:display:none;`}>Button</div>;
 };
 ```
 
@@ -307,61 +299,6 @@ export default () => {
 ```
 
 注意，组件不可以和伪类或者媒体查询进行组合，因为组件内部就已经包含了伪类或媒体查询
-
-# 覆盖 setAttribute
-
-这里涉及一些魔法，请辩证的使用。
-
-作者在编写代码的时候不希望每次都引用 cssin，这对作者来说太过繁琐了，如果你也有这种感觉，可以使用 cssin 的 `coverAttribute`
-
-index.js
-
-```js
-import React from 'react';
-import { coverAttribute } from 'cssin';
-
-// 这里我们设置css-in属性，它会模拟 className={cssin`...`}
-coverAttribute('css-in');
-
-// 请确保 coverAttribute 在 ReactDOM.render 之前执行
-ReactDOM.render(<App />, document.getElementById('root'));
-```
-
-App.js
-
-```js
-import React from 'react';
-
-// 最终只需要一个单词的声明，就像原生声明一样
-export const App = () => {
-  return (
-    <div css-in="full; m:20px;">
-      <div css-in="button">Button</div>
-    </div>
-  );
-};
-```
-
-inlint 可以和 className 一起使用，前提是 className 必须在 css-in 之前声明
-
-```js
-import React from 'react';
-
-// 最终只需要一个单词的声明，就像原生声明一样
-export const App = () => {
-  return (
-    <div>
-      <div className="app-box" css-in="button">
-        Button
-      </div>
-    </div>
-  );
-};
-```
-
-我们需要注意，覆盖 setAttribute 并不是非常正确的做法，因为它带来了其他开发人员的不友好，其他人员并不知道我们做了这些黑魔法的前提下，会非常困惑。
-
-另外，请不要覆盖 className 等常用属性，这样会让其他组件库失效
 
 # 使用 css 原生功能在 javascript 中
 
@@ -398,7 +335,7 @@ import cssin from 'cssin';
 
 // 使用 .box 引用 css 样式
 export default () => {
-  return <div css-in="margin:4px; .box">Button</div>;
+  return <div className={cssin`margin:4px; .box`}>Button</div>;
 };
 ```
 
@@ -409,8 +346,16 @@ cssin 提供了一整套预设的自定义样式集合及 css-value 集合，它
 默认情况下 cssin 并未配置它，如果我们需要可以如下配置：
 
 ```js
-import 'cssin/commonSheets'; // 引入 sheets集合
-import 'cssin/commonCSSValues'; // 引入 css-value 集合
+import { cssin, addSheets } from 'cssin';
+import { commonSheets } from 'cssin/umd/commonSheets';
+import { globalCss, valueCss } from 'cssin/umd/commonCSSValues';
+
+// 引入 sheets集合
+addSheets(commonSheets);
+// 引入 css变量样式
+cssin(valueCss);
+// 引入 全局样式，里面包含了 normal-css 等其他统一浏览器样式的css设置， 注意全局样式可能会污染现有项目样式
+cssin(globalCss);
 ```
 
 commonSheets 中的内容:
@@ -530,16 +475,16 @@ cssin 虽然是运行时创建 css 样式，但是它有着极低的性能开销
 console.time(t);
 for (let i = 0; i < 500; i++) {
   cssin(
-    `transition:all 0.1s ease-in; box-shadow:--shadow-1lg; hover:box-shadow:--shadow-1md; active:box-shadow:--shadow-sm1;`
+    `transition:all 0.1s ease-in; box-shadow:--shadow-1lg; hover:box-shadow:--shadow-1md; active:box-shadow:--shadow-sm1;`,
   );
   cssin(
-    `transition:all 0.2s ease-in; box-shadow:--shadow-2lg; hover:box-shadow:--shadow-2md; active:box-shadow:--shadow-sm2;`
+    `transition:all 0.2s ease-in; box-shadow:--shadow-2lg; hover:box-shadow:--shadow-2md; active:box-shadow:--shadow-sm2;`,
   );
   cssin(
-    `transition:all 0.3s ease-in; box-shadow:--shadow-3lg; hover:box-shadow:--shadow-3md; active:box-shadow:--shadow-sm3;`
+    `transition:all 0.3s ease-in; box-shadow:--shadow-3lg; hover:box-shadow:--shadow-3md; active:box-shadow:--shadow-sm3;`,
   );
   cssin(
-    `transition:all 0.4s ease-in; box-shadow:--shadow-4lg; hover:box-shadow:--shadow-4md; active:box-shadow:--shadow-sm4;`
+    `transition:all 0.4s ease-in; box-shadow:--shadow-4lg; hover:box-shadow:--shadow-4md; active:box-shadow:--shadow-sm4;`,
   );
 }
 console.timeEnd(t); // 1.60009765625ms

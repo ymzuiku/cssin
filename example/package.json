@@ -18,8 +18,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lib": "tscu example/src/lib --outDir lib",
-    "lint-ci": "lint-staged"
+    "lib": "tscu example/src/lib --outDir lib"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -36,24 +35,8 @@
       "last 1 safari version"
     ]
   },
-  "husky": {
-    "hooks": {
-      "pre-commit": "yarn lint-ci"
-    }
-  },
-  "lint-staged": {
-    "src/**/*.ts": [
-      "git add",
-      "tslint"
-    ],
-    "src/**/*.tsx": [
-      "git add",
-      "tslint"
-    ]
-  },
   "devDependencies": {
     "http-proxy-middleware": "^0.19.1",
-    "husky": "^2.4.1",
     "lint-staged": "^8.2.1",
     "tscu": "^0.0.1",
     "tslint": "^5.17.0",

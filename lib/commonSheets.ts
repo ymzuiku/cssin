@@ -1,5 +1,3 @@
-import { addSheets } from './index';
-
 const flexCode = {
   start: 'flex-start',
   end: 'flex-end',
@@ -115,5 +113,3 @@ export const commonSheets = {
   bottom: 'bottom:0px;',
   bold: 'font-weight: bold',
 };
-
-addSheets(commonSheets);

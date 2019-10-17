@@ -2,13 +2,14 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 
 import { App } from './App';
-import { coverAttribute } from './lib';
-import { setGlobalCss } from './lib/commonCSSValues';
-import './lib/commonSheets';
+import { cssin, addSheets } from 'cssin';
+import { commonSheets } from 'cssin/umd/commonSheets';
+import { globalCss, valueCss } from 'cssin/umd/commonCSSValues';
 import * as serviceWorker from './serviceWorker';
 
-setGlobalCss();
-coverAttribute('inlist');
+addSheets(commonSheets);
+cssin(globalCss);
+cssin(valueCss);
 
 ReactDOM.render(<App />, document.getElementById('root'));
 
