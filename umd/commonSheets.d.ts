@@ -68,12 +68,7 @@ export declare const commonSheets: {
     absolute: string;
     relative: string;
     sticky: string;
-    hidden: string;
-    left: string;
-    top: string;
     'pe-none': string;
     'pe-auto': string;
-    right: string;
-    bottom: string;
     bold: string;
 };
