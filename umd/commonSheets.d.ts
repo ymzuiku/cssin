@@ -55,7 +55,6 @@ export declare const commonSheets: {
     shadow: (v: any) => any;
     rotate: (v: any) => string;
     scale: (v: any) => string;
-    grid: string;
     scroll: string;
     center: string;
     full: string;

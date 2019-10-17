@@ -91,7 +91,6 @@ export const commonSheets = {
   rotate: (v: any) => `{ transform: rotate(${v}deg); }`,
   scale: (v: any) => `{ transform: scale(${v}, ${v}); }`,
   // component
-  grid: `display:grid;`,
   scroll: 'overflow:auto; -webkit-overflow-scrolling: touch;',
   center: 'display:flex; flex-direction:row; justify-content:center; align-items:center;',
   full: 'width:100%; height:100%;',
