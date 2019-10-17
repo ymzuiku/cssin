@@ -104,12 +104,7 @@ export const commonSheets = {
   absolute: 'position:absolute;',
   relative: 'position:relative;',
   sticky: 'position:sticky;',
-  hidden: 'display:none;',
-  left: 'left:0px;',
-  top: 'top:0px;',
   'pe-none': 'pointer-events:none;',
   'pe-auto': 'pointer-events:auto;',
-  right: 'right:0px;',
-  bottom: 'bottom:0px;',
   bold: 'font-weight: bold',
 };
