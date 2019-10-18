@@ -57,6 +57,7 @@ addSheets({
   '@android': (v: string) => `@media (min-width: ${device.isAndroid() ? '0px' : '9999px'}) {${v}}`,
   '@native': (v: string) => `@media (min-width: ${device.isNative() ? '0px' : '9999px'}) {${v}}`,
   '@pc': (v: string) => `@media (min-width: ${device.isPc() ? '0px' : '9999px'}) {${v}}`,
+  '@phone': (v: string) => `@media (min-width: ${!device.isPc() ? '0px' : '9999px'}) {${v}}`,
 });
 
 /* 用于缓存 css 片段的插入 */

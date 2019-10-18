@@ -253,10 +253,11 @@ addSheets({
   '@md': (v: string) => `@media (min-width: 768px) {${v}}`,
   '@lg': (v: string) => `@media (min-width: 1024px) {${v}}`,
   '@xl': (v: string) => `@media (min-width: 1280px) {${v}}`,
-  '@ios': (v: string) => `@media (min-width: ${device.isIos ? '0px' : '9999px'}) {${v}}`,
-  '@android': (v: string) => `@media (min-width: ${device.isAndroid ? '0px' : '9999px'}) {${v}}`,
-  '@native': (v: string) => `@media (min-width: ${device.isNative ? '0px' : '9999px'}) {${v}}`,
-  '@pc': (v: string) => `@media (min-width: ${device.isPc ? '0px' : '9999px'}) {${v}}`,
+  '@ios': (v: string) => `@media (min-width: ${device.isIos() ? '0px' : '9999px'}) {${v}}`,
+  '@android': (v: string) => `@media (min-width: ${device.isAndroid() ? '0px' : '9999px'}) {${v}}`,
+  '@native': (v: string) => `@media (min-width: ${device.isNative() ? '0px' : '9999px'}) {${v}}`,
+  '@pc': (v: string) => `@media (min-width: ${device.isPc() ? '0px' : '9999px'}) {${v}}`,
+  '@phone': (v: string) => `@media (min-width: ${!device.isPc() ? '0px' : '9999px'}) {${v}}`,
 });
 // 我们覆盖 @md 以及创建一个 @xxl
 addSheets({

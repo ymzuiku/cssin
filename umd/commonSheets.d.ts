@@ -5,9 +5,8 @@ export declare const commonSheets: {
     gcol: (v: any) => string;
     items: (v: any) => string;
     justify: (v: any) => string;
-    self: (v: any) => string;
-    content: (v: any) => string;
-    z: (v: any) => string;
+    'align-self': (v: any) => string;
+    'align-content': (v: any) => string;
     p: (v: any) => string;
     px: (v: any) => string;
     py: (v: any) => string;
@@ -40,7 +39,6 @@ export declare const commonSheets: {
     bb: (v: any) => string;
     bc: (v: any) => string;
     radius: (v: any) => string;
-    font: (v: any) => string;
     bg: (v: any) => string;
     bgc: (v: any) => string;
     gradient: (v: any) => string;
@@ -62,12 +60,6 @@ export declare const commonSheets: {
     'row-reverse': string;
     col: string;
     'col-reverse': string;
-    fixed: string;
-    static: string;
-    absolute: string;
-    relative: string;
-    sticky: string;
     'pe-none': string;
     'pe-auto': string;
-    bold: string;
 };

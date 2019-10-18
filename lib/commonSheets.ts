@@ -25,9 +25,8 @@ export const commonSheets = {
   gcol: (v: any) => `{ grid-column: ${v}; }`,
   items: (v: any) => `{ align-items: ${(flexCode as any)[v] || v};}`,
   justify: (v: any) => `{ justify-content: ${(flexCode as any)[v] || v}; }`,
-  self: (v: any) => `{ align-self: ${(flexCode as any)[v] || v} };`,
-  content: (v: any) => `{ align-content: ${(flexCode as any)[v] || v}; }`,
-  z: (v: any) => `{ z-index: ${v}; }`,
+  'align-self': (v: any) => `{ align-self: ${(flexCode as any)[v] || v} };`,
+  'align-content': (v: any) => `{ align-content: ${(flexCode as any)[v] || v}; }`,
   // positions
   p: (v: any) => `{ padding: ${v}; }`,
   px: (v: any) => `{ padding-left: ${v}; padding-right: ${v};}`,
@@ -61,7 +60,6 @@ export const commonSheets = {
   bb: (v: any) => `{ border-bottom: ${v} solid;}`,
   bc: (v: any) => `{ border-color: ${v}; }`,
   radius: (v: any) => `{ border-radius: ${v}; }`,
-  font: (v: any) => `{ font-size: ${v}; }`,
   // theme
   bg: (v: any) => `{ background: ${v}; }`,
   bgc: (v: any) => `{ background-color: ${v}; }`,
@@ -98,12 +96,6 @@ export const commonSheets = {
   'row-reverse': 'display:flex; flex-direction:row-reverse;',
   col: 'display:flex; flex-direction:column;',
   'col-reverse': 'display:flex; flex-direction:column-reverse;',
-  fixed: 'position:fixed;',
-  static: 'position:static;',
-  absolute: 'position:absolute;',
-  relative: 'position:relative;',
-  sticky: 'position:sticky;',
   'pe-none': 'pointer-events:none;',
   'pe-auto': 'pointer-events:auto;',
-  bold: 'font-weight: bold',
 };
