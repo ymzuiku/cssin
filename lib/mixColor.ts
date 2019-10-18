@@ -1,4 +1,4 @@
-function parseColor(str: string) {
+export function parseColor(str: string) {
   const col = {
     r: 0,
     g: 0,
