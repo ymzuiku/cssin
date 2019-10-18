@@ -126,7 +126,7 @@ export const cssin = (...args: any) => {
       return;
     }
     // tslint:disable-next-line
-    const name = `c-${str.replace(/[^-0-0a-zA-Z]/g, (reg: string) => `_${reg.charCodeAt(0).toString(16)}_`)}`;
+    const name = `c${str.replace(/[^0-0a-zA-Z]/g, (reg: string) => `${reg.charCodeAt(0).toString(16)}`)}`;
     let media = obj[obj.length - 4] || '';
     let hover = obj[obj.length - 3] || '';
     const sheet = obj[obj.length - 2] || '';

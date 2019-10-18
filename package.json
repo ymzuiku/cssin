@@ -1,6 +1,6 @@
 {
   "name": "cssin",
-  "version": "1.6.3",
+  "version": "1.6.5",
   "main": "umd/index.js",
   "types": "umd/index.d.ts",
   "license": "MIT",
