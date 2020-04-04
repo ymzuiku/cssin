@@ -51,41 +51,7 @@ const watchOptions = [
         sourcemap: true,
       }),
     ],
-  },
-  {
-    input: './lib/commonCSSValues.ts',
-    output: {
-      file: './umd/commonCSSValues.js',
-      format: 'umd',
-      name: 'commonCSSValues',
-      sourcemap: true,
-    },
-    plugins: [
-      rollupTypescript({
-        useTsconfigDeclarationDir: false,
-      }),
-      uglify({
-        sourcemap: true,
-      }),
-    ],
-  },
-  {
-    input: './lib/commonSheets.ts',
-    output: {
-      file: './umd/commonSheets.js',
-      format: 'umd',
-      name: 'commonSheets',
-      sourcemap: true,
-    },
-    plugins: [
-      rollupTypescript({
-        useTsconfigDeclarationDir: false,
-      }),
-      uglify({
-        sourcemap: true,
-      }),
-    ],
-  },
+  }
 ];
 const watcher = rollup.watch(watchOptions);
 

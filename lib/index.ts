@@ -1,226 +1,234 @@
-// tslint:disable-next-line
+import commonSheets from "./commonSheets";
+import os from "./os";
+import template from './template';
 
-import * as device from './device';
-
-/* 设备信息，用于辅助设置媒体查询 */
-export { device };
-
-// 拼接string
-const strFn = function(...args: any): string {
-  if (args.length > 1) {
-    const [str, ...rest] = args;
-    let out = '';
-
-    str.forEach((v: string, i: number) => {
-      out += v;
-      if (rest[i]) {
-        out += rest[i];
-      }
-    });
-
-    return out;
-  }
-  if (typeof args[0] === 'string') {
-    return args[0];
-  }
-
-  if (args[0]) {
-    return args[0].join('');
-  }
-
-  return '';
-};
-
-/* 所有样式表 */
-const sheets = new Map();
-/* 由于某些使用 cssin 的组件库会设置 coverAttribute，防止项目和组件库重复设置，故记录缓存 */
-const coverCache = new Set();
-
-/* 添加自定义样式表，例：addSheets({ mb: (v: any) => `{ margin-bottom: ${v}; }`})  */
-export const addSheets = (objs: { [key: string]: any }) => {
+// 所有 sheets预设
+const cssSheets = {} as any;
+const addSheets = (objs: { [key: string]: any }) => {
   Object.keys(objs).forEach(key => {
-    sheets.set(key, objs[key]);
+    cssSheets[key] = objs[key];
   });
 
-  return sheets;
+  return cssSheets;
 };
 
-/* 添加默认的媒体查询和设备查询 */
-addSheets({
-  // 用来占位置，使用运算拦截会产生 undefined;
-  undefined: '',
-  '@sm': (v: string) => `@media (min-width: 640px) {${v}}`,
-  '@md': (v: string) => `@media (min-width: 768px) {${v}}`,
-  '@lg': (v: string) => `@media (min-width: 1024px) {${v}}`,
-  '@xl': (v: string) => `@media (min-width: 1280px) {${v}}`,
-  '@ios': (v: string) => `@media (min-width: ${device.isIos() ? '0px' : '9999px'}) {${v}}`,
-  '@android': (v: string) => `@media (min-width: ${device.isAndroid() ? '0px' : '9999px'}) {${v}}`,
-  '@pc': (v: string) => `@media (min-width: ${device.isPc() ? '0px' : '9999px'}) {${v}}`,
-  '@phone': (v: string) => `@media (min-width: ${!device.isPc() ? '0px' : '9999px'}) {${v}}`,
-  '@native': (v: string) => `@media (min-width: ${device.isNative() ? '0px' : '9999px'}) {${v}}`,
-});
+function charCode(str: string) {
+  return (
+    "c" +
+    str.replace(/[^0-0a-zA-Z]/g, (reg: string) =>
+      reg.charCodeAt(0).toString(32)
+    )
+  );
+}
 
-/* 用于缓存 css 片段的插入 */
-const appendCssCache = new Set();
+const parserCache = {} as any;
 
-/* 用于插入css片段 */
-const appendCss = (css: string) => {
-  if (appendCssCache.has(css)) {
+function changeValue(value: string, isMedia = false) {
+  value = value
+    .split(";")
+    .map((v: string) => {
+      v = v.trim();
+      v = v.replace("!!", " !important");
+      if (isMedia && v.indexOf("important") === -1) {
+        v += " !important";
+      }
+      return v;
+    })
+    .join(";");
+
+  return value;
+}
+
+// 解析一个item, 成为一个sheet
+function parserItem(item: string) {
+  let key = charCode(item);
+  if (parserCache[key]) {
+    return parserCache[key];
+  }
+  if (item[0] === ".") {
+    parserCache[key] = {
+      key: item,
+      name: item,
+    };
+    return parserCache[key];
+  }
+  const list = item.split(":").map(v => v.trim());
+  let name = "";
+  if (list.length > 1) {
+    for (let i = 0; i < list.length - 1; i++) {
+      name += list[i] + "_";
+    }
+  } else {
+    name += list[0];
+  }
+
+  if (list.length === 1) {
+    const value = cssSheets[list[0]];
+
+    parserCache[key] = { key, name, value };
+    appendStyle(parserCache[key]);
+    return parserCache[key];
+  }
+
+  if (list.length === 2) {
+    let event = cssSheets[list[0]];
+    let value = cssSheets[list[1]] || item;
+    if (typeof event === "function") {
+      value = event(list[1]);
+    }
+    parserCache[key] = { key, name, value };
+    appendStyle(parserCache[key]);
+    return parserCache[key];
+  }
+
+  if (list.length === 3) {
+    let event = cssSheets[list[1]];
+    let value = cssSheets[list[2]] || list[1] + ":" + list[2];
+    if (typeof event === "function") {
+      value = event(list[2]);
+    }
+
+    if (list[0][0] === "@") {
+      parserCache[key] = {
+        key,
+        name,
+        value,
+        hover: "",
+        media: cssSheets[list[0]],
+      };
+      appendStyle(parserCache[key]);
+      return parserCache[key];
+    }
+
+    parserCache[key] = {
+      key,
+      name,
+      value,
+      hover: ":" + list[0],
+    };
+    appendStyle(parserCache[key]);
+    return parserCache[key];
+  }
+
+  if (list.length === 4) {
+    let event = cssSheets[list[2]];
+    let value = list[2] + ":" + list[3] + ";";
+    if (typeof event === "function") {
+      value = event(list[3]);
+    }
+    parserCache[key] = {
+      key,
+      name,
+      value,
+      hover: ":" + list[1],
+      media: cssSheets[list[0]],
+    };
+
+    appendStyle(parserCache[key]);
+    return parserCache[key];
+  }
+}
+
+// 通过字符串创建 sheet 表
+function createSheet(...args: any[]) {
+  const css = template(...args);
+  const sheet: {
+    [key: string]: { key: string; name: string; value: string };
+  } = {};
+  css.split(";").forEach(item => {
+    item = item.trim();
+    if (item) {
+      const data = parserItem(item);
+      sheet[data.name] = data;
+    }
+  });
+  return sheet;
+}
+
+// 插入样式到head
+function appendStyle({ key, hover = "", media, value }: any) {
+  if (os.isMobile && hover === ":hover") {
+    hover = ":ignore";
+  }
+  if (!value) {
     return;
   }
-  appendCssCache.add(css);
-  const ele = document.createElement('style');
-  ele.innerHTML = css;
-  // tslint:disable-next-line
-  ele.type = 'text/css';
-  document.head.appendChild(ele);
+  value = changeValue(value, !!media);
+  const ele = document.createElement("style");
+  ele.id = key;
+  if (media) {
+    ele.innerText = media(`.${key}${hover} {${value}}`);
+  } else {
+    ele.innerText = `.${key}${hover} {${value}}`;
+  }
+  document.head.append(ele);
+}
+
+function createStyle(...args: any[]) {
+  const ele = document.createElement("style");
+  ele.innerText = template(...args);
+  document.head.append(ele);
+}
+
+function cssin(...args: any[]) {
+  const sheet = createSheet(...args);
+  return (...args: Element[]) => {
+    args.forEach((ele: any) => {
+      if (!ele.__cssin_sheet) {
+        ele.__cssin_sheet = {};
+      }
+      Object.keys(sheet).forEach(name => {
+        const data = sheet[name];
+        const old = ele.__cssin_sheet[name];
+        if (old) {
+          ele.classList.replace(old.key, data.key);
+        } else {
+          ele.classList.add(data.key);
+        }
+      });
+      ele.__cssin_sheet = Object.assign(ele.__cssin_sheet, sheet);
+    });
+  };
+}
+
+const setAttribute = HTMLElement.prototype.setAttribute;
+
+HTMLElement.prototype.setAttribute = function(name: any, value: any) {
+  if (cssin.coverAttribute[name]) {
+    cssin(value)(this);
+    setAttribute.call(this, "data-cssin", value);
+  } else {
+    setAttribute.call(this, name, value);
+  }
 };
 
-/* 用于缓存 cssin 的计算逻辑 */
-const cssinCache = new Map();
+cssin.addSheets = addSheets;
+cssin.cssSheets = cssSheets;
+cssin.createStyle = createStyle;
+cssin.coverAttribute = { cssin: true } as any;
 
-/* cssin 的主函数，用于实现 cssin 语法，返回用于 className 的字符串 */
-export const cssin = (...args: any) => {
-  // 实现 tagged-template
-  const param = strFn(...args);
+const max = "@media (max-width: ";
+const min = "@media (min-width: ";
+cssin.addSheets({
+  undefined: "",
+  "@xs": (v: string) => `${max}640px){${v}}`,
+  "@s": (v: string) => `${max}720px){${v}}`,
+  "@m": (v: string) => `${max}1024px){${v}}`,
+  "@l": (v: string) => `${max}1280px){${v}}`,
+  "@xl": (v: string) => `${max}1920px){${v}}`,
+  "@!xs": (v: string) => `${min} 640px){${v}}`,
+  "@!s": (v: string) => `${min}720px){${v}}`,
+  "@!m": (v: string) => `${min}1024px){${v}}`,
+  "@!l": (v: string) => `${min}1280px){${v}}`,
+  "@!xl": (v: string) => `${min}1920px){${v}}`,
+  "@ios": (v: string) => `${min}${os.isIOS ? "0px" : "9999px"}){${v}}`,
+  "@android": (v: string) => `${min}${os.isAndroid ? "0px" : "9999px"}){${v}}`,
+  "@pc": (v: string) => `${min}${os.isPc ? "0px" : "9999px"}) {${v}}`,
+  "@mobile": (v: string) => `${min}${os.isMobile ? "0px" : "9999px"}){${v}}`,
+});
 
-  // 如果计算过，直接返回结果
-  if (cssinCache.has(param)) {
-    return cssinCache.get(param);
-  }
+addSheets(commonSheets);
 
-  // 如果内容包含 {, 表示是一个纯 css，只需要插入内容，不需要计算 className
-  if (param.indexOf('{') > 0) {
-    appendCss(param);
-    // 记录缓存
-    cssinCache.set(param, param);
+cssin.os = os;
 
-    return '';
-  }
-
-  // 得到属性列表
-  const list = param.split(';');
-  let classname = '';
-
-  // 开始计算每一个属性
-  list.forEach((str: string) => {
-    str = str.trim();
-    if (str === '') {
-      return;
-    }
-
-    const obj = str.split(':');
-
-    if (obj.length === 1) {
-      if (str[0] === '.') {
-        classname += `${str.replace('.', '')} `;
-
-        return;
-      }
-      const component = sheets.get(str);
-
-      if (typeof component === 'string') {
-        classname += `${cssin(component)} `;
-      }
-
-      return;
-    }
-    // tslint:disable-next-line
-    const name = `c${str.replace(/[^0-0a-zA-Z]/g, (reg: string) => `${reg.charCodeAt(0).toString(16)}`)}`;
-    let media = obj[obj.length - 4] || '';
-    let hover = obj[obj.length - 3] || '';
-    const sheet = obj[obj.length - 2] || '';
-    if (obj.length === 3 && hover[0] === '@') {
-      media = hover;
-      hover = '';
-    }
-    let value = obj[obj.length - 1] || '';
-    value = value.trim();
-
-    // 记录 important 逻辑
-    let isImportant = false;
-    if (value[value.length - 1] === '!') {
-      isImportant = true;
-      value = value.substr(0, value.length - 1);
-    }
-
-    // 实现 --value -> var(--value)
-    if (value.indexOf('--') === 0) {
-      value = `var(${value})`;
-    }
-
-    // 实现 ! -> !important
-    if (isImportant) {
-      value = `${value} !important`;
-    }
-
-    // 计算并插入css
-    let css = '';
-    let block = '';
-    const mediaSheet = media[0] === '@' ? sheets.get(media) : '';
-    const cssSheet = sheets.get(sheet);
-
-    // 如果是 sheet，使用 cssSheet 返回 block，
-    // 如果是 string(component)，直接使用 value, 因为 value 在其他逻辑已然计算过了
-    block = typeof cssSheet === 'function' ? cssSheet(value) : `{${sheet}:${value};}`;
-
-    // 拼装 css 内容
-    css = `.${name}${hover ? ':' : ''}${hover} ${block}`;
-
-    // 实现媒体查询类的 sheet
-    if (typeof mediaSheet === 'function') {
-      css = mediaSheet(css);
-    }
-
-    // 插入css，内部做拦截
-    appendCss(css);
-
-    // 返回拼接后的 classname
-    classname += `${name} `;
-  });
-
-  // 记录缓存
-  cssinCache.set(param, classname);
-
-  return classname;
-};
-
-/* 覆盖某个 setAttribute 属性 */
-// export const coverAttribute = (attribute: string) => {
-//   if (coverCache.has(attribute)) {
-//     return;
-//   }
-//   coverCache.add(attribute);
-
-//   const bindAttribute = (Target: HTMLElement | SVGSVGElement) => {
-//     const setAttribute = (Target as any).prototype.setAttribute;
-//     (Target as any).prototype.setAttribute = function(name: any, value: any) {
-//       if (!this.__cssin) {
-//         this.__cssin = {};
-//       }
-
-//       if (name === attribute) {
-//         if (!this.__cssin.useAutoCssin) {
-//           this.__cssin.useAutoCssin = true;
-//         }
-
-//         if (this.__cssin.tempClass) {
-//           setAttribute.call(this, 'class', `${cssin(value)} ${this.__cssin.tempClass}`);
-//         } else {
-//           setAttribute.call(this, 'class', cssin(value));
-//           setAttribute.call(this, attribute, cssin(value));
-//         }
-//       } else if (name === 'class') {
-//         if (!this.__cssin.useAutoCssin) {
-//           setAttribute.call(this, 'class', value);
-//         }
-//         this.__cssin.tempClass = value;
-//       } else {
-//         setAttribute.call(this, name, value);
-//       }
-//     };
-//   };
-
-//   bindAttribute(HTMLElement as any);
-//   bindAttribute(SVGSVGElement as any);
-// };
+export default cssin;
