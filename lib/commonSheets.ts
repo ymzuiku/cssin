@@ -87,7 +87,6 @@ export const commonSheets = {
 
       return (shadowList as any)[key]([r, g, b].join(','), a);
     }
-
     return '';
   },
   rotate: (v: any) => `{ transform: rotate(${v}deg); }`,
