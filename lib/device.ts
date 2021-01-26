@@ -1,5 +1,19 @@
 let _device: any;
-export const device = () => {
+interface Device {
+  isAndroid: boolean;
+  isFireFox: boolean;
+  isChrome: boolean;
+  isTablet: boolean;
+  isIos: boolean;
+  isWechat: boolean;
+  isPc: boolean;
+  isIPhone: boolean;
+  isPhone: boolean;
+}
+export const device = (): Device => {
+  if (_device) {
+    return _device;
+  }
   const UA = navigator.userAgent;
   const ua = navigator.userAgent.toLocaleLowerCase();
   const dp = window.devicePixelRatio || 1;
@@ -20,16 +34,11 @@ export const device = () => {
 
   // iPhone X、iPhone XS
   const isIPhone = /iphone/gi.test(ua);
-  const hair = dp > 1 ? 0.5 : 1;
-  const line = dp > 1 ? 0.65 : 1;
 
   // 获取是否是 ios 或 android
   const isPhone = !isPc;
 
-  const out = {
-    dp,
-    iw,
-    ih,
+  _device = {
     isAndroid,
     isFireFox,
     isChrome,
@@ -38,10 +47,8 @@ export const device = () => {
     isWechat,
     isPc,
     isIPhone,
-    hair,
-    line,
     isPhone,
   };
-  _device = out;
-  return out;
+
+  return _device;
 };

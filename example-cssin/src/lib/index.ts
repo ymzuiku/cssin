@@ -1,12 +1,12 @@
 // tslint:disable-next-line
 
-import * as device from './device';
+import { device } from "./device";
 
 // 拼接string
-const strFn = function(...args: any): string {
+const strFn = function (...args: any): string {
   if (args.length > 1) {
     const [str, ...rest] = args;
-    let out = '';
+    let out = "";
 
     str.forEach((v: string, i: number) => {
       out += v;
@@ -17,15 +17,15 @@ const strFn = function(...args: any): string {
 
     return out;
   }
-  if (typeof args[0] === 'string') {
+  if (typeof args[0] === "string") {
     return args[0];
   }
 
   if (args[0]) {
-    return args[0].join('');
+    return args[0].join("");
   }
 
-  return '';
+  return "";
 };
 
 /* 设备信息，用于辅助设置媒体查询 */
@@ -38,7 +38,7 @@ const coverCache = new Set();
 
 /* 添加自定义样式表，例：addSheets({ mb: (v: any) => `{ margin-bottom: ${v}; }`})  */
 export const addSheets = (objs: { [key: string]: any }) => {
-  Object.keys(objs).forEach(key => {
+  Object.keys(objs).forEach((key) => {
     sheets.set(key, objs[key]);
   });
 
@@ -48,19 +48,19 @@ export const addSheets = (objs: { [key: string]: any }) => {
 /* 添加默认的媒体查询和设备查询 */
 addSheets({
   // 用来占位置，使用运算拦截会产生 undefined;
-  undefined: '',
-  '@sm': (v: string) => `@media (min-width: 640px) {${v}}`,
-  '@md': (v: string) => `@media (min-width: 768px) {${v}}`,
-  '@lg': (v: string) => `@media (min-width: 1024px) {${v}}`,
-  '@xl': (v: string) => `@media (min-width: 1280px) {${v}}`,
-  '@ios': (v: string) =>
-    `@media (min-width: ${device.isIos() ? '0px' : '9999px'}) {${v}}`,
-  '@android': (v: string) =>
-    `@media (min-width: ${device.isAndroid() ? '0px' : '9999px'}) {${v}}`,
-  '@native': (v: string) =>
-    `@media (min-width: ${device.isNative() ? '0px' : '9999px'}) {${v}}`,
-  '@pc': (v: string) =>
-    `@media (min-width: ${device.isPc() ? '0px' : '9999px'}) {${v}}`,
+  undefined: "",
+  "@sm": (v: string) => `@media (min-width: 640px) {${v}}`,
+  "@md": (v: string) => `@media (min-width: 768px) {${v}}`,
+  "@lg": (v: string) => `@media (min-width: 1024px) {${v}}`,
+  "@xl": (v: string) => `@media (min-width: 1280px) {${v}}`,
+  "@ios": (v: string) =>
+    `@media (min-width: ${device().isIos ? "0px" : "9999px"}) {${v}}`,
+  "@android": (v: string) =>
+    `@media (min-width: ${device().isAndroid ? "0px" : "9999px"}) {${v}}`,
+  "@native": (v: string) =>
+    `@media (min-width: ${device().isPhone ? "0px" : "9999px"}) {${v}}`,
+  "@pc": (v: string) =>
+    `@media (min-width: ${device().isPc ? "0px" : "9999px"}) {${v}}`,
 });
 
 /* 用于缓存 css 片段的插入 */
@@ -72,10 +72,10 @@ const appendCss = (css: string) => {
     return;
   }
   appendCssCache.add(css);
-  const ele = document.createElement('style');
+  const ele = document.createElement("style");
   ele.innerHTML = css;
   // tslint:disable-next-line
-  ele.type = 'text/css';
+  ele.type = "text/css";
   document.head.appendChild(ele);
 };
 
@@ -93,36 +93,36 @@ export const cssin = (...args: any) => {
   }
 
   // 如果内容包含 {, 表示是一个纯 css，只需要插入内容，不需要计算 className
-  if (param.indexOf('{') > 0) {
+  if (param.indexOf("{") > 0) {
     appendCss(param);
     // 记录缓存
     cssinCache.set(param, param);
 
-    return '';
+    return "";
   }
 
   // 得到属性列表
-  const list = param.split(';');
-  let classname = '';
+  const list = param.split(";");
+  let classname = "";
 
   // 开始计算每一个属性
   list.forEach((str: string) => {
     str = str.trim();
-    if (str === '') {
+    if (str === "") {
       return;
     }
 
-    const obj = str.split(':');
+    const obj = str.split(":");
 
     if (obj.length === 1) {
-      if (str[0] === '.') {
-        classname += `${str.replace('.', '')} `;
+      if (str[0] === ".") {
+        classname += `${str.replace(".", "")} `;
 
         return;
       }
       const component = sheets.get(str);
 
-      if (typeof component === 'string') {
+      if (typeof component === "string") {
         classname += `${cssin(component)} `;
       }
 
@@ -131,27 +131,27 @@ export const cssin = (...args: any) => {
     // tslint:disable-next-line
     const name = `c-${str.replace(
       /[^-0-0a-zA-Z]/g,
-      (reg: string) => `_${reg.charCodeAt(0).toString(16)}_`,
+      (reg: string) => `_${reg.charCodeAt(0).toString(16)}_`
     )}`;
-    let media = obj[obj.length - 4] || '';
-    let hover = obj[obj.length - 3] || '';
-    const sheet = obj[obj.length - 2] || '';
-    if (obj.length === 3 && hover[0] === '@') {
+    let media = obj[obj.length - 4] || "";
+    let hover = obj[obj.length - 3] || "";
+    const sheet = obj[obj.length - 2] || "";
+    if (obj.length === 3 && hover[0] === "@") {
       media = hover;
-      hover = '';
+      hover = "";
     }
-    let value = obj[obj.length - 1] || '';
+    let value = obj[obj.length - 1] || "";
     value = value.trim();
 
     // 记录 important 逻辑
     let isImportant = false;
-    if (value[value.length - 1] === '!') {
+    if (value[value.length - 1] === "!") {
       isImportant = true;
       value = value.substr(0, value.length - 1);
     }
 
     // 实现 --value -> var(--value)
-    if (value.indexOf('--') === 0) {
+    if (value.indexOf("--") === 0) {
       value = `var(${value})`;
     }
 
@@ -161,21 +161,21 @@ export const cssin = (...args: any) => {
     }
 
     // 计算并插入css
-    let css = '';
-    let block = '';
-    const mediaSheet = media[0] === '@' ? sheets.get(media) : '';
+    let css = "";
+    let block = "";
+    const mediaSheet = media[0] === "@" ? sheets.get(media) : "";
     const cssSheet = sheets.get(sheet);
 
     // 如果是 sheet，使用 cssSheet 返回 block，
     // 如果是 string(component)，直接使用 value, 因为 value 在其他逻辑已然计算过了
     block =
-      typeof cssSheet === 'function' ? cssSheet(value) : `{${sheet}:${value};}`;
+      typeof cssSheet === "function" ? cssSheet(value) : `{${sheet}:${value};}`;
 
     // 拼装 css 内容
-    css = `.${name}${hover ? ':' : ''}${hover} ${block}`;
+    css = `.${name}${hover ? ":" : ""}${hover} ${block}`;
 
     // 实现媒体查询类的 sheet
-    if (typeof mediaSheet === 'function') {
+    if (typeof mediaSheet === "function") {
       css = mediaSheet(css);
     }
 
@@ -201,7 +201,7 @@ export const coverAttribute = (attribute: string) => {
 
   const bindAttribute = (Target: HTMLElement | SVGSVGElement) => {
     const setAttribute = (Target as any).prototype.setAttribute;
-    (Target as any).prototype.setAttribute = function(name: any, value: any) {
+    (Target as any).prototype.setAttribute = function (name: any, value: any) {
       if (!this.__cssin) {
         this.__cssin = {};
       }
@@ -214,16 +214,16 @@ export const coverAttribute = (attribute: string) => {
         if (this.__cssin.tempClass) {
           setAttribute.call(
             this,
-            'class',
-            `${cssin(value)} ${this.__cssin.tempClass}`,
+            "class",
+            `${cssin(value)} ${this.__cssin.tempClass}`
           );
         } else {
-          setAttribute.call(this, 'class', cssin(value));
+          setAttribute.call(this, "class", cssin(value));
           setAttribute.call(this, attribute, cssin(value));
         }
-      } else if (name === 'class') {
+      } else if (name === "class") {
         if (!this.__cssin.useAutoCssin) {
-          setAttribute.call(this, 'class', value);
+          setAttribute.call(this, "class", value);
         }
         this.__cssin.tempClass = value;
       } else {

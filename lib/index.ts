@@ -49,17 +49,17 @@ export const addSheets = (objs: { [key: string]: any }) => {
 addSheets({
   // 用来占位置，使用运算拦截会产生 undefined;
   undefined: "",
-  sm: (v: string) => `@media (min-width: 640px) {${v}}`,
-  md: (v: string) => `@media (min-width: 768px) {${v}}`,
-  lg: (v: string) => `@media (min-width: 1024px) {${v}}`,
-  xl: (v: string) => `@media (min-width: 1280px) {${v}}`,
-  ios: (v: string) =>
+  "@sm": (v: string) => `@media (min-width: 640px) {${v}}`,
+  "@md": (v: string) => `@media (min-width: 768px) {${v}}`,
+  "@lg": (v: string) => `@media (min-width: 1024px) {${v}}`,
+  "@xl": (v: string) => `@media (min-width: 1280px) {${v}}`,
+  "@ios": (v: string) =>
     `@media (min-width: ${device().isIos ? "0px" : "9999px"}) {${v}}`,
-  android: (v: string) =>
+  "@android": (v: string) =>
     `@media (min-width: ${device().isAndroid ? "0px" : "9999px"}) {${v}}`,
-  phone: (v: string) =>
+  "@native": (v: string) =>
     `@media (min-width: ${device().isPhone ? "0px" : "9999px"}) {${v}}`,
-  pc: (v: string) =>
+  "@pc": (v: string) =>
     `@media (min-width: ${device().isPc ? "0px" : "9999px"}) {${v}}`,
 });
 
@@ -74,11 +74,13 @@ const appendCss = (css: string) => {
   appendCssCache.add(css);
   const ele = document.createElement("style");
   ele.innerHTML = css;
+  // tslint:disable-next-line
+  ele.type = "text/css";
   document.head.appendChild(ele);
 };
 
 /* 用于缓存 cssin 的计算逻辑 */
-const cssinCache = {};
+const cssinCache = new Map();
 
 /* cssin 的主函数，用于实现 cssin 语法，返回用于 className 的字符串 */
 export const cssin = (...args: any) => {
@@ -86,15 +88,15 @@ export const cssin = (...args: any) => {
   const param = strFn(...args);
 
   // 如果计算过，直接返回结果
-  if (cssinCache[param]) {
-    return cssinCache[param];
+  if (cssinCache.has(param)) {
+    return cssinCache.get(param);
   }
 
   // 如果内容包含 {, 表示是一个纯 css，只需要插入内容，不需要计算 className
   if (param.indexOf("{") > 0) {
     appendCss(param);
     // 记录缓存
-    cssinCache[param] = param;
+    cssinCache.set(param, param);
 
     return "";
   }
@@ -185,7 +187,7 @@ export const cssin = (...args: any) => {
   });
 
   // 记录缓存
-  cssinCache[param] = classname;
+  cssinCache.set(param, classname);
 
   return classname;
 };
@@ -233,5 +235,3 @@ export const coverAttribute = (attribute: string) => {
   bindAttribute(HTMLElement as any);
   bindAttribute(SVGSVGElement as any);
 };
-
-coverAttribute("class");
