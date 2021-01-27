@@ -36,7 +36,7 @@
       "last 1 safari version"
     ]
   },
-  "husky": {
+  "husky2": {
     "hooks": {
       "pre-commit": "yarn lint-ci"
     }
