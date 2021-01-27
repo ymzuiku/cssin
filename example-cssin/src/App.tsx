@@ -6,14 +6,12 @@ observeClass();
 let n = 0;
 
 export const App: React.FC = () => {
-  const [a, setA] = React.useState(
-    cssin("background:#f00 color:#333 font-size:24px")
-  );
+  const [a, setA] = React.useState("");
   React.useEffect(() => {
     setTimeout(() => {
       setA(
         cssin(
-          ">640px:background:#f00" //  color:#333 font-size:calc(20px+50px) [cssin] bg-5
+          ">400px:hover:background:#f00" // color:#333 font-size:calc(20px+50px) [cssin] bg-5
         )
       );
     }, 200);

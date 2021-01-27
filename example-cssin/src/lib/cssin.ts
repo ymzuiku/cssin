@@ -31,24 +31,34 @@ const addStyle = (str: string) => {
 
   // 计算伪类
   const list = str.split(":");
-  const removePesudoStr = [] as string[];
+  const rightStr = [] as string[];
   let pesudo = "";
-  list.forEach((item) => {
+  let media = "";
+  list.forEach((item, i) => {
+    if (i === 0) {
+      if (/^</.test(item)) {
+        media = `@media (max-width: ${item.replace("<", "")})`;
+        return;
+      }
+      if (/^>/.test(item)) {
+        media = `@media (min-width: ${item.replace(">", "")})`;
+        return;
+      }
+    }
     const _pesudo = pesudoKeys[item];
     if (_pesudo) {
       pesudo = _pesudo;
+      return;
     } else {
-      removePesudoStr.push(item);
+      rightStr.push(item);
     }
   });
 
   // 内容使用移除了伪类的字符串
-  const body = removePesudoStr
-    .join(":")
-    .replaceAll(/calc\((.*?)\)/g, (item) => {
-      item = item.replaceAll(/(-|\+|\*|\/)/g, (v) => " " + v + " ");
-      return item;
-    });
+  const body = rightStr.join(":").replaceAll(/calc\((.*?)\)/g, (item) => {
+    item = item.replaceAll(/(-|\+|\*|\/)/g, (v) => " " + v + " ");
+    return item;
+  });
 
   // 缓存真实 css
   cssCache[baseStr] = body;
@@ -59,7 +69,13 @@ const addStyle = (str: string) => {
     (v) => "\\" + v
   );
 
-  ele.textContent = `.${key}${pesudo}{${body}}`;
+  console.log(media, "-----");
+  if (media) {
+    ele.textContent = `${media} {.${key}${pesudo}{${body}}}`;
+  } else {
+    ele.textContent = `.${key}${pesudo}{${body}}`;
+  }
+
   console.log(ele.textContent);
   document.head.append(ele);
   return str;
