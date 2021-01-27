@@ -1,7 +1,7 @@
 import * as React from "react";
-import { cssin, observerClass } from "./lib";
+import { cssin, observeClass } from "./lib";
 
-observerClass();
+observeClass();
 
 let n = 0;
 
@@ -11,8 +11,7 @@ export const App: React.FC = () => {
   );
   React.useEffect(() => {
     setTimeout(() => {
-      n += 1;
-      setA(cssin("fish" + n));
+      setA(cssin("background:#f33 color:#333 font-size:50px"));
     }, 200);
   }, []);
   return (

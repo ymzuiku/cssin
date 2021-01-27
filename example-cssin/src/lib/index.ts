@@ -1,4 +1,4 @@
 import { cssin } from "./cssin";
-import { observerClass } from "./observerClass";
+import { observeClass } from "./observeClass";
 
-export { cssin, observerClass };
+export { cssin, observeClass };

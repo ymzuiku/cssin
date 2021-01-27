@@ -1,6 +1,6 @@
 import { cssin } from "./cssin";
 
-const _observer = (fn: (target: HTMLElement) => void) => {
+const _observer = () => {
   // 页面内容变更监听 recordSetAttr
   const onMutations = (mutationsList: any) => {
     for (const mutation of mutationsList) {
@@ -8,14 +8,14 @@ const _observer = (fn: (target: HTMLElement) => void) => {
       if (mutation.type === "childList") {
         const list = mutation.target.querySelectorAll("[class]");
         list.forEach((ele: any) => {
-          if (ele.className && ele.className[0] !== "[") {
-            fn(ele);
+          if (ele.className && ele.className[0] !== "!") {
+            ele.className = cssin(ele.className);
           }
         });
       } else if (mutation.type === "attributes") {
         const ele = mutation.target;
-        if (ele.className && ele.className[0] !== "[") {
-          fn(ele);
+        if (ele.className && ele.className[0] !== "!") {
+          ele.className = cssin(ele.className);
         }
       }
     }
@@ -30,8 +30,11 @@ const _observer = (fn: (target: HTMLElement) => void) => {
   });
 };
 
-export const observerClass = () => {
-  _observer((ele) => {
-    ele.className = cssin(ele.className);
+export const observeClass = () => {
+  document.body.querySelectorAll("[class]").forEach((ele) => {
+    if (ele.className && ele.className[0] !== "!") {
+      ele.className = cssin(ele.className);
+    }
   });
+  _observer();
 };
