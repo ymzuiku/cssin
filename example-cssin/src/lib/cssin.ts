@@ -1,5 +1,6 @@
+import { device } from "./device";
 const classNameCache = {} as any;
-const cssCache = {} as any;
+const cssMap = {} as any;
 
 const pesudoKeys = {
   hover: ":hover",
@@ -19,13 +20,23 @@ const pesudoKeys = {
   "placeholder-shown": ":placeholder-shown",
   after: "::after",
   before: "::before",
+  placeholder: "::-webkit-input-placeholder",
 } as any;
 
-const addStyle = (str: string) => {
-  if (cssCache[str]) {
+const addStyle = (str: string, brother: string = "") => {
+  if (!str) {
     return;
   }
-  const baseStr = str;
+
+  const cacheKey = `${brother} ${str}`;
+
+  if (classNameCache[cacheKey]) {
+    return;
+  }
+  // 增加计算锁
+  classNameCache[cacheKey] = true;
+
+  const _device = device() as any;
 
   const ele = document.createElement("style");
 
@@ -35,23 +46,29 @@ const addStyle = (str: string) => {
   let pesudo = "";
   let media = "";
   list.forEach((item, i) => {
-    if (i === 0) {
-      if (/^</.test(item)) {
-        media = `@media (max-width: ${item.replace("<", "")})`;
-        return;
-      }
-      if (/^>/.test(item)) {
-        media = `@media (min-width: ${item.replace(">", "")})`;
-        return;
-      }
+    if (/^</.test(item)) {
+      media = `@media (max-width: ${item.replace("<", "")})`;
+      return;
+    }
+    if (/^>/.test(item)) {
+      media = `@media (min-width: ${item.replace(">", "")})`;
+      return;
+    }
+
+    const native = _device[item];
+    if (native !== void 0) {
+      media = `@media (min-width: ${native ? "0px" : "9999px"})`;
+      return;
     }
     const _pesudo = pesudoKeys[item];
     if (_pesudo) {
-      pesudo = _pesudo;
+      // 使用第一个 pesudo，忽略后续的
+      if (!pesudo) {
+        pesudo = _pesudo;
+      }
       return;
-    } else {
-      rightStr.push(item);
     }
+    rightStr.push(item);
   });
 
   // 内容使用移除了伪类的字符串
@@ -60,31 +77,43 @@ const addStyle = (str: string) => {
     return item;
   });
 
-  // 缓存真实 css
-  cssCache[baseStr] = body;
-
   // 常用标点符号解析
-  const key = baseStr.replaceAll(
+  const key = str.replaceAll(
     /(\:|#|!|,|\.|>|<|@|\$|\{|\}|\[|\]|\(|\)|\+|\*|\/)/g,
     (v) => "\\" + v
   );
 
-  console.log(media, "-----");
+  // 缓存真实 css
+  // cssCache[key] = body;
+
+  const brotherKey = brother ? `.\\[${brother}\\]` : "";
+
   if (media) {
-    ele.textContent = `${media} {.${key}${pesudo}{${body}}}`;
+    ele.textContent = `${media} {${brotherKey}.${key}${pesudo}{${body}}}`;
   } else {
-    ele.textContent = `.${key}${pesudo}{${body}}`;
+    ele.textContent = `${brotherKey}.${key}${pesudo}{${body}}`;
   }
 
-  console.log(ele.textContent);
   document.head.append(ele);
   return str;
 };
 
 export const cssin = (str: string) => {
   if (!classNameCache[str]) {
-    classNameCache[str] = 1;
-    str.split(" ").forEach(addStyle);
+    classNameCache[str] = true;
+    const _keys = str.match(/\[(.*?)\]/g);
+    if (_keys) {
+      const keys = ["", ..._keys.map((v) => v.replace(/(\[|\])/g, ""))];
+      const list = str.split(/\[.*?\]/g).map((v) => v.trim());
+      keys.forEach((k, i) => {
+        const item = list[i];
+        if (item) {
+          item.split(" ").forEach((v) => addStyle(v, k));
+        }
+      });
+    } else {
+      str.split(" ").forEach((v) => addStyle(v));
+    }
   }
 
   return str;

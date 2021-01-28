@@ -4,21 +4,15 @@ import { cssin, observeClass } from "./lib";
 observeClass();
 
 let n = 0;
+const css =
+  "[fish] background:#f3f3f3 desktop:placeholder:color:#f00 color:#88f font-size:calc(10px+50px)";
 
 export const App: React.FC = () => {
-  const [a, setA] = React.useState("");
-  React.useEffect(() => {
-    setTimeout(() => {
-      setA(
-        cssin(
-          ">400px:hover:background:#f00" // color:#333 font-size:calc(20px+50px) [cssin] bg-5
-        )
-      );
-    }, 200);
-  }, []);
   return (
     <div style={{ "--a2": "#99f" } as any}>
-      <input className={a} />
+      <div className={cssin(css)}>dog</div>
+      <h2 className="bb"></h2>
+      <input placeholder="dog" />
     </div>
   );
 };
