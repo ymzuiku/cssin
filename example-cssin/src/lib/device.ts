@@ -6,7 +6,7 @@ interface Device {
   tablet: boolean;
   ios: boolean;
   wechat: boolean;
-  desktop: boolean;
+  pc: boolean;
   iphone: boolean;
   phone: boolean;
   safari: boolean;
@@ -27,8 +27,8 @@ export const device = (): Device => {
     (android && !/(?:mobile)/.test(ua)) ||
     (firefox && /(?:tablet)/.test(ua));
   const ios = /(?:iphone)/.test(ua) && !tablet;
-  const desktop = !ios && !android;
-  const phone = !desktop;
+  const pc = !ios && !android;
+  const phone = !pc;
   const wechat = phone && /(micromessenger|wechat)/.test(ua);
 
   // 获取是否是 ios 或 android
@@ -40,7 +40,7 @@ export const device = (): Device => {
     tablet,
     ios,
     wechat,
-    desktop,
+    pc,
     phone,
     safari,
   };
