@@ -1,4 +1,5 @@
 import { compMap } from "./cache";
+import { fixComponentName, fixParams } from "./fixClassName";
 
 export const component = (name: string, value: string) => {
   const old = compMap[name];
@@ -9,14 +10,19 @@ export const component = (name: string, value: string) => {
   compMap[name] = (values: string[]) => {
     let css = value;
     values.forEach((v, i) => {
-      css = css.replace("$" + i, v);
+      css = css.replace("$" + (i + 1), v);
     });
     let out = "";
     css.split(" ").forEach((v) => {
       // 若css中还有其他 comp，则递归查找，拼接到 out 中
-      const fn = compMap[v];
-      out += (fn ? fn([]) : v) + " ";
+      const list = v.split(":");
+      // 兼容组件名称中带有参数
+      const name = fixComponentName(list);
+      const params = fixParams(list);
+      const fn = compMap[name];
+      out += (fn ? fn(params) : v) + " ";
     });
+    console.log("out", out);
     return out;
   };
 };
@@ -27,4 +33,5 @@ component(
   "margin-left:20px btn hover:border:1px|solid|#00f color:#eee "
 );
 
-// component("btn3", "margin-left:50px background:$1");
+component("btn3", "margin-left:50px background:$1");
+component("btn4", "color:$1 btn3:$2");

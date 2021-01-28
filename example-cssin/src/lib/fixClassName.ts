@@ -23,13 +23,14 @@ const pesudoKeys = {
   placeholder: "::-webkit-input-placeholder",
 } as any;
 
-const minWidthMap = {
-  xs: "var(--xs, 375px)",
-  sm: "var(--sm, 640px)",
-  md: "var(--md, 748px)",
-  lg: "var(--lg, 1024px)",
-  xl: "var(--xl, 1440px)",
-  "2xl": "var(--2xl, 1920px)",
+const mediaMap = {
+  xs: "375px",
+  sm: "640px",
+  md: "768px",
+  lg: "1024px",
+  xl: "1280px",
+  "2xl": "1536px",
+  "3xl": "9999px",
 } as any;
 
 export function fixMedia(names: string[]) {
@@ -39,16 +40,16 @@ export function fixMedia(names: string[]) {
   let media = "";
   names.forEach((item) => {
     // 计算Media
-    const minWidth = minWidthMap[item];
-    if (minWidth !== void 0) {
-      media = `@media (min-width: ${minWidth})`;
+    const iw = mediaMap[item];
+    if (iw !== void 0) {
+      media = `@media screen and (max-width: ${iw})`;
       return;
     }
 
     const native = _device[item];
 
     if (native !== void 0) {
-      media = `@media (min-width: ${native ? "0px" : "9999px"})`;
+      media = `@media screen and (min-width: ${native ? "0px" : "9999px"})`;
       return;
     }
   });
@@ -73,9 +74,13 @@ export function fixParams(names: string[]) {
     if (compMap[item]) {
       const v = names[i + 1];
       if (v) {
-        params.push(v);
+        Object.assign(params, v.split("|"));
       }
     }
   });
   return params;
+}
+
+export function fixComponentName(names: string[]) {
+  return names.find((v) => compMap[v] as string) || "";
 }
