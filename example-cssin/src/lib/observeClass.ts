@@ -1,18 +1,18 @@
-import { cssin } from "./cssin";
+import { parser } from "./parser";
 
 const _observer = () => {
   // 页面内容变更监听 recordSetAttr
   const onMutations = (mutationsList: any) => {
     for (const mutation of mutationsList) {
       if (mutation.type === "childList") {
-        cssin(mutation.target.className);
+        parser(mutation.target.className);
         const list = mutation.target.querySelectorAll("[class]");
         list.forEach((ele: any) => {
-          cssin(ele.className);
+          parser(ele.className);
         });
       } else if (mutation.type === "attributes") {
         const ele = mutation.target;
-        cssin(ele.className);
+        parser(ele.className);
       }
     }
   };
@@ -28,7 +28,7 @@ const _observer = () => {
 
 export const observeClass = () => {
   document.body.querySelectorAll("[class]").forEach((ele) => {
-    cssin(ele.className);
+    parser(ele.className);
   });
   _observer();
 };

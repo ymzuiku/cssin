@@ -48,8 +48,8 @@ export const addStyle = ({
   // }
 
   list.forEach((item) => {
-    const m = fixMedia(item);
-    const p = fixPesudo(item);
+    const m = fixMedia([item]);
+    const p = fixPesudo([item]);
     // 媒体查询和伪类，子组件优先， 子属性的 m,p 会覆盖父亲的 m,p
     if (m) {
       media = m;

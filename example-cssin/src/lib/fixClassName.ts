@@ -1,3 +1,4 @@
+import { compMap } from "./cache";
 import { device } from "./device";
 let _device: any;
 
@@ -31,12 +32,12 @@ const minWidthMap = {
   "2xl": "var(--2xl, 1920px)",
 } as any;
 
-export function fixMedia(className: string) {
+export function fixMedia(names: string[]) {
   if (!_device) {
     _device = device() as any;
   }
   let media = "";
-  className.split(":").forEach((item) => {
+  names.forEach((item) => {
     // 计算Media
     const minWidth = minWidthMap[item];
     if (minWidth !== void 0) {
@@ -55,13 +56,26 @@ export function fixMedia(className: string) {
   return media;
 }
 
-export function fixPesudo(className: string) {
+export function fixPesudo(names: string[]) {
   let pesudo = "";
-  className.split(":").forEach((item) => {
+  names.forEach((item) => {
     const v = pesudoKeys[item];
     if (v) {
       pesudo = v;
     }
   });
   return pesudo;
+}
+
+export function fixParams(names: string[]) {
+  const params = [] as string[];
+  names.forEach((item, i) => {
+    if (compMap[item]) {
+      const v = names[i + 1];
+      if (v) {
+        params.push(v);
+      }
+    }
+  });
+  return params;
 }

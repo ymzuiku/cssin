@@ -24,5 +24,7 @@ export const component = (name: string, value: string) => {
 component("btn", "background:#f00 active:font-size:40px");
 component(
   "btn2",
-  "margin-top:40px btn hover:border:1px|solid|#00f color:#eee "
+  "margin-left:20px btn hover:border:1px|solid|#00f color:#eee "
 );
+
+// component("btn3", "margin-left:50px background:$1");
