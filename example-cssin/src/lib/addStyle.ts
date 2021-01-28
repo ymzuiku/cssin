@@ -1,14 +1,5 @@
 import { classNameCache } from "./cache";
-import { device } from "./device";
-
-const minWidthMap = {
-  xs: "var(--xs, 375px)",
-  sm: "var(--sm, 640px)",
-  md: "var(--md, 748px)",
-  lg: "var(--lg, 1024px)",
-  xl: "var(--xl, 1440px)",
-  "2xl": "var(--2xl, 1920px)",
-} as any;
+import { fixPesudo, fixMedia } from "./fixClassName";
 
 interface AddStyle {
   css: string;
@@ -28,7 +19,7 @@ export const addStyle = ({
   }
   // debugger;
 
-  const _key = `^sty_${css}_${name}`;
+  const _key = `^sty_${css}_${name}_${media}_${pesudo}`;
   if (classNameCache[_key]) {
     return;
   }
@@ -59,16 +50,13 @@ export const addStyle = ({
   list.forEach((item) => {
     const m = fixMedia(item);
     const p = fixPesudo(item);
-    if (!media) {
-      if (m) {
-        media = m;
-      }
+    // 媒体查询和伪类，子组件优先， 子属性的 m,p 会覆盖父亲的 m,p
+    if (m) {
+      media = m;
     }
 
-    if (!pesudo) {
-      if (p) {
-        pesudo = p;
-      }
+    if (p) {
+      pesudo = p;
     }
 
     if (!m && !p) {
@@ -104,57 +92,7 @@ export const addStyle = ({
     ele.textContent = `.${key}${pesudo}{${bodys.join(":")}}`;
   }
 
-  console.log("end", ele.textContent);
+  console.log("end", { css, name, out: ele.textContent });
 
   document.head.append(ele);
 };
-
-const pesudoKeys = {
-  hover: ":hover",
-  focus: ":focus",
-  active: ":active",
-  "first-child": ":first-child",
-  "last-child": ":last-child",
-  blank: ":blank",
-  checked: ":checked",
-  current: ":current",
-  disabled: ":disabled",
-  "focus-within": ":focus-within",
-  "in-range": ":in-range",
-  visited: ":visited",
-  even: ":nth-child(even)",
-  odd: ":nth-child(odd)",
-  "placeholder-shown": ":placeholder-shown",
-  after: "::after",
-  before: "::before",
-  placeholder: "::-webkit-input-placeholder",
-} as any;
-
-let _device: any;
-
-function fixMedia(item: string) {
-  if (!_device) {
-    _device = device() as any;
-  }
-  let media = "";
-
-  // 计算Media
-  const minWidth = minWidthMap[item];
-  if (minWidth !== void 0) {
-    media = `@media (min-width: ${minWidth})`;
-    return media;
-  }
-
-  const native = _device[item];
-
-  if (native !== void 0) {
-    media = `@media (min-width: ${native ? "0px" : "9999px"})`;
-    return media;
-  }
-
-  return media;
-}
-
-function fixPesudo(item: string) {
-  return pesudoKeys[item] || "";
-}
