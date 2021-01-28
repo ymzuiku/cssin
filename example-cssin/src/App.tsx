@@ -5,8 +5,10 @@ init(true);
 
 let n = 0;
 const css0 =
-  "background:#aaa md:background:#66f sm:background:#33f xs:background:#00f";
-// const css0 = "md:background:#00f sm:background:#33f xs:background:#66f";
+  "background:#aaa xs:background:#f00 sm:background:#66f md:background:#aaf ";
+
+// const css0 =
+//   "background:#aaa md:background:#aaf sm:background:#66f xs:background:#00f ";
 const css1 = "hover:background:#f00 sm:background:#00f";
 const css2 = "btn";
 const css3 = "hover:btn";

@@ -24,13 +24,12 @@ const pesudoKeys = {
 } as any;
 
 const mediaMap = {
-  xs: "375px",
+  xs: "480px",
   sm: "640px",
   md: "768px",
   lg: "1024px",
   xl: "1280px",
-  "2xl": "1536px",
-  "3xl": "9999px",
+  xxl: "1536px",
 } as any;
 
 export function fixMedia(names: string[]) {
@@ -42,7 +41,7 @@ export function fixMedia(names: string[]) {
     // 计算Media
     const iw = mediaMap[item];
     if (iw !== void 0) {
-      media = `@media screen and (max-width: ${iw})`;
+      media = `@media screen and (min-width: ${iw})`;
       return;
     }
 
