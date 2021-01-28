@@ -1,10 +1,32 @@
 import { classNameCache } from "./cache";
 import { device } from "./device";
 
-export const addStyle = (css: string, name = "") => {
+const minWidthMap = {
+  xs: "var(--xs, 375px)",
+  sm: "var(--sm, 640px)",
+  md: "var(--md, 748px)",
+  lg: "var(--lg, 1024px)",
+  xl: "var(--xl, 1440px)",
+  "2xl": "var(--2xl, 1920px)",
+} as any;
+
+interface AddStyle {
+  css: string;
+  name?: string;
+  media?: string;
+  pesudo?: string;
+}
+
+export const addStyle = ({
+  css,
+  name = "",
+  media = "",
+  pesudo = "",
+}: AddStyle) => {
   if (!css) {
     return;
   }
+  // debugger;
 
   const _key = `^sty_${css}_${name}`;
   if (classNameCache[_key]) {
@@ -12,40 +34,62 @@ export const addStyle = (css: string, name = "") => {
   }
   classNameCache[_key] = true;
 
-  const ele = document.createElement("style");
-
   // 计算伪类
   const list = css.split(":");
   const bodys = [] as string[];
-  let pesudo = "";
-  let media = "";
 
   // if (name) {
   //   name.split(":").forEach((item) => {
-  //     const { media: m, pesudo: p } = fixMediaAndPesudo(item);
-  //     media = m;
-  //     pesudo = p;
+  //     if (!media) {
+  //       const m = fixMedia(item);
+  //       if (m) {
+  //         media = m;
+  //       }
+  //     }
+
+  //     if (!pesudo) {
+  //       const p = fixPesudo(item);
+  //       if (p) {
+  //         pesudo = p;
+  //       }
+  //     }
   //   });
   // }
 
   list.forEach((item) => {
-    const { media: m, pesudo: p } = fixMediaAndPesudo(item);
-    console.log(m, p);
-    media = m;
-    pesudo = p;
-    bodys.push(item);
+    const m = fixMedia(item);
+    const p = fixPesudo(item);
+    if (!media) {
+      if (m) {
+        media = m;
+      }
+    }
+
+    if (!pesudo) {
+      if (p) {
+        pesudo = p;
+      }
+    }
+
+    if (!m && !p) {
+      bodys.push(item);
+    }
   });
+  const len = bodys.length - 1;
+
   if (bodys.length < 2) {
     return;
   }
 
   // let body = rightStr.join(":").replace(/(\|)/g, " ");
   // 内容使用移除了伪类的字符串
-  bodys[1] = bodys[1].replaceAll(/calc\((.*?)\)/g, (item) => {
-    item = item.replaceAll(/(-|\+|\*|\/)/g, (v) => " " + v + " ");
-    return item;
-  });
-  bodys[1] = bodys[1].replace(/\|/g, " ");
+  if (bodys[len]) {
+    bodys[len] = bodys[len].replaceAll(/calc\((.*?)\)/g, (item) => {
+      item = item.replaceAll(/(-|\+|\*|\/)/g, (v) => " " + v + " ");
+      return item;
+    });
+    bodys[len] = bodys[len].replace(/\|/g, " ");
+  }
 
   // 常用标点符号解析
   const key = (name || css).replaceAll(
@@ -53,12 +97,14 @@ export const addStyle = (css: string, name = "") => {
     (v) => "\\" + v
   );
 
+  const ele = document.createElement("style");
   if (media) {
     ele.textContent = `${media} {.${key}${pesudo}{${bodys.join(":")}}}`;
   } else {
     ele.textContent = `.${key}${pesudo}{${bodys.join(":")}}`;
   }
-  console.log(ele.textContent);
+
+  console.log("end", ele.textContent);
 
   document.head.append(ele);
 };
@@ -67,6 +113,8 @@ const pesudoKeys = {
   hover: ":hover",
   focus: ":focus",
   active: ":active",
+  "first-child": ":first-child",
+  "last-child": ":last-child",
   blank: ":blank",
   checked: ":checked",
   current: ":current",
@@ -74,8 +122,6 @@ const pesudoKeys = {
   "focus-within": ":focus-within",
   "in-range": ":in-range",
   visited: ":visited",
-  first: ":first-child",
-  last: ":last-child",
   even: ":nth-child(even)",
   odd: ":nth-child(odd)",
   "placeholder-shown": ":placeholder-shown",
@@ -86,36 +132,29 @@ const pesudoKeys = {
 
 let _device: any;
 
-function fixMediaAndPesudo(item: string) {
+function fixMedia(item: string) {
   if (!_device) {
     _device = device() as any;
   }
   let media = "";
-  let pesudo = "";
 
-  if (/^</.test(item)) {
-    media = `@media (max-width: ${item.replace("<", "")})`;
-    return { pesudo, media };
-  }
-  if (/^>/.test(item)) {
-    media = `@media (min-width: ${item.replace(">", "")})`;
-    return { pesudo, media };
+  // 计算Media
+  const minWidth = minWidthMap[item];
+  if (minWidth !== void 0) {
+    media = `@media (min-width: ${minWidth})`;
+    return media;
   }
 
   const native = _device[item];
 
   if (native !== void 0) {
     media = `@media (min-width: ${native ? "0px" : "9999px"})`;
-    return { pesudo, media };
+    return media;
   }
 
-  const _pesudo = pesudoKeys[item];
+  return media;
+}
 
-  if (_pesudo) {
-    // 使用第一个 pesudo，忽略后续的
-    if (!pesudo) {
-      pesudo = _pesudo;
-    }
-  }
-  return { pesudo, media };
+function fixPesudo(item: string) {
+  return pesudoKeys[item] || "";
 }

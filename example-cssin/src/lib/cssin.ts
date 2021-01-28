@@ -1,7 +1,7 @@
-import { classNameCache } from "./cache";
+import { classNameCache, compMap } from "./cache";
 import { addStyle } from "./addStyle";
 
-export const cssin = (css: string) => {
+export const cssin = (css: string, name = "") => {
   if (classNameCache[css]) {
     return css;
   }
@@ -21,7 +21,20 @@ export const cssin = (css: string) => {
   // } else {
 
   // }
-  css.split(" ").forEach((v) => addStyle(v));
+  css.split(" ").forEach((v) => {
+    console.log("------", v);
+    const fn = compMap[v];
+    if (fn) {
+      const sub = fn([]);
+      console.log("sub", sub);
+      cssin(sub, v);
+    } else {
+      addStyle({
+        css: v,
+        name: name,
+      });
+    }
+  });
 
   return css;
 };

@@ -4,9 +4,9 @@ import { cssin, observeClass } from "./lib";
 observeClass();
 
 let n = 0;
-// const css = "gw-button gw-button-big gw-desktop";
-const css =
-  "hover:background:#f3f3f3 desktop:active:color:#f00 color:#88f font-size:calc(10px+50px)";
+const css = "btn";
+// const css =
+// "hover:background:#f3f3f3 desktop:active:color:#f00 color:#88f font-size:calc(10px+50px)";
 // css =
 // "gw-button background:#f3f3f3 desktop:active:color:#f00 color:#88f font-size:calc(10px+50px)";
 
