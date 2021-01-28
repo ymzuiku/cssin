@@ -1,12 +1,12 @@
 import { classNameCache } from "./cache";
 import { device } from "./device";
 
-export const addStyle = (css: string, group = "", name = "") => {
+export const addStyle = (css: string, name = "") => {
   if (!css) {
     return;
   }
 
-  const _key = `^sty_${css}_${group}_${name}`;
+  const _key = `^sty_${css}_${name}`;
   if (classNameCache[_key]) {
     return;
   }
@@ -20,16 +20,17 @@ export const addStyle = (css: string, group = "", name = "") => {
   let pesudo = "";
   let media = "";
 
-  if (name) {
-    name.split(":").forEach((item) => {
-      const { media: m, pesudo: p } = fixMediaAndPesudo(item);
-      media = m;
-      pesudo = p;
-    });
-  }
+  // if (name) {
+  //   name.split(":").forEach((item) => {
+  //     const { media: m, pesudo: p } = fixMediaAndPesudo(item);
+  //     media = m;
+  //     pesudo = p;
+  //   });
+  // }
 
   list.forEach((item) => {
     const { media: m, pesudo: p } = fixMediaAndPesudo(item);
+    console.log(m, p);
     media = m;
     pesudo = p;
     bodys.push(item);
@@ -52,15 +53,12 @@ export const addStyle = (css: string, group = "", name = "") => {
     (v) => "\\" + v
   );
 
-  const groupKey = group ? `.\\[${group}\\]` : "";
-
   if (media) {
-    ele.textContent = `${media} {${groupKey}.${key}${pesudo}{${bodys.join(
-      ":"
-    )}}}`;
+    ele.textContent = `${media} {.${key}${pesudo}{${bodys.join(":")}}}`;
   } else {
-    ele.textContent = `${groupKey}.${key}${pesudo}{${bodys.join(":")}}`;
+    ele.textContent = `.${key}${pesudo}{${bodys.join(":")}}`;
   }
+  console.log(ele.textContent);
 
   document.head.append(ele);
 };
@@ -69,8 +67,6 @@ const pesudoKeys = {
   hover: ":hover",
   focus: ":focus",
   active: ":active",
-  "first-child": ":first-child",
-  "last-child": ":last-child",
   blank: ":blank",
   checked: ":checked",
   current: ":current",
@@ -78,6 +74,8 @@ const pesudoKeys = {
   "focus-within": ":focus-within",
   "in-range": ":in-range",
   visited: ":visited",
+  first: ":first-child",
+  last: ":last-child",
   even: ":nth-child(even)",
   odd: ":nth-child(odd)",
   "placeholder-shown": ":placeholder-shown",
