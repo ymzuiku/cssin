@@ -1,52 +1,55 @@
 import { addStyle } from "./addStyle";
-import { groupMap, namesMap } from "./cache";
+import { compMap, namesMap } from "./cache";
 import { cssin } from "./cssin";
 
 export const component = (group: string, name: string, css: string) => {
   const key = `^comp_${group}_${name}`;
-  if (groupMap[key]) {
+  if (compMap[key]) {
     return;
   }
 
-  namesMap[name] = true;
+  compMap[key] = (str: string) => {
+    namesMap[str] = true;
 
-  const _keys = css.match(/\[(.*?)\]/g);
-  if (_keys) {
-    // 计算组件嵌套
-    let str = "";
-    const groups = ["", ..._keys.map((v) => v.replace(/(\[|\])/g, ""))];
-    const list = css.split(/\[.*?\]/g).map((v) => v.trim());
-    groups.forEach((g, i) => {
-      const item = list[i];
-      if (!g) {
-        str += " " + item + " ";
-      } else if (item) {
-        const oldGroup = groupMap[`^comp_${g}_${name}`];
-        str += oldGroup + " ";
+    const _keys = css.match(/\[(.*?)\]/g);
+    if (_keys) {
+      // 计算组件嵌套
+      let str = "";
+      const groups = ["", ..._keys.map((v) => v.replace(/(\[|\])/g, ""))];
+      const list = css.split(/\[.*?\]/g).map((v) => v.trim());
+      groups.forEach((g, i) => {
+        const item = list[i];
+        if (!g) {
+          str += " " + item + " ";
+        } else if (item) {
+          const oldGroup = compMap[`^comp_${g}_${str}`];
+          str += oldGroup + " ";
 
-        cssin(item);
+          cssin(item);
 
-        item.split(" ").forEach((v) => {
-          // 解析出其他组件的值，做拼接
-          if (!namesMap[v]) {
-            console.log("-----v", v, g);
-            str += v + " ";
-            // addStyle(v, g);
-          }
-        });
-      }
-    });
+          item.split(" ").forEach((v) => {
+            // 解析出其他组件的值，做拼接
+            if (!namesMap[v]) {
+              str += v + " ";
+              // addStyle(v, g);
+            }
+          });
+        }
+      });
 
-    css = str;
-  }
+      css = str;
+    }
 
-  groupMap[key] = css;
-  css.split(" ").forEach((v: string) => addStyle(v, group, name));
+    compMap[key] = css;
+    css.split(" ").forEach((v: string) => addStyle(v, group, str));
+  };
 };
 
 component("fish", "btn", "background:#f00 font-size:40px");
 component(
   "dog",
   "btn",
-  "margin-top:40px [fish] btn border:1px|solid|#00f color:#eee "
+  "margin-top:$1 [fish] btn hover:border:1px|solid|#00f color:#eee "
 );
+
+const css = "[fish] dog:20|30|40";

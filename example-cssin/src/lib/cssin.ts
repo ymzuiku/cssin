@@ -1,4 +1,4 @@
-import { classNameCache } from "./cache";
+import { classNameCache, compMap } from "./cache";
 import { addStyle } from "./addStyle";
 
 export const cssin = (css: string) => {
@@ -15,7 +15,14 @@ export const cssin = (css: string) => {
     groups.forEach((g, i) => {
       const item = list[i];
       if (item) {
-        item.split(" ").forEach((v) => addStyle(v, g));
+        item.split(" ").forEach((v) => {
+          const fn = compMap[`^comp_${g}_${v}`];
+          if (fn) {
+            fn(v);
+          } else {
+            addStyle(v, g);
+          }
+        });
       }
     });
   } else {
