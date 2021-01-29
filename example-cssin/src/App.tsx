@@ -4,8 +4,7 @@ import { init } from "./lib";
 init(true);
 
 let n = 0;
-const css0 =
-  "background:#aaa xs:background:#f00 sm:background:#66f md:background:#aaf ";
+const css0 = "background:#aaa  sm:background:#66f md:background:#aaf ";
 
 // const css0 =
 //   "background:#aaa md:background:#aaf sm:background:#66f xs:background:#00f ";
@@ -30,8 +29,8 @@ export const App: React.FC = () => {
       {/* <div className={css5}>css5 {css5}</div> */}
       {/* <div className={css6}>css6 {css6}</div> */}
       {/* <div className={css7}>css7 {css7}</div> */}
-      {/* <div className={css8}>css8 {css8}</div> */}
-      {/* <div className={css9}>css9 {css9}</div> */}
+      <div className={css8}>css8 {css8}</div>
+      <div className={css9}>css9 {css9}</div>
       <h2 className="bb"></h2>
       <input placeholder="dog" />
     </div>

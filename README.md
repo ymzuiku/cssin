@@ -29,6 +29,6 @@
 - [x] 子组件伪类高优先级
   - `component("button", "background:--blue-500 active:font-size:40px")`
   - `hover:button`
-- [ ] 组件参数
+- [x] 组件参数
   - `component("b", "border:$1|solid|$2")`
   - `b:2px|#f00`
