@@ -1,0 +1,10 @@
+:root {
+  --red-500: #f00;
+  --blue-500: #00f;
+  --fs-1: 12px;
+  --fs-2: 14px;
+}
+
+.sub > p {
+  background: #f00;
+}

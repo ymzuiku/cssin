@@ -1,5 +1,5 @@
 import { classNameCache } from "./cache";
-import { fixPesudo, fixMedia } from "./fixClassName";
+import { fixClassName } from "./fixClassName";
 
 interface AddStyle {
   css: string;
@@ -26,73 +26,68 @@ export const addStyle = ({
   classNameCache[_key] = true;
 
   // 计算伪类
-  const list = css.split(":");
-  const bodys = [] as string[];
-
-  // if (name) {
-  //   name.split(":").forEach((item) => {
-  //     if (!media) {
-  //       const m = fixMedia(item);
-  //       if (m) {
-  //         media = m;
-  //       }
-  //     }
-
-  //     if (!pesudo) {
-  //       const p = fixPesudo(item);
-  //       if (p) {
-  //         pesudo = p;
-  //       }
-  //     }
-  //   });
-  // }
-
-  list.forEach((item) => {
-    const m = fixMedia([item]);
-    const p = fixPesudo([item]);
-    // 媒体查询和伪类，子组件优先， 子属性的 m,p 会覆盖父亲的 m,p
-    if (m) {
-      media = m;
-    }
-
-    if (p) {
-      pesudo = p;
-    }
-
-    if (!m && !p) {
-      bodys.push(item);
-    }
-  });
-  const len = bodys.length - 1;
-
-  if (bodys.length < 2) {
-    return;
+  // const list = css.split(":");
+  const fix = { ...fixClassName(css) };
+  if (fix.media) {
+    media = fix.media;
   }
+  if (fix.pesudo) {
+    pesudo = fix.pesudo;
+  }
+
+  // list.forEach((item) => {
+  //   const { media: m, pesudo: p } = fixClassName(item);
+  //   // 媒体查询和伪类，子组件优先， 子属性的 m,p 会覆盖父亲的 m,p
+  //   if (m) {
+  //     media = m;
+  //   }
+
+  //   if (p) {
+  //     pesudo = p;
+  //   }
+
+  //   if (!m && !p) {
+  //     bodys.push(item);
+  //   }
+  // });
 
   // let body = rightStr.join(":").replace(/(\|)/g, " ");
   // 内容使用移除了伪类的字符串
-  if (bodys[len]) {
-    bodys[len] = bodys[len].replaceAll(/calc\((.*?)\)/g, (item) => {
+  let val = fix.value;
+  if (val) {
+    // 多行空格 "a b c" "c e f" -> a|b|c~d|e|f
+    const _list = val.split("~");
+    if (_list.length > 1) {
+      val = " " + _list.map((v) => `"${v}"`).join(" ");
+      val += ";";
+    }
+    val = val.replaceAll(/calc\((.*?)\)/g, (item) => {
       item = item.replaceAll(/(-|\+|\*|\/)/g, (v) => " " + v + " ");
       return item;
     });
-    bodys[len] = bodys[len].replace(/\|/g, " ");
+    // | 转译成空格
+    val = val.replace(/\|/g, " ");
+
+    // 目的兼容 var() 的写法
+    val = val.replaceAll(/var\((.*?)\)/g, (v) => {
+      return v.replace(/(var\(|\))/g, "");
+    });
+    // --dog 转译成 var(--dog)
+    val = val.replaceAll(/--([a-zA-Z0-9_-]*)/g, (v) => `var(${v})`);
   }
 
   // 常用标点符号解析
   const key = (name || css).replaceAll(
-    /(\:|#|!|,|\.|>|<|@|\||\$|\{|\}|\[|\]|\(|\)|\+|\*|\/)/g,
+    /(\:|#|!|,|\.|>|<|@|~|\||\$|\{|\}|\[|\]|\(|\)|\+|\*|\/)/g,
     (v) => "\\" + v
   );
 
   const ele = document.createElement("style");
   if (media) {
-    ele.textContent = `${media} {.${key}${pesudo}{${bodys.join(":")}}}`;
+    ele.textContent = `${media} {.${key}${pesudo}{${fix.name}:${val}}}`;
   } else {
-    ele.textContent = `.${key}${pesudo}{${bodys.join(":")}}`;
+    ele.textContent = `.${key}${pesudo}{${fix.name}:${val}}`;
   }
-
-  console.log("end", { css, name, out: ele.textContent });
 
   document.head.append(ele);
 };

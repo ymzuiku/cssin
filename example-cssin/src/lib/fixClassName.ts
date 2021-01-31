@@ -1,6 +1,5 @@
 import { compMap } from "./cache";
 import { device } from "./device";
-let _device: any;
 
 const pesudoKeys = {
   hover: ":hover",
@@ -32,54 +31,47 @@ const mediaMap = {
   xxl: "1536px",
 } as any;
 
-export function fixMedia(names: string[]) {
-  if (!_device) {
-    _device = device() as any;
+const fixCache = {} as any;
+
+interface FixClassName {
+  comp: (params: string[]) => string;
+  pesudo: string;
+  media: string;
+  name: string;
+  value: string;
+}
+
+export function fixClassName(css: string): FixClassName {
+  const old = fixCache[css];
+  if (old) {
+    return old;
   }
-  let media = "";
-  names.forEach((item) => {
-    // 计算Media
-    const iw = mediaMap[item];
-    if (iw !== void 0) {
-      media = `@media screen and (min-width: ${iw})`;
-      return;
-    }
+  const out: FixClassName = {
+    comp: void 0 as any,
+    pesudo: "",
+    media: "",
+    name: "",
+    value: "",
+  };
 
-    const native = _device[item];
-
-    if (native !== void 0) {
-      media = `@media screen and (min-width: ${native ? "0px" : "9999px"})`;
-      return;
-    }
-  });
-
-  return media;
-}
-
-export function fixPesudo(names: string[]) {
-  let pesudo = "";
-  names.forEach((item) => {
-    const v = pesudoKeys[item];
-    if (v) {
-      pesudo = v;
+  css.split(":").forEach((v) => {
+    if (pesudoKeys[v]) {
+      out.pesudo = pesudoKeys[v];
+    } else if (compMap[v]) {
+      out.comp = compMap[v];
+    } else if (mediaMap[v]) {
+      out.media = `@media screen and (min-width: ${mediaMap[v]})`;
+    } else if ((device() as any)[v] !== void 0) {
+      out.media = `@media screen and (min-width: ${
+        (device() as any)[v] ? "0px" : "9999px"
+      })`;
+    } else if (!out.name && !out.comp) {
+      out.name = v;
+    } else if (!out.value) {
+      out.value = v;
     }
   });
-  return pesudo;
-}
-
-export function fixParams(names: string[]) {
-  const params = [] as string[];
-  names.forEach((item, i) => {
-    if (compMap[item]) {
-      const v = names[i + 1];
-      if (v) {
-        Object.assign(params, v.split("|"));
-      }
-    }
-  });
-  return params;
-}
-
-export function fixComponentName(names: string[]) {
-  return names.find((v) => compMap[v] as string) || "";
+  fixCache[css] = out;
+  console.log(css, out);
+  return out;
 }

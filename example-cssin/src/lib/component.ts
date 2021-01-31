@@ -1,5 +1,5 @@
 import { compMap } from "./cache";
-import { fixComponentName, fixParams } from "./fixClassName";
+import { fixClassName } from "./fixClassName";
 
 export const component = (name: string, value: string) => {
   const old = compMap[name];
@@ -15,14 +15,10 @@ export const component = (name: string, value: string) => {
     let out = "";
     css.split(" ").forEach((v) => {
       // 若css中还有其他 comp，则递归查找，拼接到 out 中
-      const list = v.split(":");
       // 兼容组件名称中带有参数
-      const name = fixComponentName(list);
-      const params = fixParams(list);
-      const fn = compMap[name];
-      out += (fn ? fn(params) : v) + " ";
+      const { comp, value } = fixClassName(v);
+      out += (comp ? comp(value.split("|")) : v) + " ";
     });
-    console.log("out", out);
     return out;
   };
 };

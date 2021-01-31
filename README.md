@@ -5,11 +5,16 @@
 - [x] 所有样式
   - `background:#f00`
 - [x] 兼容空格
+  - `margin:20px 10px` 由于 className 中每个类内部不允许有空格，需要写成：
   - `margin:20px|10px`
-- [ ] 快捷 css 变量
+- [x] 快捷 css 变量
   - `background:--blue-500`
+- [x] 换行赋值语法，如 grid-template-areas
+  - `grid-template-areas:"a b c" "a b c"` 由于 className 一个元素不允许有换行，需要用 `~` 代替换行：
+  - `grid-template-areas:a|b|c~a|b|c`
 - [ ] 子代选择器、后代选择器、兄弟选择器
   - `background>div|p+p:--blue-500`
+  - `background|p:--blue-500`
 - [x] 伪类
   - `hover:background:--blue-500`
 - [x] 媒体查询
@@ -32,3 +37,5 @@
 - [x] 组件参数
   - `component("b", "border:$1|solid|$2")`
   - `b:2px|#f00`
+- [ ] component 进行分组
+- [ ] 使用 template 进行声明 component
