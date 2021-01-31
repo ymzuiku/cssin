@@ -12,9 +12,10 @@
 - [x] 换行赋值语法，如 grid-template-areas
   - `grid-template-areas:"a b c" "a b c"` 由于 className 一个元素不允许有换行，需要用 `~` 代替换行：
   - `grid-template-areas:a|b|c~a|b|c`
-- [ ] 子代选择器、后代选择器、兄弟选择器
-  - `background>div|p+p:--blue-500`
-  - `background|p:--blue-500`
+- [x] 子代选择器、后代选择器、兄弟选择器
+  - `background:--blue-500:>p`
+  - `background:--blue-500:p`
+  - `background:--blue-500:p>p+p`
 - [x] 伪类
   - `hover:background:--blue-500`
 - [x] 媒体查询
@@ -35,7 +36,10 @@
   - `component("button", "background:--blue-500 active:font-size:40px")`
   - `hover:button`
 - [x] 组件参数
-  - `component("b", "border:$1|solid|$2")`
-  - `b:2px|#f00`
-- [ ] component 进行分组
-- [ ] 使用 template 进行声明 component
+  - `component("bg", "background:$1")`
+  - `bg:#f00`
+  - `component("comp1", "b:$1|solid|$2")`
+  - `b:2px,#f00`
+  - `component("areas", "grid-template-areas:$1")`
+  - `areas:a|a|c~b|b|c`
+- [x] 使用 template 进行声明 component

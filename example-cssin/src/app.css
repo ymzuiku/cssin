@@ -5,6 +5,10 @@
   --fs-2: 14px;
 }
 
-.sub > p {
+.sub:hover > p {
+  background: #f00;
+}
+
+.sub:hover p > p + p {
   background: #f00;
 }

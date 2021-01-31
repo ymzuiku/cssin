@@ -1,5 +1,15 @@
 import { parser } from "./parser";
-import { observeClass as init } from "./observeClass";
-import { component } from "./component";
+import { device } from "./device";
+import { observeClass } from "./observeClass";
+import { classGroup, groupList } from "./classGroup";
+import { mediaList, pesudoList } from "./fixClassName";
 
-export { parser, init, component };
+export {
+  device,
+  parser,
+  observeClass,
+  classGroup,
+  groupList,
+  mediaList,
+  pesudoList,
+};

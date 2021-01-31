@@ -1,7 +1,7 @@
 import { compMap } from "./cache";
 import { device } from "./device";
 
-const pesudoKeys = {
+export const pesudoList = {
   hover: ":hover",
   focus: ":focus",
   active: ":active",
@@ -22,7 +22,7 @@ const pesudoKeys = {
   placeholder: "::-webkit-input-placeholder",
 } as any;
 
-const mediaMap = {
+export const mediaList = {
   xs: "480px",
   sm: "640px",
   md: "768px",
@@ -38,6 +38,8 @@ interface FixClassName {
   pesudo: string;
   media: string;
   name: string;
+  realName: string;
+  query: string;
   value: string;
 }
 
@@ -51,27 +53,31 @@ export function fixClassName(css: string): FixClassName {
     pesudo: "",
     media: "",
     name: "",
+    realName: "",
     value: "",
+    query: "",
   };
 
-  css.split(":").forEach((v) => {
-    if (pesudoKeys[v]) {
-      out.pesudo = pesudoKeys[v];
+  const list = css.split(":");
+  list.forEach((v, i) => {
+    if (pesudoList[v]) {
+      out.pesudo = pesudoList[v];
     } else if (compMap[v]) {
       out.comp = compMap[v];
-    } else if (mediaMap[v]) {
-      out.media = `@media screen and (min-width: ${mediaMap[v]})`;
+    } else if (mediaList[v]) {
+      out.media = `@media screen and (min-width: ${mediaList[v]})`;
     } else if ((device() as any)[v] !== void 0) {
       out.media = `@media screen and (min-width: ${
         (device() as any)[v] ? "0px" : "9999px"
       })`;
-    } else if (!out.name && !out.comp) {
+    } else if (!out.comp && !out.name) {
       out.name = v;
     } else if (!out.value) {
       out.value = v;
+    } else if (!out.query) {
+      out.query = v;
     }
   });
   fixCache[css] = out;
-  console.log(css, out);
   return out;
 }

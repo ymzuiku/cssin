@@ -6,6 +6,7 @@ interface AddStyle {
   name?: string;
   media?: string;
   pesudo?: string;
+  query?: string;
 }
 
 export const addStyle = ({
@@ -13,6 +14,7 @@ export const addStyle = ({
   name = "",
   media = "",
   pesudo = "",
+  query = "",
 }: AddStyle) => {
   if (!css) {
     return;
@@ -34,24 +36,10 @@ export const addStyle = ({
   if (fix.pesudo) {
     pesudo = fix.pesudo;
   }
+  if (fix.query) {
+    query = fix.query;
+  }
 
-  // list.forEach((item) => {
-  //   const { media: m, pesudo: p } = fixClassName(item);
-  //   // 媒体查询和伪类，子组件优先， 子属性的 m,p 会覆盖父亲的 m,p
-  //   if (m) {
-  //     media = m;
-  //   }
-
-  //   if (p) {
-  //     pesudo = p;
-  //   }
-
-  //   if (!m && !p) {
-  //     bodys.push(item);
-  //   }
-  // });
-
-  // let body = rightStr.join(":").replace(/(\|)/g, " ");
   // 内容使用移除了伪类的字符串
   let val = fix.value;
   if (val) {
@@ -84,10 +72,9 @@ export const addStyle = ({
 
   const ele = document.createElement("style");
   if (media) {
-    ele.textContent = `${media} {.${key}${pesudo}{${fix.name}:${val}}}`;
+    ele.textContent = `${media} {.${key}${pesudo} ${query}{${fix.name}:${val}}}`;
   } else {
-    ele.textContent = `.${key}${pesudo}{${fix.name}:${val}}`;
+    ele.textContent = `.${key}${pesudo} ${query}{${fix.name}:${val}}`;
   }
-
   document.head.append(ele);
 };
